@@ -10,6 +10,7 @@ namespace Dominio
         public Articulo()
         {
             Categorias = new List<Categoria>();
+            Marca = new Marca();
         }
         public int ID_Articulo
         {

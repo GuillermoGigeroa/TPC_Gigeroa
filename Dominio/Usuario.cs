@@ -10,6 +10,8 @@ namespace Dominio
         public Usuario()
         {
             ListaFavoritos = new List<Articulo>();
+            Domicilio = new Domicilio();
+            TipoUsuario = new TipoUsuario();
         }
         public int ID_Usuario
         {

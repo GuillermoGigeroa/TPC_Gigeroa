@@ -1,15 +1,22 @@
+/*
+use master
+go
+drop database GIGEROA_DB
+go
 Create database GIGEROA_DB
 go
 use GIGEROA_DB
 go
 Create table Tipos (
 	IDTipo bigint identity(1,1) primary key,
+	Identificador bigint unique not null,
 	Nombre varchar(150) default 'No cargado',
 	Activo bit default 1
 )
 go
 Create table Provincias (
 	IDProvincia bigint identity(1,1) primary key,
+	Identificador bigint unique not null,
 	Nombre varchar(150) default 'No cargado',
 	Activo bit default 1
 )
@@ -41,18 +48,21 @@ Create table Usuarios (
 go
 Create table Marcas (
 	IDMarca bigint identity(1,1) primary key,
+	Identificador bigint unique not null,
 	Nombre varchar(50) default 'No cargado',
 	Activo bit default 1
 )
 go
 Create table Categorias (
 	IDCategoria bigint identity(1,1) primary key,
+	Identificador bigint unique not null,
 	Nombre varchar(50) default 'No cargado',
 	Activo bit default 1
 )
 go
 Create table Articulos (
 	IDArticulo bigint identity(1,1) primary key,
+	Identificador bigint unique not null,
 	IDMarca bigint foreign key references Marcas(IDMarca),
 	Descripcion varchar(150) default 'No cargado',
 	EsMateriaPrima bit not null,
@@ -72,80 +82,80 @@ Create table Favoritos_x_Usuario (
 	IDArticulo bigint foreign key references Articulos(IDArticulo)
 )
 go
-insert into Provincias (Nombre)
-values ('Buenos Aires')
+insert into Provincias (Nombre, Identificador)
+values ('Buenos Aires',1)
 go
-insert into Provincias (Nombre)
-values ('Catamarca')
+insert into Provincias (Nombre, Identificador)
+values ('Catamarca',2)
 go
-insert into Provincias (Nombre)
-values ('Chaco')
+insert into Provincias (Nombre, Identificador)
+values ('Chaco',3)
 go
-insert into Provincias (Nombre)
-values ('Chubut')
+insert into Provincias (Nombre, Identificador)
+values ('Chubut',4)
 go
-insert into Provincias (Nombre)
-values ('Córdoba')
+insert into Provincias (Nombre, Identificador)
+values ('Córdoba',5)
 go
-insert into Provincias (Nombre)
-values ('Corrientes')
+insert into Provincias (Nombre, Identificador)
+values ('Corrientes',6)
 go
-insert into Provincias (Nombre)
-values ('Entre Ríos')
+insert into Provincias (Nombre, Identificador)
+values ('Entre Ríos',7)
 go
-insert into Provincias (Nombre)
-values ('Formosa')
+insert into Provincias (Nombre, Identificador)
+values ('Formosa',8)
 go
-insert into Provincias (Nombre)
-values ('Jujuy')
+insert into Provincias (Nombre, Identificador)
+values ('Jujuy',9)
 go
-insert into Provincias (Nombre)
-values ('La Pampa')
+insert into Provincias (Nombre, Identificador)
+values ('La Pampa',10)
 go
-insert into Provincias (Nombre)
-values ('La Rioja')
+insert into Provincias (Nombre, Identificador)
+values ('La Rioja',11)
 go
-insert into Provincias (Nombre)
-values ('Mendoza')
+insert into Provincias (Nombre, Identificador)
+values ('Mendoza',12)
 go
-insert into Provincias (Nombre)
-values ('Misiones')
+insert into Provincias (Nombre, Identificador)
+values ('Misiones',13)
 go
-insert into Provincias (Nombre)
-values ('Neuquén')
+insert into Provincias (Nombre, Identificador)
+values ('Neuquén',14)
 go
-insert into Provincias (Nombre)
-values ('Río Negro')
+insert into Provincias (Nombre, Identificador)
+values ('Río Negro',15)
 go
-insert into Provincias (Nombre)
-values ('Salta')
+insert into Provincias (Nombre, Identificador)
+values ('Salta',16)
 go
-insert into Provincias (Nombre)
-values ('San Juan')
+insert into Provincias (Nombre, Identificador)
+values ('San Juan',17)
 go
-insert into Provincias (Nombre)
-values ('Santa Cruz')
+insert into Provincias (Nombre, Identificador)
+values ('Santa Cruz',18)
 go
-insert into Provincias (Nombre)
-values ('Santa Fe')
+insert into Provincias (Nombre, Identificador)
+values ('Santa Fe',19)
 go
-insert into Provincias (Nombre)
-values ('Santiago del Estero')
+insert into Provincias (Nombre, Identificador)
+values ('Santiago del Estero',20)
 go
-insert into Provincias (Nombre)
-values ('Tierra del Fuego')
+insert into Provincias (Nombre, Identificador)
+values ('Tierra del Fuego',21)
 go
-insert into Provincias (Nombre)
-values ('Tucumán')
+insert into Provincias (Nombre, Identificador)
+values ('Tucumán',22)
 go
-insert into Tipos (Nombre)
-values ('Administrador')
+insert into Tipos (Nombre, Identificador)
+values ('Administrador',1)
 go
-insert into Tipos (Nombre)
-values ('Vendedor')
+insert into Tipos (Nombre, Identificador)
+values ('Vendedor',2)
 go
-insert into Tipos (Nombre)
-values ('Cliente')
+insert into Tipos (Nombre, Identificador)
+values ('Cliente',3)
 go
 insert into Domicilios (IDProvincia, Ciudad, Calle, Numero, Piso, Depto, Referencia)
 values (1,'Belén de escobar','Rivadavia',631,'PA','E','Entre un negocio de cosas de bebés y un local de videojuegos')
@@ -153,80 +163,80 @@ go
 insert into Usuarios (Email, Contra, FechaNac, Nombres, Apellidos, DNI, IDDomicilio, IDTipo, Telefono)
 values ('guillermo.gigeroa@hotmail.com','queteimporta','15-09-1995','Guillermo Adrián', 'Gigeroa', 39112399, 1, 1, 1169221781)
 go
-insert into Marcas (Nombre)
-values ('Muaa')
+insert into Marcas (Nombre, Identificador)
+values ('Artesanal Catiana',1)
 go
-insert into Marcas (Nombre)
-values ('Cheeky')
+insert into Marcas (Nombre, Identificador)
+values ('Reina Ramona',2)
 go
-insert into Marcas (Nombre)
-values ('Zara')
+insert into Marcas (Nombre, Identificador)
+values ('Muaa',3)
 go
-insert into Marcas (Nombre)
-values ('Mimo & Co')
+insert into Marcas (Nombre, Identificador)
+values ('Cheeky',4)
 go
-insert into Marcas (Nombre)
-values ('Artesanal Catiana')
+insert into Marcas (Nombre, Identificador)
+values ('Zara',5)
 go
-insert into Marcas (Nombre)
-values ('Reina Ramona')
+insert into Marcas (Nombre, Identificador)
+values ('Mimo & Co',6)
 go
-insert into Marcas (Nombre)
-values ('47 Street')
+insert into Marcas (Nombre, Identificador)
+values ('47 Street',7)
 go
-insert into Marcas (Nombre)
-values ('Nike')
+insert into Marcas (Nombre, Identificador)
+values ('Nike',8)
 go
-insert into Marcas (Nombre)
-values ('Adidas')
+insert into Marcas (Nombre, Identificador)
+values ('Adidas',9)
 go
-insert into Marcas (Nombre)
-values ('Lacoste')
+insert into Marcas (Nombre, Identificador)
+values ('Lacoste',10)
 go
-insert into Categorias(Nombre)
-values ('Lana')
+insert into Categorias(Nombre, Identificador)
+values ('Lana',1)
 go
-insert into Categorias(Nombre)
-values ('Medias')
+insert into Categorias(Nombre, Identificador)
+values ('Medias',2)
 go
-insert into Categorias(Nombre)
-values ('Pantalones')
+insert into Categorias(Nombre, Identificador)
+values ('Pantalones',3)
 go
-insert into Categorias(Nombre)
-values ('Ropa interior')
+insert into Categorias(Nombre, Identificador)
+values ('Ropa interior',4)
 go
-insert into Categorias(Nombre)
-values ('Barbijos')
+insert into Categorias(Nombre, Identificador)
+values ('Barbijos',5)
 go
-insert into Categorias(Nombre)
-values ('Abrigos')
+insert into Categorias(Nombre, Identificador)
+values ('Abrigos',6)
 go
-insert into Categorias(Nombre)
-values ('Sweaters')
+insert into Categorias(Nombre, Identificador)
+values ('Sweaters',7)
 go
-insert into Categorias(Nombre)
-values ('Bufandas')
+insert into Categorias(Nombre, Identificador)
+values ('Bufandas',8)
 go
-insert into Categorias(Nombre)
-values ('Gorros')
+insert into Categorias(Nombre, Identificador)
+values ('Gorros',9)
 go
-insert into Categorias(Nombre)
-values ('Friselina')
+insert into Categorias(Nombre, Identificador)
+values ('Friselina',10)
 go
-insert into Categorias(Nombre)
-values ('Jeans')
+insert into Categorias(Nombre, Identificador)
+values ('Jeans',11)
 go
-insert into Categorias(Nombre)
-values ('Buzos')
+insert into Categorias(Nombre, Identificador)
+values ('Buzos',12)
 go
-insert into Categorias(Nombre)
-values ('Remeras')
+insert into Categorias(Nombre, Identificador)
+values ('Remeras',13)
 go
-insert into Categorias(Nombre)
-values ('Jogging')
+insert into Categorias(Nombre, Identificador)
+values ('Jogging',14)
 go
-insert into Articulos (IDMarca, Descripcion, EsMateriaPrima, ImagenURL, Precio)
-values (5,'Medias de lana',0,'https://farm8.staticflickr.com/7266/8160731619_d2a7b5304d_z.jpg',200.50)
+insert into Articulos (IDMarca, Identificador, Descripcion, EsMateriaPrima, ImagenURL, Precio)
+values (1,1,'Medias de lana',0,'https://farm8.staticflickr.com/7266/8160731619_d2a7b5304d_z.jpg','200.50')
 go
 insert into Articulos_x_Categoria (IDArticulo, IDCategoria)
 values (1,1)
@@ -236,3 +246,18 @@ values (1,2)
 go
 insert into Favoritos_x_Usuario (IDUsuario, IDArticulo)
 values (1,1)
+go
+*/
+
+VW_ArticulosSinCategoria
+
+select A.Identificador as [ID_Articulo], A.Descripcion, A.EsMateriaPrima, A.ImagenURL as [URL], A.Activo, A.Precio, M.Identificador as [ID_Marca], M.Nombre as [Marca]
+from Articulos as A
+left join Marcas as M on A.IDMarca = M.IDMarca
+
+Buscar con un store procedure con el Identificador de Articulo
+select C.Identificador as [ID_Categoria], C.Nombre as [Categoria]
+from Articulos as A
+left join Marcas as M on A.IDMarca = M.IDMarca
+left join Articulos_x_Categoria as AXC on AXC.IDArticulo = A.IDArticulo
+left join Categorias as C on C.IDCategoria = AXC.IDCategoria
