@@ -5,9 +5,13 @@ using System.Text;
 
 namespace Dominio
 {
-    public class Marca
+    public class ElementoCarrito
     {
-        public int ID_Marca
+        public ElementoCarrito()
+        {
+            Articulo = new Articulo();
+        }
+        public int ID_Elemento
         {
             get => default;
             set
@@ -15,7 +19,7 @@ namespace Dominio
             }
         }
 
-        public string Nombre
+        public Articulo Articulo
         {
             get => default;
             set
@@ -23,12 +27,17 @@ namespace Dominio
             }
         }
 
-        public bool Activo
+        public double Cantidad
         {
             get => default;
             set
             {
             }
+        }
+
+        public double Precio()
+        {
+            return Articulo.Precio * Cantidad;
         }
     }
 }

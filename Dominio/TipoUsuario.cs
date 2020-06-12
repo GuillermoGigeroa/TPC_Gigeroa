@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Dominio
 {
-    public class Marca
+    public class TipoUsuario
     {
-        public int ID_Marca
+        public int ID_Tipo
         {
             get => default;
             set
@@ -16,14 +16,6 @@ namespace Dominio
         }
 
         public string Nombre
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public bool Activo
         {
             get => default;
             set
