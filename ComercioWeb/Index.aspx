@@ -13,21 +13,47 @@
 </head>
 <body style="background-color: rgb(20,20,20); color: white;">
     <form id="form1" runat="server">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="Index.aspx">Inicio <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Catalogo.aspx">Catálogo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="Index.aspx"><b>Inicio</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Catalogo.aspx">Catálogo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Carrito.aspx">
+                                <img src="https://image.flaticon.com/icons/svg/777/777205.svg" style="width: 25px; height: 25px; vertical-align: top;" alt="Carrito" />
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: grey;">(0)</a>
+                        </li>
+                        <li class="nav-item" style="padding-left:125px;">
+                        </li>
+                    </ul>
+                    <div class="container">
+                        <div class="row">
+                            <div class="flex-column" style="padding-left: 598px;"></div>
+                            <div class="flex-column">
+                                <div class="form-inline">
+                                    <asp:TextBox ID="txtBusqueda" CssClass="form-control mr-sm-2" runat="server"></asp:TextBox>
+                                    <asp:Button ID="btnBuscar" CssClass="btn btn-outline-light my-2 my-sm-0" runat="server" Text="Buscar" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
     </form>
 </body>
 </html>

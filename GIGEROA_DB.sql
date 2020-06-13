@@ -1,4 +1,3 @@
-/*
 use master
 go
 drop database GIGEROA_DB
@@ -64,11 +63,12 @@ Create table Articulos (
 	IDArticulo bigint identity(1,1) primary key,
 	Identificador bigint unique not null,
 	IDMarca bigint foreign key references Marcas(IDMarca),
+	Nombre varchar(150) default 'No cargado',
 	Descripcion varchar(150) default 'No cargado',
 	EsMateriaPrima bit not null,
 	ImagenURL varchar(300) not null,
 	Activo bit default 1,
-	Precio decimal not null,
+	Precio decimal(18,2) not null,
 )
 go
 Create table Articulos_x_Categoria (
@@ -235,8 +235,8 @@ go
 insert into Categorias(Nombre, Identificador)
 values ('Jogging',14)
 go
-insert into Articulos (IDMarca, Identificador, Descripcion, EsMateriaPrima, ImagenURL, Precio)
-values (1,1,'Medias de lana',0,'https://farm8.staticflickr.com/7266/8160731619_d2a7b5304d_z.jpg','200.50')
+insert into Articulos (IDMarca, Identificador, Nombre, Descripcion, EsMateriaPrima, ImagenURL, Precio)
+values (1,1,'Medias de lana','Medias de lana',0,'https://farm8.staticflickr.com/7266/8160731619_d2a7b5304d_z.jpg','200.40')
 go
 insert into Articulos_x_Categoria (IDArticulo, IDCategoria)
 values (1,1)
@@ -247,17 +247,22 @@ go
 insert into Favoritos_x_Usuario (IDUsuario, IDArticulo)
 values (1,1)
 go
-*/
-
-VW_ArticulosSinCategoria
-
-select A.Identificador as [ID_Articulo], A.Descripcion, A.EsMateriaPrima, A.ImagenURL as [URL], A.Activo, A.Precio, M.Identificador as [ID_Marca], M.Nombre as [Marca]
+-- Creo un Store Procedure en el cual listo todos los artículos con sus respectivas marcas, luego otro SP para ver las categorías de c/u 
+create procedure SP_ListarArticulosSinCategoria
+as
+select A.Identificador as [ID_Articulo], A.Nombre, M.Identificador as [ID_Marca], M.Nombre as [Marca], A.Descripcion, A.EsMateriaPrima, A.ImagenURL as [URL_Imagen], A.Activo as [Estado], A.Precio
 from Articulos as A
-left join Marcas as M on A.IDMarca = M.IDMarca
-
-Buscar con un store procedure con el Identificador de Articulo
-select C.Identificador as [ID_Categoria], C.Nombre as [Categoria]
+inner join Marcas as M on A.IDMarca = M.IDMarca
+go
+-- Busca con un SP, con el Identificador de Articulo, las categorías del mismo
+create procedure SP_BuscarCategoriasDelArticulo (
+	@Identificador bigint
+)
+as
+select C.Identificador as [ID_Categoria], C.Nombre as [Categoria], C.Activo as [Activo]
 from Articulos as A
-left join Marcas as M on A.IDMarca = M.IDMarca
-left join Articulos_x_Categoria as AXC on AXC.IDArticulo = A.IDArticulo
-left join Categorias as C on C.IDCategoria = AXC.IDCategoria
+inner join Marcas as M on A.IDMarca = M.IDMarca
+inner join Articulos_x_Categoria as AXC on AXC.IDArticulo = A.IDArticulo
+inner join Categorias as C on C.IDCategoria = AXC.IDCategoria
+where A.Identificador = @Identificador
+go

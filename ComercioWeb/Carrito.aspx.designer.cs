@@ -11,7 +11,7 @@ namespace ComercioWeb
 {
 
 
-    public partial class Catalogo
+    public partial class Carrito
     {
 
         /// <summary>
