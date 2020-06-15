@@ -1,7 +1,3 @@
-use master
-go
-drop database GIGEROA_DB
-go
 Create database GIGEROA_DB
 go
 use GIGEROA_DB
