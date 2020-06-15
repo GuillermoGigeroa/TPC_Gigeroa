@@ -27,7 +27,7 @@ namespace Negocio
             {
                 Datos datos = new Datos();
                 datos.ConfigurarConexion();
-                datos.Query("select A.Identificador as [ID_Articulo], A.Nombre, M.Identificador as [ID_Marca], M.Nombre as [Marca], A.Descripcion, A.EsMateriaPrima, A.ImagenURL as [URL_Imagen], A.Activo as [Estado], A.Precio from Articulos as A inner join Marcas as M on A.IDMarca = M.IDMarca");
+                datos.StoreProcedure("SP_ListarArticulosSinCategoria");
                 datos.ConectarDB();
                 datos.PrepararLector();
                 /*
