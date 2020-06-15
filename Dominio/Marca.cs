@@ -7,28 +7,8 @@ namespace Dominio
 {
     public class Marca
     {
-        public int ID_Marca
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string Nombre
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public bool Activo
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int ID_Marca { get; set; }
+        public string Nombre { get; set; }
+        public bool Activo { get; set; }
     }
 }

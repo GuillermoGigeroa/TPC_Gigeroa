@@ -10,12 +10,6 @@ namespace Negocio
 {
     public class NegocioDatos
     {
-        private Datos datos;
-        public NegocioDatos()
-        {
-            datos = new Datos();
-            datos.ConfigurarConexion();
-        }
         public List<Articulo> ListarArticulos()
         {
             List<Articulo> listado = ListarArticulosSinCategorias();
@@ -26,12 +20,16 @@ namespace Negocio
             }
             return listado;
         }
-        public List<Articulo> ListarArticulosSinCategorias()
+        private List<Articulo> ListarArticulosSinCategorias()
         {
             List<Articulo> listado = new List<Articulo>();
             try
             {
-                datos.StoreProcedure("SP_ListarArticulosSinCategoria");
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.Query("select A.Identificador as [ID_Articulo], A.Nombre, M.Identificador as [ID_Marca], M.Nombre as [Marca], A.Descripcion, A.EsMateriaPrima, A.ImagenURL as [URL_Imagen], A.Activo as [Estado], A.Precio from Articulos as A inner join Marcas as M on A.IDMarca = M.IDMarca");
+                datos.ConectarDB();
+                datos.PrepararLector();
                 /*
                 Trae los siguientes datos (sin datos de categoría):
                     > ID_Articulo
@@ -44,30 +42,28 @@ namespace Negocio
                     > Estado
                     > Precio
                 */
-                datos.ConectarDB();
-                datos.PrepararLector();
                 SqlDataReader datosLeidos;
                 Articulo articulo;
                 while (datos.Leer())
                 {
                     datosLeidos = datos.Lectura();
+                    articulo = new Articulo();
                     //Se verifica si el articulo está activo o fue dado de baja para continuar
                     if(Convert.ToBoolean(datosLeidos["Estado"]))
                     {
-                        articulo = new Articulo();
-
                         articulo.ID_Articulo = -1;
                         if (!Convert.IsDBNull(datosLeidos["ID_Articulo"]))
-                            articulo.ID_Articulo = (int)datosLeidos["ID_Articulo"];
+                            articulo.ID_Articulo = Convert.ToInt32(datosLeidos["ID_Articulo"]);
                         articulo.Nombre = "Error";
                         if (!Convert.IsDBNull(datosLeidos["Nombre"]))
                             articulo.Nombre = (string)datosLeidos["Nombre"];
-                        articulo.Marca.ID_Marca = -1;
+                        //Acá pincha con un Null reference Exception
+                        articulo.MarcaArticulo.ID_Marca = -1;
                         if (!Convert.IsDBNull(datosLeidos["ID_Marca"]))
-                            articulo.Marca.ID_Marca = (int)datosLeidos["ID_Marca"];
-                        articulo.Marca.Nombre = "Error";
+                            articulo.MarcaArticulo.ID_Marca = Convert.ToInt32(datosLeidos["ID_Marca"]);
+                        articulo.MarcaArticulo.Nombre = "Error";
                         if (!Convert.IsDBNull(datosLeidos["Marca"]))
-                            articulo.Marca.Nombre = (string)datosLeidos["Marca"];
+                            articulo.MarcaArticulo.Nombre = (string)datosLeidos["Marca"];
                         articulo.Descripcion = "Error";
                         if (!Convert.IsDBNull(datosLeidos["Descripcion"]))
                             articulo.Descripcion = (string)datosLeidos["Descripcion"];
@@ -95,23 +91,28 @@ namespace Negocio
             }
             finally
             {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
                 datos.DesconectarDB();
             }
         }
-        public List<Categoria> BuscarCategorias(int identificador)
+        private List<Categoria> BuscarCategorias(int identificador)
         {
             List<Categoria> categorias = new List<Categoria>();
             try
             {
-                datos.StoreProcedure("SP_BuscarCategoriasDelArticulo " + identificador);
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_BuscarCategoriasDelArticulo");
+                datos.AgregarParametro("@Identificador", identificador);
+                datos.ConectarDB();
+                datos.PrepararLector();
                 /*
                 Trae los siguientes datos (sin datos de categoría):
                     > ID_Categoría
                     > Nombre
                     > Activo
                 */
-                datos.ConectarDB();
-                datos.PrepararLector();
                 SqlDataReader datosLeidos;
                 Categoria categoria;
                 while (datos.Leer())
@@ -124,7 +125,7 @@ namespace Negocio
 
                         categoria.ID_Categoria = -1;
                         if (!Convert.IsDBNull(datosLeidos["ID_Categoria"]))
-                            categoria.ID_Categoria = (int)datosLeidos["ID_Categoria"];
+                            categoria.ID_Categoria = Convert.ToInt32(datosLeidos["ID_Categoria"]);
                         categoria.Nombre = "Error";
                         if (!Convert.IsDBNull(datosLeidos["Categoria"]))
                             categoria.Nombre = (string)datosLeidos["Categoria"];
@@ -143,6 +144,8 @@ namespace Negocio
             }
             finally
             {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
                 datos.DesconectarDB();
             }
         }

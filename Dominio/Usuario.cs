@@ -13,100 +13,17 @@ namespace Dominio
             Domicilio = new Domicilio();
             TipoUsuario = new TipoUsuario();
         }
-        public int ID_Usuario
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string Email
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string Password
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public System.DateTime FechaNacimiento
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string Nombres
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string Apellidos
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public int DNI
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Domicilio Domicilio
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public TipoUsuario TipoUsuario
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public int Telefono
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public bool Activo
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public List<Articulo> ListaFavoritos
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int ID_Usuario { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public System.DateTime FechaNacimiento { get; set; }
+        public string Nombres { get; set; }
+        public string Apellidos { get; set; }
+        public int DNI { get; set; }
+        public Domicilio Domicilio { get; set; }
+        public TipoUsuario TipoUsuario { get; set; }
+        public int Telefono { get; set; }
+        public bool Activo { get; set; }
+        public List<Articulo> ListaFavoritos { get; set; }
     }
 }

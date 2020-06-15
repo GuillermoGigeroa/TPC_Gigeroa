@@ -11,20 +11,8 @@ namespace Dominio
         {
             ListaElementos = new List<ElementoCarrito>();
         }
-        public int ID_Carrito
-        {
-            get => default;
-            set
-            {
-            }
-        }
-        public List<ElementoCarrito> ListaElementos
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int ID_Carrito { get; set; }
+        public List<ElementoCarrito> ListaElementos { get; set; }
         public double PrecioTotal()
         {
             double Precio = 0;

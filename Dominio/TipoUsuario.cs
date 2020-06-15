@@ -7,20 +7,7 @@ namespace Dominio
 {
     public class TipoUsuario
     {
-        public int ID_Tipo
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string Nombre
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int ID_Tipo { get; set; }
+        public string Nombre { get; set; }
     }
 }

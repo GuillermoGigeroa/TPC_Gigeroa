@@ -9,29 +9,28 @@ namespace Negocio
 {
     public class Datos
     {
-        private SqlConnection conexion;
-        private SqlCommand comando;
-        private SqlDataReader lector;
+        public SqlDataReader lector;
+        public SqlConnection conexion;
+        public SqlCommand comando;
         public Datos()
         {
             conexion = new SqlConnection();
             comando = new SqlCommand();
+            comando.Connection = conexion;
         }
         public void ConfigurarConexion()
         {
             conexion.ConnectionString = "data source=GUILLEGIGEROA\\SQLEXPRESS; initial catalog=GIGEROA_DB; integrated security=sspi";
         }
-        public void Query(string texto)
+        public void Query(string query)
         {
             comando.CommandType = System.Data.CommandType.Text;
-            comando.Connection = conexion;
-            comando.CommandText = texto;
+            comando.CommandText = query;
         }
-        public void StoreProcedure(string texto)
+        public void StoreProcedure(string sp)
         {
             comando.CommandType = System.Data.CommandType.StoredProcedure;
-            comando.Connection = conexion;
-            comando.CommandText = texto;
+            comando.CommandText = sp;
         }
         public void ConectarDB()
         {
@@ -43,7 +42,6 @@ namespace Negocio
         }
         public void DesconectarDB()
         {
-            ConfigurarConexion();
             conexion.Close();
         }
         public void PrepararLector()

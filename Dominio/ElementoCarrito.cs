@@ -11,30 +11,9 @@ namespace Dominio
         {
             Articulo = new Articulo();
         }
-        public int ID_Elemento
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Articulo Articulo
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public double Cantidad
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
+        public int ID_Elemento { get; set; }
+        public Articulo Articulo { get; set; }
+        public double Cantidad { get; set; }
         public double Precio()
         {
             return Articulo.Precio * Cantidad;

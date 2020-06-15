@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </head>
-<body style="background-color: rgb(20,20,20); color: white;">
+<body style="background-color: white; color: black;">
     <form id="form1" runat="server">
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,8 +37,7 @@
                         <li class="nav-item">
                             <a class="nav-link" style="color: grey;">(0)</a>
                         </li>
-                        <li class="nav-item" style="padding-left:50px;">
-                        </li>
+                        <li class="nav-item" style="padding-left: 50px;"></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownMarcas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <b>Marcas</b>
@@ -73,6 +72,38 @@
                     </div>
                 </div>
             </nav>
+        </div>
+        <div class="container" style="padding: 10px;">
+            <div class="card-columns" style="margin-left: 10px; margin-right: 10px;">
+                <asp:Repeater runat="server" ID="repetidor">
+                    <ItemTemplate>
+                        <div class="card" style="background-color:white;border-width:0px;">
+                            <img src="<%#Eval("URL_Imagen")%>" class="card-img-top" style="display: block; height: 250px; width: 250px; margin-left: auto; margin-right: auto;" alt="<%#Eval("Nombre")%>">
+                            <div class="card-body" style="margin-top:-15px;">                                
+                                <h5 class="card-title" style="text-align: center;color:black;"><%#Eval("Nombre")%></h5>
+                                <p class="card-text" style="text-align: center; font-size: x-large; color: red;margin-top:-10px;">
+                                    <strong>$<%#Convert.ToDouble(Eval("Precio"))%></strong></p>
+                                </p>
+                            </div>
+                            <div class="container" style="text-align: center; padding-bottom: 15px;margin-top:-30px;">
+                                <div class="row" style="display: inline-block">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-dark dropdown-toggle" style="padding-bottom: 9px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Agregar al carrito
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <%for (int cant = 1; cant <= 10; cant += 1)
+                                                {%>
+                                            <a class="dropdown-item" href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>&cant=<%=cant%>">Agregar <%=cant%> - <%#Eval("Nombre")%></a>
+                                            <%}%>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
         </div>
     </form>
 </body>
