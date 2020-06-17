@@ -10,11 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./Estilos.css"/>
 </head>
-<body style="background-color: rgb(20,20,20); color: white;">
+<body class="Fondo">
     <form id="form1" runat="server">
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -29,48 +30,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Carrito.aspx">
-                                <img src="https://image.flaticon.com/icons/svg/777/777205.svg" style="width: 25px; height: 25px; vertical-align: top;" alt="Carrito" />
-                            </a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link"">(0)</a>
-                        </li>
-                        <li class="nav-item" style="padding-left:125px;">
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMarcas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <b>Marcas</b>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMarcas">
-                                <a class="dropdown-item" href="Catalogo.aspx?fmar=Marca1">Marca1</a>
-                                <a class="dropdown-item" href="Catalogo.aspx?fmar=Marca2">Marca2</a>
-                                <a class="dropdown-item" href="Catalogo.aspx?fmar=Marca3">Marca3</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdownCategorias" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <b>Categorías</b>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownCategorias">
-                                <a class="dropdown-item" href="Catalogo.aspx?fcat=Categoria1">Categoria1</a>
-                                <a class="dropdown-item" href="Catalogo.aspx?fcat=Categoria2">Categoria2</a>
-                                <a class="dropdown-item" href="Catalogo.aspx?fcat=Categoria3">Categoria3</a>
-                            </div>
+                        <li class="nav-item active Activo" style="width:150px;">
+                            <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>
                         </li>
                     </ul>
-                    <div class="container">
-                        <div class="row">
-                            <div class="flex-column" style="padding-left: 400px;"></div>
-                            <div class="flex-column">
-                                <div class="form-inline">
-                                    <asp:TextBox ID="txtBusqueda" CssClass="form-control mr-sm-2" runat="server"></asp:TextBox>
-                                    <asp:Button ID="btnBuscar" CssClass="btn btn-outline-light my-2 my-sm-0" runat="server" Text="Buscar" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </nav>
         </div>

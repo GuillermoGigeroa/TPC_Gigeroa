@@ -231,17 +231,29 @@ go
 insert into Categorias(Nombre, Identificador)
 values ('Jogging',14)
 go
+insert into Categorias(Nombre, Identificador)
+values ('Chalecos',15)
+go
 insert into Articulos (IDMarca, Identificador, Nombre, Descripcion, EsMateriaPrima, ImagenURL, Precio)
 values (1,1,'Medias de lana','Medias que son de lana',0,'https://farm8.staticflickr.com/7266/8160731619_d2a7b5304d_z.jpg','200.40')
 go
 insert into Articulos (IDMarca, Identificador, Nombre, Descripcion, EsMateriaPrima, ImagenURL, Precio)
-values (1,2,'Chaleco de lana','Un chaleco de lana',0,'https://i.pinimg.com/originals/58/e4/a3/58e4a39f22dcfaf398951ee3588c8161.jpg','599.90')
+values (2,2,'Chaleco de lana','Un chaleco de lana',0,'https://i.pinimg.com/originals/58/e4/a3/58e4a39f22dcfaf398951ee3588c8161.jpg','599.90')
 go
 insert into Articulos_x_Categoria (IDArticulo, IDCategoria)
 values (1,1)
 go
 insert into Articulos_x_Categoria (IDArticulo, IDCategoria)
 values (1,2)
+go
+insert into Articulos_x_Categoria (IDArticulo, IDCategoria)
+values (2,1)
+go
+insert into Articulos_x_Categoria (IDArticulo, IDCategoria)
+values (2,6)
+go
+insert into Articulos_x_Categoria (IDArticulo, IDCategoria)
+values (2,15)
 go
 insert into Favoritos_x_Usuario (IDUsuario, IDArticulo)
 values (1,1)
@@ -264,4 +276,14 @@ inner join Marcas as M on A.IDMarca = M.IDMarca
 inner join Articulos_x_Categoria as AXC on AXC.IDArticulo = A.IDArticulo
 inner join Categorias as C on C.IDCategoria = AXC.IDCategoria
 where A.Identificador = @Identificador
+go
+create view VW_Marcas
+as
+select Identificador as [ID_Marca], Nombre as [Marca]from Marcas
+where Activo = 1
+go
+create view VW_Categorias
+as
+select Identificador as [ID_Categorias], Nombre as [Categoria] from Categorias
+where Activo = 1
 go

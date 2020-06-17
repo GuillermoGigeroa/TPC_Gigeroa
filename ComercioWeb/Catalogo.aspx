@@ -10,11 +10,14 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./Estilos.css"/>
 </head>
-<body style="background-color: white; color: black;">
+<body class="Fondo">
     <form id="form1" runat="server">
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
+                <%--<a class="navbar-brand" href="#"><i><b>Nombre de negocio</b></i></a>--%>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -23,49 +26,53 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Index.aspx">Inicio</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="Catalogo.aspx"><b>Catálogo</b></a>
+                        <li class="nav-item active Activo">
+                            <a class="nav-link" href="Catalogo.aspx">Catálogo</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Carrito.aspx">
-                                <img src="https://image.flaticon.com/icons/svg/777/777205.svg" style="width: 25px; height: 25px; vertical-align: top;" alt="Carrito" />
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style="color: grey;">(0)</a>
+                        <li class="nav-item" style="width:150px;">
+                            <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>
                         </li>
                         <li class="nav-item" style="padding-left: 50px;"></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownMarcas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <b>Marcas</b>
+                                <span style="color: white;"><b>Marcas</b></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMarcas">
-                                <a class="dropdown-item" href="Catalogo.aspx?fmar=Marca1">Marca1</a>
-                                <a class="dropdown-item" href="Catalogo.aspx?fmar=Marca2">Marca2</a>
-                                <a class="dropdown-item" href="Catalogo.aspx?fmar=Marca3">Marca3</a>
+                                <asp:Repeater ID="rptListaMarcas" runat="server">
+                                    <ItemTemplate>
+                                        <a class="dropdown-item" href="Catalogo.aspx?fmar=<%#Eval("ID_Marca")%>"><%#Eval("Nombre")%></a>
+                                    </ItemTemplate>
+                                </asp:Repeater>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownCategorias" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <b>Categorías</b>
+                                <span style="color: white;"><b>Categorías</b></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownCategorias">
-                                <a class="dropdown-item" href="Catalogo.aspx?fcat=Categoria1">Categoria1</a>
-                                <a class="dropdown-item" href="Catalogo.aspx?fcat=Categoria2">Categoria2</a>
-                                <a class="dropdown-item" href="Catalogo.aspx?fcat=Categoria3">Categoria3</a>
+                                <asp:Repeater ID="rptListaCategorias" runat="server">
+                                    <ItemTemplate>
+                                        <a class="dropdown-item" href="Catalogo.aspx?fcat=<%#Eval("ID_Categoria")%>"><%#Eval("Nombre")%></a>
+                                    </ItemTemplate>
+                                </asp:Repeater>
                             </div>
+                        </li>
+                        <li>
+                            <a href="Catalogo.aspx">
+                                <img src="./BotonBorrar.png" class="BotonIcono" alt="Borrar filtro" />
+                            </a>
                         </li>
                     </ul>
                     <div class="container">
                         <div class="row">
-                            <div class="flex-column" style="padding-left: 475px;"></div>
+                            <div class="flex-column" style="padding-left: 325px;"></div>
                             <div class="flex-column">
                                 <div class="form-inline">
-                                    <asp:TextBox ID="txtBusqueda" CssClass="form-control mr-sm-2" runat="server"></asp:TextBox>
-                                    <asp:Button ID="btnBuscar" CssClass="btn btn-outline-light my-2 my-sm-0" runat="server" Text="Buscar" />
+                                    <asp:TextBox ID="txtBuscar" CssClass="form-control mr-sm-2" runat="server"></asp:TextBox>
+                                    <asp:Button ID="btnBuscar" CssClass="btn btn-outline-light my-2 my-sm-0" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />
                                 </div>
                             </div>
                         </div>
@@ -73,30 +80,28 @@
                 </div>
             </nav>
         </div>
-        <div class="container" style="padding: 10px;">
-            <div class="card-columns" style="margin-left: 10px; margin-right: 10px;">
-                <asp:Repeater runat="server" ID="repetidor">
+        <div class="container" style="padding-bottom: 30px;">
+        </div>
+        <div class="container">
+            <div class="card-columns" style="margin-left: 0px; margin-right: 0px; width: 800px;">
+                <asp:Repeater runat="server" ID="rptListaArticulos">
                     <ItemTemplate>
-                        <div class="card" style="background-color:white;border-width:0px;">
-                            <img src="<%#Eval("URL_Imagen")%>" class="card-img-top" style="display: block; height: 250px; width: 250px; margin-left: auto; margin-right: auto;" alt="<%#Eval("Nombre")%>">
-                            <div class="card-body" style="margin-top:-15px;">                                
-                                <h5 class="card-title" style="text-align: center;color:black;"><%#Eval("Nombre")%></h5>
-                                <p class="card-text" style="text-align: center; font-size: x-large; color: red;margin-top:-10px;">
+                        <div class="card MiCard">
+                            <img src="<%#Eval("URL_Imagen")%>" class="card-img-top ImagenCard"  alt="<%#Eval("Nombre")%>">
+                            <div class="card-body" style="margin-top: -15px;">
+                                <h5 class="card-title" style="text-align: center; color: black;"><%#Eval("Nombre")%></h5>
+                                <p class="card-text" style="text-align: center; color: black; margin-top: -10px; margin-bottom: 5px;">
+                                    <i><%#Eval("MarcaArticulo.Nombre")%></i>
+                                </p>
+                                <p class="card-text" style="text-align: center; font-size: x-large; color: black; margin-top: -10px;">
                                     <strong>$<%#Convert.ToDouble(Eval("Precio"))%></strong></p>
                                 </p>
                             </div>
-                            <div class="container" style="text-align: center; padding-bottom: 15px;margin-top:-30px;">
+                            <div class="container" style="text-align: center; padding-bottom: 15px; margin-top: -30px;">
                                 <div class="row" style="display: inline-block">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-dark dropdown-toggle" style="padding-bottom: 9px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Agregar al carrito
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <%for (int cant = 1; cant <= 10; cant += 1)
-                                                {%>
-                                            <a class="dropdown-item" href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>&cant=<%=cant%>">Agregar <%=cant%> - <%#Eval("Nombre")%></a>
-                                            <%}%>
-                                        </div>
+                                        <a href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>" class="btn btn-dark" style="padding-bottom: 9px; background-color: RGB(179,134,179); border-width: 0px;">Agregar al carrito
+                                        </a>
                                     </div>
                                 </div>
                             </div>

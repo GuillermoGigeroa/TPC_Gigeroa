@@ -1,0 +1,29 @@
+﻿.Fondo {
+    background: RGB(197,192,207);
+    color: black;
+}
+.Barra {
+    background: rgb(179,134,179) !important;
+}
+.MiCard {
+    background-color: rgb(188,165,207);
+    border-width: 0px; width: 250px;
+    -webkit-box-shadow: 8px 8px 8px 0px rgba(138,137,137,1);
+    -moz-box-shadow: 8px 8px 8px 0px rgba(138,137,137,1);
+    box-shadow: 8px 8px 8px 0px rgba(138,137,137,1);
+}
+.ImagenCard {
+    display: block;
+    height: 253px;
+    width: 253px;
+    clip-path: polygon(0 0, 100% 0%, 100% 92%, 0% 100%);
+}
+.Activo {
+    font-weight:700;
+}
+.BotonIcono {
+    margin-top: 7px;
+    margin-left: 5px;
+    width: 25px;
+    height: 25px;
+}

@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="Carrito.aspx" />
     <Content Include="Catalogo.aspx" />
+    <Content Include="Estilos.css" />
     <Content Include="Index.aspx" />
     <Content Include="Usuarios.aspx" />
     <Content Include="Web.config" />
