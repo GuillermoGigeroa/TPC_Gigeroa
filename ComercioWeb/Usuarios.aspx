@@ -30,7 +30,7 @@
                         <li class="nav-item active Activo">
                             <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
                         </li>
-                        <li class="nav-item Activo" style="width:150px;">
+                        <li class="nav-item" style="width:150px;">
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>
                         </li>
                     </ul>

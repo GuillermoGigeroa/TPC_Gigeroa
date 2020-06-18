@@ -15,9 +15,8 @@
 <body class="Fondo">
     <form id="form1" runat="server">
         <div>
-            <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
+            <%--<script type="text/javascript">document.oncontextmenu = function(){return false}</script>--%>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
-                <%--<a class="navbar-brand" href="#"><i><b>Nombre de negocio</b></i></a>--%>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -100,7 +99,8 @@
                             <div class="container" style="text-align: center; padding-bottom: 15px; margin-top: -30px;">
                                 <div class="row" style="display: inline-block">
                                     <div class="btn-group">
-                                        <a href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>" class="btn btn-dark" style="padding-bottom: 9px; background-color: RGB(179,134,179); border-width: 0px;">Agregar al carrito
+                                        <a href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>" class="btn btn-dark BotonAgregar">
+                                            Agregar al carrito
                                         </a>
                                     </div>
                                 </div>

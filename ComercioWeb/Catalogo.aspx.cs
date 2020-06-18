@@ -17,6 +17,7 @@ namespace ComercioWeb
         public NegocioDatos Negocio { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Timeout = 30; //Defino un tiempo de Timeout de 30 minutos de la Session
             Negocio = new NegocioDatos();
             CargarArticulos(Negocio);
             CargarMarcas(Negocio);
@@ -30,21 +31,42 @@ namespace ComercioWeb
         }
         private void CargarArticulos(NegocioDatos Negocio)
         {
-            ListaArticulos = Negocio.ListarArticulos();
-            rptListaArticulos.DataSource = ListaArticulos;
-            rptListaArticulos.DataBind();
+            try
+            {
+                ListaArticulos = Negocio.ListarArticulos();
+                rptListaArticulos.DataSource = ListaArticulos;
+                rptListaArticulos.DataBind();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private void CargarMarcas(NegocioDatos Negocio)
         {
-            ListaMarcas = Negocio.ListarMarcas();
-            rptListaMarcas.DataSource = ListaMarcas;
-            rptListaMarcas.DataBind();
+            try
+            {
+                ListaMarcas = Negocio.ListarMarcas();
+                rptListaMarcas.DataSource = ListaMarcas;
+                rptListaMarcas.DataBind();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private void CargarCategorias(NegocioDatos Negocio)
         {
-            ListaCategorias = Negocio.ListarCategorias();
-            rptListaCategorias.DataSource = ListaCategorias;
-            rptListaCategorias.DataBind();
+            try
+            {
+                ListaCategorias = Negocio.ListarCategorias();
+                rptListaCategorias.DataSource = ListaCategorias;
+                rptListaCategorias.DataBind();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         protected void FiltrarPorCategoria(string idCategoria)
         {
@@ -83,7 +105,6 @@ namespace ComercioWeb
                 throw ex;
             }
         }
-
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             try
