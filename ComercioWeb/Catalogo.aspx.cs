@@ -107,6 +107,10 @@ namespace ComercioWeb
         }
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            /*
+            Verificar, porque al presionar enter la caja busca,
+            pero al presionar el botón necesita un refresh
+            */
             try
             {
                 List<Articulo> listaFiltrada;

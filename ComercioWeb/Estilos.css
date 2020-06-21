@@ -3,7 +3,7 @@
     color: black;
 }
 .Barra {
-    background: rgb(179,134,179) !important;
+    background: RGB(179,134,179) !important;
 }
 .MiCard {
     background-color: rgb(188,165,207);
@@ -31,4 +31,15 @@
     padding-bottom: 9px;
     background-color: RGB(179,134,179) !important;
     border-width: 0px;
+}
+.CentrarJumbo {
+    background-color: RGB(220,215,230);
+    width: 500px;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

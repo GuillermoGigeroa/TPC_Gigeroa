@@ -287,3 +287,5 @@ as
 select Identificador as [ID_Categorias], Nombre as [Categoria] from Categorias
 where Activo = 1
 go
+--Crear un Store Procedure que permita agregar un artículo y automáticamente agregarle una categoría a Articulos_x_Categoria
+--Agregar un Store Procedure que permita agregar una categoría más a un artículo
