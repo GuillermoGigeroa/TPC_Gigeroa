@@ -1,5 +1,3 @@
-
-go
 Create database GIGEROA_DB
 go
 use GIGEROA_DB
@@ -156,8 +154,8 @@ go
 insert into Tipos (Nombre, Identificador)
 values ('Cliente',3)
 go
-insert into Domicilios (IDProvincia, Ciudad, Calle, Numero, Piso, Depto, Referencia)
-values (1,'Belén de escobar','Rivadavia',631,'PA','E','Entre un negocio de cosas de bebés y un local de videojuegos')
+insert into Domicilios (IDProvincia, Ciudad, CP, Calle, Numero, Piso, Depto, Referencia)
+values (1,'Belén de escobar',1625,'Rivadavia',631,'PA','E','Entre un negocio de cosas de bebés y un local de videojuegos')
 go
 insert into Usuarios (Email, Contra, FechaNac, Nombres, Apellidos, DNI, IDDomicilio, IDTipo, Telefono)
 values ('guillermo.gigeroa@hotmail.com','queteimporta','15-09-1995','Guillermo Adrián', 'Gigeroa', 39112399, 1, 1, 1169221781)
