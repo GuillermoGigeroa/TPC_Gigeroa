@@ -10,11 +10,11 @@ namespace ComercioWeb
 {
     public partial class RegistrarUsuarios : System.Web.UI.Page
     {
-        public List<string> ListaProvincias { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             NegocioDatos negocio = new NegocioDatos();
-            ListaProvincias = negocio.ListarProvincias();
+            ListaProvincias.DataSource = negocio.ListarProvincias();
+            ListaProvincias.DataBind();
         }
     }
 }

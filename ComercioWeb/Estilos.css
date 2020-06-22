@@ -48,3 +48,18 @@
     border-color: black;
     border-width:2px;
 }
+.ImagenSlide {
+    width: auto;
+    height: 500px;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border: solid;
+    border-width: 2px;
+    border-color: RGB(179,134,179);
+}
+h3 {
+    text-align:center;
+    padding-top:10px;
+    color: RGB(179,134,179);
+}

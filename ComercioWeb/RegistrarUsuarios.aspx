@@ -42,100 +42,96 @@
                     </ul>
                 </div>
             </nav>
+            <h3 style="text-align:center;padding-top:10px;">Registrar usuario</h3>
             <div class="container" style="margin: auto">
                 <div class="jumbotron CentrarJumbo">
                     <div class="row">
                         <div class="col">
                             <label>Email</label>
-                            <input type="text" class="form-control"/>
+                            <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                         <div class="col">
                             <label>Repita el email</label>
-                            <input type="text" class="form-control"/>
+                            <asp:TextBox ID="txtEmail2" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="row" style="padding-top:10px;">
+                    <div class="row" style="padding-top: 10px;">
                         <div class="col">
                             <label>Contraseña</label>
-                            <input type="password" class="form-control"/>
+                            <asp:TextBox ID="txtPassword" TextMode="Password" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                         <div class="col">
                             <label>Repita la contraseña</label>
-                            <input type="password" class="form-control"/>
+                            <asp:TextBox ID="txtPassword2" TextMode="Password" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="form-group" style="padding-top:10px;">
+                    <div class="form-group" style="padding-top: 10px;">
                         <label for="apellidoInput">Apellido/s</label>
-                        <input type="text" class="form-control" id="apellidoInput" />
+                        <asp:TextBox ID="txtApellido" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
                     <div class="form-group">
                         <label for="nombreInput">Nombre/s</label>
-                        <input type="text" class="form-control" id="nombreInput" />
+                        <asp:TextBox ID="txtNombre" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
                     <div class="form-group">
                         <label>DNI</label>
-                        <input type="text" class="form-control" />
+                        <asp:TextBox ID="txtDNI" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
                     <div class="form-group">
                         <label>Teléfono</label>
-                        <input type="text" class="form-control" />
+                        <asp:TextBox ID="txtTelefono" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
-                    <div class="form-group" style="margin-top:0px;margin-bottom:-10px;">
-                        <p style="margin-top:5px;text-align:center;">Datos de domicilio</p>
+                    <div class="form-group" style="margin-top: 0px; margin-bottom: -10px;">
+                        <p style="margin-top: 5px; text-align: center;">Datos de domicilio</p>
                     </div>
                     <div class="LineaPunteada"></div>
-                    <div class="form-group" style="padding-top:10px;">
+                    <div class="form-group" style="padding-top: 10px;">
                         <label>Provincia</label>
-                        <select class="form-control">
-                            <%foreach (string provincia in ListaProvincias)
-                                {%>
-                            <option><%=provincia%></option>
-                            <%  }%>
-                        </select>
+                        <asp:DropDownList ID="ListaProvincias" CssClass="form-control" runat="server"></asp:DropDownList>
                     </div>
                     <div class="row">
                         <div class="col">
                             <label>Ciudad</label>
-                            <input type="text" class="form-control"/>
+                            <asp:TextBox ID="txtCiudad" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                         <div class="col">
                             <label>Código postal</label>
-                            <input type="text" class="form-control"/>
+                            <asp:TextBox ID="txtCodigoPostal" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="row" style="padding-top:10px;">
+                    <div class="row" style="padding-top: 10px;">
                         <div class="col">
                             <label>Calle</label>
-                            <input type="text" class="form-control"/>
+                            <asp:TextBox ID="txtCalle" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                         <div class="col">
                             <label>Número</label>
-                            <input type="text" class="form-control"/>
+                            <asp:TextBox ID="txtNumero" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="row" style="padding-top:10px;">
+                    <div class="row" style="padding-top: 10px;">
                         <div class="col">
                             <label>Piso</label>
-                            <input type="text" class="form-control"/>
+                            <asp:TextBox ID="txtPiso" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                         <div class="col">
                             <label>Departamento</label>
-                            <input type="text" class="form-control"/>
+                            <asp:TextBox ID="txtDepartamento" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="form-group" style="padding-top:10px;">
+                    <div class="form-group" style="padding-top: 10px;">
                         <label>Referencia de domicilio:</label>
-                        <input type="text" class="form-control" />
+                        <asp:TextBox ID="txtReferencia" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
-                    <div class="row" style="padding-top:15px;">
-                        <div class="col" style="margin-left:50px;margin-top:5px;">
+                    <div class="row" style="padding-top: 15px;">
+                        <div class="col" style="margin-left: 50px; margin-top: 5px;">
                             <asp:CheckBox runat="server"/>
                         </div>
-                        <div class="col" style="margin-left:-190px;margin-top:10px;">
-                            <p style="font-size:x-small;">Aceptar <a href="#">términos y condiciones</a></p>
+                        <div class="col" style="margin-left: -190px; margin-top: 10px;">
+                            <p style="font-size: x-small;">Aceptar <a href="#">términos y condiciones</a></p>
                         </div>
                         <div class="col">
-                            <asp:Button Text="Registrarse" runat="server" CssClass="btn btn-success"/>
+                            <asp:Button Text="Registrarse" runat="server" CssClass="btn btn-success" />
                         </div>
                     </div>
                 </div>
