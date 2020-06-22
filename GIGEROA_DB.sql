@@ -1,3 +1,5 @@
+
+go
 Create database GIGEROA_DB
 go
 use GIGEROA_DB
@@ -24,6 +26,7 @@ Create table Domicilios (
 	Numero bigint not null,
 	Piso varchar (50) null,
 	Depto varchar (50) null,
+	CP bigint not null,
 	Referencia varchar(150) default 'No cargado'
 )
 go
@@ -286,6 +289,10 @@ create view VW_Categorias
 as
 select Identificador as [ID_Categorias], Nombre as [Categoria] from Categorias
 where Activo = 1
+go
+create view VW_Provincias
+as
+select Nombre as [Provincia] from provincias
 go
 --Crear un Store Procedure que permita agregar un artículo y automáticamente agregarle una categoría a Articulos_x_Categoria
 --Agregar un Store Procedure que permita agregar una categoría más a un artículo

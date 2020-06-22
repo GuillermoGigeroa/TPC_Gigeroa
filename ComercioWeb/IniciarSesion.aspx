@@ -27,8 +27,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Catalogo.aspx">Catálogo</a>
                         </li>
-                        <li class="nav-item active Activo">
-                            <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
+                        <li class="nav-item dropdown">
+                            <div>
+                                <a class="nav-link dropdown-toggle active Activo" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
+                                    <a class="dropdown-item" href="IniciarSesion.aspx">Iniciar sesión</a>
+                                    <a class="dropdown-item" href="RegistrarUsuarios.aspx">Registrarse</a>
+                                </div>
+                            </div>
                         </li>
                         <li class="nav-item" style="width:150px;">
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>

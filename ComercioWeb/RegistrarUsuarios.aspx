@@ -27,8 +27,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Catalogo.aspx">Catálogo</a>
                         </li>
-                        <li class="nav-item active Activo">
-                            <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
+                        <li class="nav-item dropdown">
+                            <div>
+                                <a class="nav-link dropdown-toggle active Activo" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
+                                    <a class="dropdown-item" href="IniciarSesion.aspx">Iniciar sesión</a>
+                                    <a class="dropdown-item" href="RegistrarUsuarios.aspx">Registrarse</a>
+                                </div>
+                            </div>
                         </li>
                         <li class="nav-item" style="width: 150px;">
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>
@@ -74,16 +80,63 @@
                         <label>Teléfono</label>
                         <input type="text" class="form-control" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="margin-top:0px;margin-bottom:-10px;">
+                        <p style="margin-top:5px;text-align:center;">Datos de domicilio</p>
+                    </div>
+                    <div class="LineaPunteada"></div>
+                    <div class="form-group" style="padding-top:10px;">
                         <label>Provincia</label>
                         <select class="form-control">
-                            <option>Buenos Aires</option>
-                            <option>Otro</option>
-                            <option>Otro</option>
-                            <option>Otro</option>
-                            <option>Otro</option>
-                            <option>Otro</option>
+                            <%foreach (string provincia in ListaProvincias)
+                                {%>
+                            <option><%=provincia%></option>
+                            <%  }%>
                         </select>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Ciudad</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+                        <div class="col">
+                            <label>Código postal</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:10px;">
+                        <div class="col">
+                            <label>Calle</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+                        <div class="col">
+                            <label>Número</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:10px;">
+                        <div class="col">
+                            <label>Piso</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+                        <div class="col">
+                            <label>Departamento</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="padding-top:10px;">
+                        <label>Referencia de domicilio:</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="row" style="padding-top:15px;">
+                        <div class="col" style="margin-left:50px;margin-top:5px;">
+                            <asp:CheckBox runat="server"/>
+                        </div>
+                        <div class="col" style="margin-left:-190px;margin-top:10px;">
+                            <p style="font-size:x-small;">Aceptar <a href="#">términos y condiciones</a></p>
+                        </div>
+                        <div class="col">
+                            <asp:Button Text="Registrarse" runat="server" CssClass="btn btn-success"/>
+                        </div>
                     </div>
                 </div>
             </div>

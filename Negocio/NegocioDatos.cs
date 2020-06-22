@@ -219,5 +219,38 @@ namespace Negocio
                 datos.DesconectarDB();
             }
         }
+        public List<string> ListarProvincias()
+        {
+            List<string> lista = new List<string>();
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.Query("Select * from VW_Provincias");
+                datos.ConectarDB();
+                datos.PrepararLector();
+                SqlDataReader datosLeidos;
+                string Provincia;
+                while (datos.Leer())
+                {
+                    datosLeidos = datos.Lectura();
+                    Provincia = "Otro";
+                    if (!Convert.IsDBNull(datosLeidos["Provincia"]))
+                        Provincia = Convert.ToString(datosLeidos["Provincia"]);
+                    lista.Add(Provincia);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
     }
 }

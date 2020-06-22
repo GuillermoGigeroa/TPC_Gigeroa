@@ -43,7 +43,22 @@
                     </ul>
                 </div>
             </nav>
-        </div>
+            <div class="container">
+                <div class="carousel slide" data-ride="carousel" style="width:400px;">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-interval="1">
+                        </div>
+                        <asp:Repeater ID="rptListaImagenes" runat="server">
+                            <ItemTemplate>
+                                <div class="carousel-item" data-interval="3000">
+                                    <img src="<%#Eval("URL_Imagen")%>" class="d-block w-100" style="width:auto;height:300px;"/>
+                                </div>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
+                </div>
+            </div>
+            </div>
     </form>
 </body>
 </html>

@@ -43,3 +43,8 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.LineaPunteada {
+    border-top: dashed;
+    border-color: black;
+    border-width:2px;
+}
