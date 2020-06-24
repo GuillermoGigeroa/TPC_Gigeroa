@@ -49,7 +49,7 @@ namespace Negocio
                     datosLeidos = datos.Lectura();
                     articulo = new Articulo();
                     //Se verifica si el articulo está activo o fue dado de baja para continuar
-                    if(Convert.ToBoolean(datosLeidos["Estado"]))
+                    if (Convert.ToBoolean(datosLeidos["Estado"]))
                     {
                         articulo.ID_Articulo = -1;
                         if (!Convert.IsDBNull(datosLeidos["ID_Articulo"]))
@@ -238,6 +238,89 @@ namespace Negocio
                     if (!Convert.IsDBNull(datosLeidos["Provincia"]))
                         Provincia = Convert.ToString(datosLeidos["Provincia"]);
                     lista.Add(Provincia);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public List<Usuario> ListarUsuarios()
+        {
+            List<Usuario> lista = new List<Usuario>();
+            try
+            {
+                Encriptador encriptador = new Encriptador();
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.Query("Select * from VW_UsuariosCompletos");
+                datos.ConectarDB();
+                datos.PrepararLector();
+                SqlDataReader datosLeidos;
+                Usuario usuario;
+                while (datos.Leer())
+                {
+                    datosLeidos = datos.Lectura();
+                    usuario = new Usuario();
+                    if (Convert.ToBoolean(datosLeidos["Activo"]))
+                    {
+                        usuario.Email = "nocargado@noemail.com";
+                        if (!Convert.IsDBNull(datosLeidos["Email"]))
+                            usuario.Email = Convert.ToString(datosLeidos["Email"]);
+                        usuario.Password = "nocargado_nocargado";
+                        if (!Convert.IsDBNull(datosLeidos["Contra"]))
+                            usuario.Password = Convert.ToString(datosLeidos["Contra"]);
+                        if (!Convert.IsDBNull(datosLeidos["FechaNac"]))
+                            usuario.FechaNacimiento = Convert.ToDateTime(datosLeidos["FechaNac"]);
+                        usuario.Nombres = "Nombres";
+                        if (!Convert.IsDBNull(datosLeidos["Nombres"]))
+                            usuario.Nombres = Convert.ToString(datosLeidos["Nombres"]);
+                        usuario.Apellidos = "Apellidos";
+                        if (!Convert.IsDBNull(datosLeidos["Apellidos"]))
+                            usuario.Apellidos = Convert.ToString(datosLeidos["Apellidos"]);
+                        usuario.DNI = 0;
+                        if (!Convert.IsDBNull(datosLeidos["DNI"]))
+                            usuario.DNI = Convert.ToInt32(datosLeidos["DNI"]);
+                        usuario.TipoUsuario.ID_Tipo = -1;
+                        if (!Convert.IsDBNull(datosLeidos["ID_Tipo"]))
+                            usuario.TipoUsuario.ID_Tipo = Convert.ToInt32(datosLeidos["ID_Tipo"]);
+                        usuario.TipoUsuario.Nombre = "NombreTipo";
+                        if (!Convert.IsDBNull(datosLeidos["Tipo"]))
+                            usuario.TipoUsuario.Nombre = Convert.ToString(datosLeidos["Tipo"]);
+                        usuario.Domicilio.Provincia = "Provincia";
+                        if (!Convert.IsDBNull(datosLeidos["Provincia"]))
+                            usuario.Domicilio.Provincia = Convert.ToString(datosLeidos["Provincia"]);
+                        usuario.Domicilio.Ciudad = "Ciudad";
+                        if (!Convert.IsDBNull(datosLeidos["Ciudad"]))
+                            usuario.Domicilio.Ciudad = Convert.ToString(datosLeidos["Ciudad"]);
+                        usuario.Domicilio.Calle = "Calle";
+                        if (!Convert.IsDBNull(datosLeidos["Calle"]))
+                            usuario.Domicilio.Calle = Convert.ToString(datosLeidos["Calle"]);
+                        usuario.Domicilio.Numero = -1;
+                        if (!Convert.IsDBNull(datosLeidos["Numero"]))
+                            usuario.Domicilio.Numero = Convert.ToInt32(datosLeidos["Numero"]);
+                        usuario.Domicilio.Piso = "Piso";
+                        if (!Convert.IsDBNull(datosLeidos["Piso"]))
+                            usuario.Domicilio.Piso = Convert.ToString(datosLeidos["Piso"]);
+                        usuario.Domicilio.Departamento = "Departamento";
+                        if (!Convert.IsDBNull(datosLeidos["Depto"]))
+                            usuario.Domicilio.Departamento = Convert.ToString(datosLeidos["Depto"]);
+                        usuario.Domicilio.CodigoPostal = -1;
+                        if (!Convert.IsDBNull(datosLeidos["CP"]))
+                            usuario.Domicilio.CodigoPostal = Convert.ToInt32(datosLeidos["CP"]);
+                        usuario.Domicilio.Referencia = "Referencia";
+                        if (!Convert.IsDBNull(datosLeidos["Referencia"]))
+                            usuario.Domicilio.Referencia = Convert.ToString(datosLeidos["Referencia"]);
+                        usuario.Activo = true;
+                        lista.Add(usuario);
+                    }
                 }
                 return lista;
             }

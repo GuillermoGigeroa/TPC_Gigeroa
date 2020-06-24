@@ -158,7 +158,7 @@ insert into Domicilios (IDProvincia, Ciudad, CP, Calle, Numero, Piso, Depto, Ref
 values (1,'Belén de escobar',1625,'Rivadavia',631,'PA','E','Entre un negocio de cosas de bebés y un local de videojuegos')
 go
 insert into Usuarios (Email, Contra, FechaNac, Nombres, Apellidos, DNI, IDDomicilio, IDTipo, Telefono)
-values ('guillermo.gigeroa@hotmail.com','queteimporta','15-09-1995','Guillermo Adrián', 'Gigeroa', 39112399, 1, 1, 1169221781)
+values ('guillermo.gigeroa@hotmail.com','ssgrggonqpv_','15-09-1995','Guillermo Adrián', 'Gigeroa', 39112399, 1, 1, 1169221781)
 go
 insert into Marcas (Nombre, Identificador)
 values ('Artesanal Catiana',1)
@@ -291,6 +291,14 @@ go
 create view VW_Provincias
 as
 select Nombre as [Provincia] from provincias
+go
+create view VW_UsuariosCompletos
+as
+select U.Email, U.Contra, U.Activo, U.FechaNac, U.Nombres, U.Apellidos, U.DNI, T.Identificador as ID_Tipo, T.Nombre as Tipo, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia from Usuarios as U
+inner join Domicilios as D on U.IDDomicilio = D.IDDomicilio
+inner join Provincias as P on D.IDProvincia = P.IDProvincia
+inner join Tipos as T on U.IDTipo = T.IDTipo
+where U.Activo = 1 
 go
 --Crear un Store Procedure que permita agregar un artículo y automáticamente agregarle una categoría a Articulos_x_Categoria
 --Agregar un Store Procedure que permita agregar una categoría más a un artículo

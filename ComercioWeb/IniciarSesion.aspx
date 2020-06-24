@@ -46,14 +46,17 @@
             <div class="jumbotron CentrarJumbo">
                 <div class="form-group">
                     <label>Email</label>
-                    <asp:TextBox ID="ingresoEmail" CssClass="form-control" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server"></asp:TextBox>
                 </div>
                 <div class="form-group">
                     <label>Contraseña</label>
-                    <asp:TextBox ID="ingresoContraseña" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
+                    <asp:TextBox ID="txtPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
                 </div>
                 <div style="text-align: center;">
-                    <asp:Button Text="Iniciar sesión" CssClass="btn btn-light" runat="server" />
+                    <asp:Button ID="btnAceptar" Text="Iniciar sesión" CssClass="btn btn-light" runat="server" OnClick="btnAceptar_Click"/>
+                </div>
+                <div style="text-align: center;">
+                    <h2>Login: <%=IngresoAprobado%></h2>
                 </div>
             </div>
         </div>
