@@ -1,3 +1,7 @@
+use master
+go
+drop database GIGEROA_DB
+go
 Create database GIGEROA_DB
 go
 use GIGEROA_DB
@@ -16,9 +20,22 @@ Create table Provincias (
 	Activo bit default 1
 )
 go
+Create table Usuarios (
+	IDUsuario bigint identity(1,1) primary key,
+	Email varchar(150) unique not null,
+	Contra varchar(150) not null,
+	Nombres varchar(150) default 'No cargado',
+	Apellidos varchar(150) default 'No cargado',
+	DNI bigint check (DNI > 10000000) not null,
+	IDTipo bigint foreign key references Tipos(IDTipo),
+	Telefono bigint null,
+	Activo bit default 1,
+)
+go
 Create table Domicilios (
 	IDDomicilio bigint identity(1,1) primary key,
 	IDProvincia bigint foreign key references Provincias(IDProvincia),
+	IDUsuario bigint foreign key references Usuarios(IDUsuario),
 	Ciudad varchar(150) default 'No cargado',
 	Calle varchar(150) default 'No cargado',
 	Numero bigint not null,
@@ -26,20 +43,6 @@ Create table Domicilios (
 	Depto varchar (50) null,
 	CP bigint not null,
 	Referencia varchar(150) default 'No cargado'
-)
-go
-Create table Usuarios (
-	IDUsuario bigint identity(1,1) primary key,
-	Email varchar(150) unique not null,
-	Contra varchar(150) not null,
-	FechaNac date not null,
-	Nombres varchar(150) default 'No cargado',
-	Apellidos varchar(150) default 'No cargado',
-	DNI bigint check (DNI > 10000000) not null,
-	IDDomicilio bigint foreign key references Domicilios(IDDomicilio),
-	IDTipo bigint foreign key references Tipos(IDTipo),
-	Telefono bigint null,
-	Activo bit default 1,
 )
 go
 Create table Marcas (
@@ -63,7 +66,7 @@ Create table Articulos (
 	Nombre varchar(150) default 'No cargado',
 	Descripcion varchar(150) default 'No cargado',
 	EsMateriaPrima bit not null,
-	ImagenURL varchar(300) not null,
+	ImagenURL varchar(1000) not null,
 	Activo bit default 1,
 	Precio decimal(18,2) not null,
 )
@@ -154,11 +157,11 @@ go
 insert into Tipos (Nombre, Identificador)
 values ('Cliente',3)
 go
-insert into Domicilios (IDProvincia, Ciudad, CP, Calle, Numero, Piso, Depto, Referencia)
-values (1,'Belén de escobar',1625,'Rivadavia',631,'PA','E','Entre un negocio de cosas de bebés y un local de videojuegos')
+insert into Usuarios (Email, Contra, Nombres, Apellidos, DNI, IDTipo, Telefono)
+values ('guillermo.gigeroa@hotmail.com','ssgrggonqpv_','Guillermo Adrián', 'Gigeroa', 39112399, 1, 1169221781)
 go
-insert into Usuarios (Email, Contra, FechaNac, Nombres, Apellidos, DNI, IDDomicilio, IDTipo, Telefono)
-values ('guillermo.gigeroa@hotmail.com','ssgrggonqpv_','15-09-1995','Guillermo Adrián', 'Gigeroa', 39112399, 1, 1, 1169221781)
+insert into Domicilios (IDProvincia, IDUsuario, Ciudad, CP, Calle, Numero, Piso, Depto, Referencia)
+values (1,1,'Belén de escobar',1625,'Rivadavia',631,'PA','E','Entre un negocio de cosas de bebés y un local de videojuegos')
 go
 insert into Marcas (Nombre, Identificador)
 values ('Artesanal Catiana',1)
@@ -294,11 +297,47 @@ select Nombre as [Provincia] from provincias
 go
 create view VW_UsuariosCompletos
 as
-select U.Email, U.Contra, U.Activo, U.FechaNac, U.Nombres, U.Apellidos, U.DNI, T.Identificador as ID_Tipo, T.Nombre as Tipo, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia from Usuarios as U
-inner join Domicilios as D on U.IDDomicilio = D.IDDomicilio
-inner join Provincias as P on D.IDProvincia = P.IDProvincia
-inner join Tipos as T on U.IDTipo = T.IDTipo
+select U.IDUsuario, U.Email, U.Contra, U.Activo, U.Nombres, U.Apellidos, U.DNI, U.Telefono, T.Identificador as ID_Tipo, T.Nombre as Tipo, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia from Usuarios as U
+left join Domicilios as D on U.IDUsuario = D.IDUsuario
+left join Provincias as P on D.IDProvincia = P.IDProvincia
+left join Tipos as T on U.IDTipo = T.IDTipo
 where U.Activo = 1 
+go
+create procedure SP_AltaUsuario(
+	@Email varchar(150),
+	@Password varchar(150),
+	@Nombres varchar(150),
+	@Apellidos varchar(150),
+	@DNI bigint,
+	@IDProvincia bigint,
+	@Ciudad varchar(150),
+	@Calle varchar(150),
+	@Numero bigint,
+	@Piso varchar(150),
+	@CP bigint,
+	@Departamento varchar(150),
+	@Referencia varchar(150),
+	@IDTipo bigint,
+	@Telefono bigint,
+	@Activo bit
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			Declare @IDUsuario bigint
+			INSERT INTO Usuarios (Email,Contra,Nombres,Apellidos,DNI,Telefono,Activo,IDTipo)
+			VALUES (@Email,@Password,@Nombres,@Apellidos,@DNI,@Telefono,@Activo,@IDTipo)
+			Set @IDUsuario = (Select Top 1 IDUsuario From Usuarios Order by IDUsuario Desc)
+			INSERT INTO Domicilios (IDProvincia,IDUsuario,Ciudad,Calle,Numero,Piso,Depto,CP,Referencia)
+			VALUES (@IDProvincia,@IDUsuario,@Ciudad,@Calle,@Numero,@Piso,@Departamento,@CP,@Referencia)
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al agregar el usuario',16,2)
+	End catch
+End
 go
 --Crear un Store Procedure que permita agregar un artículo y automáticamente agregarle una categoría a Articulos_x_Categoria
 --Agregar un Store Procedure que permita agregar una categoría más a un artículo

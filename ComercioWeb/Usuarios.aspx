@@ -27,8 +27,26 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Catalogo.aspx">Catálogo</a>
                         </li>
-                        <li class="nav-item active Activo">
-                            <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
+                        <li class="nav-item dropdown">
+                            <div>
+                                <a class="nav-link dropdown-toggle active Activo" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 1)
+                                      {%>
+                                        <a class="dropdown-item" href="Administrador.aspx">Configuraciones de <%=Usuario.TipoUsuario.Nombre%></a>
+                                    <%}%>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2)
+                                      {%>
+                                        <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de <%=Usuario.TipoUsuario.Nombre%></a>
+                                    <%}%>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 3)
+                                      {%>
+                                        <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
+                                    <%}%>
+                                    <a class="dropdown-item" href="ModificarUsuario.aspx">Modificar datos personales</a>
+                                    <a class="dropdown-item" href="Index.aspx?logout=true">Cerrar Sesión</a>
+                                </div>
+                            </div>
                         </li>
                         <li class="nav-item" style="width:150px;">
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>
@@ -37,7 +55,8 @@
                 </div>
             </nav>
             <div class="jumbotron">
-
+                <h1 style="text-align:center;">¡Bienvenido <%=Usuario.Nombres%> <%=Usuario.Apellidos%>!</h1>
+                <h2 style="text-align:center;">Tipo de usuario: <%=Usuario.TipoUsuario.Nombre%></h2>
             </div>
         </div>
     </form>

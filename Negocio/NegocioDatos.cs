@@ -271,14 +271,15 @@ namespace Negocio
                     usuario = new Usuario();
                     if (Convert.ToBoolean(datosLeidos["Activo"]))
                     {
+                        usuario.ID_Usuario = -1;
+                        if (!Convert.IsDBNull(datosLeidos["IDUsuario"]))
+                            usuario.ID_Usuario = Convert.ToInt32(datosLeidos["IDUsuario"]);
                         usuario.Email = "nocargado@noemail.com";
                         if (!Convert.IsDBNull(datosLeidos["Email"]))
                             usuario.Email = Convert.ToString(datosLeidos["Email"]);
                         usuario.Password = "nocargado_nocargado";
                         if (!Convert.IsDBNull(datosLeidos["Contra"]))
                             usuario.Password = Convert.ToString(datosLeidos["Contra"]);
-                        if (!Convert.IsDBNull(datosLeidos["FechaNac"]))
-                            usuario.FechaNacimiento = Convert.ToDateTime(datosLeidos["FechaNac"]);
                         usuario.Nombres = "Nombres";
                         if (!Convert.IsDBNull(datosLeidos["Nombres"]))
                             usuario.Nombres = Convert.ToString(datosLeidos["Nombres"]);
@@ -288,6 +289,9 @@ namespace Negocio
                         usuario.DNI = 0;
                         if (!Convert.IsDBNull(datosLeidos["DNI"]))
                             usuario.DNI = Convert.ToInt32(datosLeidos["DNI"]);
+                        usuario.Telefono = 0;
+                        if (!Convert.IsDBNull(datosLeidos["Telefono"]))
+                            usuario.Telefono = Convert.ToInt32(datosLeidos["Telefono"]);
                         usuario.TipoUsuario.ID_Tipo = -1;
                         if (!Convert.IsDBNull(datosLeidos["ID_Tipo"]))
                             usuario.TipoUsuario.ID_Tipo = Convert.ToInt32(datosLeidos["ID_Tipo"]);

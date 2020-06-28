@@ -14,23 +14,22 @@ namespace ComercioWeb
     {
         public Encriptador Encriptador { get; set; }
         public List<Usuario> ListaUsuarios { get; set; }
-        public string IngresoAprobado { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             Encriptador = new Encriptador();
             NegocioDatos negocio = new NegocioDatos();
             ListaUsuarios = negocio.ListarUsuarios();
+            if (Session["Usuario" + Session.SessionID] != null)
+            {
+                Response.Redirect("Usuarios.aspx");
+            }
             string login = Request.QueryString["login"];
             if (login != null)
             {
-                if (login == "true")
-                {
-                    IngresoAprobado = "Si";
-                }
-                if (login == "false")
-                {
-                    IngresoAprobado = "No";
-                }
+                if (login == "0")
+                    lblLogin.Visible = true;
+                else
+                    lblLogin.Visible = false;
             }
         }
         protected void btnAceptar_Click(object sender, EventArgs e)
@@ -39,11 +38,12 @@ namespace ComercioWeb
             {
                 if (usuario.Email.Trim().ToLower() == txtEmail.Text.Trim().ToLower() && Encriptador.Desencriptar(usuario.Password) == txtPassword.Text)
                 {
-                    Response.Redirect("IniciarSesion.aspx?login=true");
+                    Session["Usuario" + Session.SessionID] = usuario;
+                    Response.Redirect("Usuarios.aspx");
                     break;
                 }
             }
-            Response.Redirect("IniciarSesion.aspx?login=false");
+            Response.Redirect("IniciarSesion.aspx?login=0");
         }
     }
 }

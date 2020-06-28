@@ -16,6 +16,12 @@ namespace ComercioWeb
             NegocioDatos negocio = new NegocioDatos();
             rptListaImagenes.DataSource = negocio.ListarArticulos();
             rptListaImagenes.DataBind();
+            string Logout = Request.QueryString["logout"];
+            if (Logout != null)
+            {
+                if(Logout == "true")
+                    Session["Usuario" + Session.SessionID] = null;
+            }
         }
     }
 }

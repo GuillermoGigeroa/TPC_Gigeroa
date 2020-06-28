@@ -16,7 +16,6 @@ namespace Dominio
         public int ID_Usuario { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public System.DateTime FechaNacimiento { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
         public int DNI { get; set; }
@@ -24,6 +23,7 @@ namespace Dominio
         public TipoUsuario TipoUsuario { get; set; }
         public int Telefono { get; set; }
         public bool Activo { get; set; }
+        public int IDListaFavoritos { get; set; }
         public List<Articulo> ListaFavoritos { get; set; }
     }
 }

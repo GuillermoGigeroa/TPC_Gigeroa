@@ -52,11 +52,9 @@
                     <label>Contraseña</label>
                     <asp:TextBox ID="txtPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
                 </div>
+                <asp:Label ID="lblLogin" Visible="false" Text="Combinación de usuario y contraseña son incorrectos." runat="server" />
                 <div style="text-align: center;">
                     <asp:Button ID="btnAceptar" Text="Iniciar sesión" CssClass="btn btn-light" runat="server" OnClick="btnAceptar_Click"/>
-                </div>
-                <div style="text-align: center;">
-                    <h2>Login: <%=IngresoAprobado%></h2>
                 </div>
             </div>
         </div>
