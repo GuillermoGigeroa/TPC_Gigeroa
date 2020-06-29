@@ -51,7 +51,7 @@
                             <div class="row">
                                 <div class="col">
                                     <label>Email</label>
-                                    <asp:TextBox ID="txtEmail" AutoPostBack="true" CssClass="form-control" runat="server" OnTextChanged="txtEmail_TextChanged"></asp:TextBox>
+                                    <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="col">
                                     <label>Repita el email</label>

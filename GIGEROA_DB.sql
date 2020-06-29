@@ -26,7 +26,7 @@ Create table Usuarios (
 	Contra varchar(150) not null,
 	Nombres varchar(150) default 'No cargado',
 	Apellidos varchar(150) default 'No cargado',
-	DNI bigint check (DNI > 10000000) not null,
+	DNI bigint check (DNI >= 10000) not null,
 	IDTipo bigint foreign key references Tipos(IDTipo),
 	Telefono bigint null,
 	Activo bit default 1,
@@ -336,6 +336,83 @@ Begin
 	Begin catch  
 		Rollback transaction
 		Raiserror('Error al agregar el usuario',16,2)
+	End catch
+End
+go
+create procedure SP_ActualizarUsuario(
+	@IDUsuario bigint,
+	@Email varchar(150),
+	@Password varchar(150),
+	@Nombres varchar(150),
+	@Apellidos varchar(150),
+	@DNI bigint,
+	@IDProvincia bigint,
+	@Ciudad varchar(150),
+	@Calle varchar(150),
+	@Numero bigint,
+	@Piso varchar(150),
+	@CP bigint,
+	@Departamento varchar(150),
+	@Referencia varchar(150),
+	@IDTipo bigint,
+	@Telefono bigint,
+	@Activo bit
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			UPDATE Usuarios
+			Set
+				Email = @Email,
+				Contra = @Password,
+				Nombres = @Nombres,
+				Apellidos = @Apellidos,
+				DNI = @DNI,
+				Telefono = @Telefono,
+				Activo = @Activo,
+				IDTipo = @IDTipo
+			Where IDUsuario = @IDUsuario
+			UPDATE Domicilios
+			Set
+				IDProvincia = @IDProvincia,
+				Ciudad = @Ciudad,
+				Calle = @Calle,
+				Numero = @Numero,
+				Piso = @Piso,
+				Depto = @Departamento,
+				CP = @CP,
+				Referencia = @Referencia
+			Where IDUsuario = @IDUsuario
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al actualizar el usuario',16,2)
+	End catch
+End
+go
+create view VW_Tipos
+as
+Select Identificador as [ID_Tipo], Nombre from Tipos
+where Activo = 1
+go
+create procedure SP_BajaUsuario(
+	@IDUsuario bigint,
+	@Activo bit
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			UPDATE Usuarios
+			Set Activo = @Activo
+			Where IDUsuario = @IDUsuario
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al eliminar el usuario',16,2)
 	End catch
 End
 go

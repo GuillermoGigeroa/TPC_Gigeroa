@@ -33,15 +33,15 @@
                                 <a class="nav-link dropdown-toggle active Activo" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 1)
-                                        {%>
+                                      {%>
                                     <a class="dropdown-item" href="Administrador.aspx">Configuraciones de <%=Usuario.TipoUsuario.Nombre%></a>
                                     <%}%>
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 2)
-                                        {%>
+                                      {%>
                                     <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de <%=Usuario.TipoUsuario.Nombre%></a>
                                     <%}%>
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 3)
-                                        {%>
+                                      {%>
                                     <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
                                     <%}%>
                                     <a class="dropdown-item" href="ModificarUsuario.aspx">Modificar datos personales</a>
@@ -55,6 +55,9 @@
                     </ul>
                 </div>
             </nav>
+            <div style="text-align:center;padding-top:20px;padding-bottom:10px;">
+                <asp:Label ID="lblActualizado" CssClass="alert alert-success    " Visible="false" Text="Usuario ha sido actualizado." runat="server" />
+            </div>
             <h3 style="text-align: center; padding-top: 10px;">Modificar usuario</h3>
             <div class="container" style="margin: auto">
                 <div class="jumbotron CentrarJumbo">
@@ -64,18 +67,18 @@
                                 <div class="col" style="margin-right: -170px; padding-left: 150px;">
                                     <asp:CheckBox ID="chkEmail" AutoPostBack="true" runat="server" OnCheckedChanged="chkEmail_CheckedChanged" />
                                 </div>
-                                <div class="col" style="margin-left: -150px;">
+                                <div class="col" style="margin-left: -150px;margin-bottom:-15px;">
                                     <p>Deseo modificar el email.</p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <asp:Label ID="Email" Visible="false" Text="Nuevo email" runat="server" />
-                                    <asp:TextBox ID="txtEmail" Visible="false" AutoPostBack="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtEmail" Visible="false" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="col">
                                     <asp:Label ID="Email2" Visible="false" Text="Repita el nuevo email" runat="server" />
-                                    <asp:TextBox ID="txtEmail2" Visible="false" AutoPostBack="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtEmail2" Visible="false" AutoPostBack="true" CssClass="form-control" runat="server" OnTextChanged="txtEmail2_TextChanged"></asp:TextBox>
                                 </div>
                             </div>
                             <asp:Label ID="lblEmail" runat="server" Text="Los campos de email son diferentes." Visible="false"></asp:Label>
@@ -93,7 +96,7 @@
                         <ContentTemplate>
                             <div class="form-group">
                                 <label>DNI</label>
-                                <asp:TextBox ID="txtDNI" AutoPostBack="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txtDNI" AutoPostBack="true" CssClass="form-control" runat="server" OnTextChanged="txtDNI_TextChanged"></asp:TextBox>
                                 <asp:Label ID="lblDNI" Text="El DNI ingresado no es válido." Visible="false" runat="server" />
                             </div>
                         </ContentTemplate>
@@ -102,7 +105,7 @@
                         <ContentTemplate>
                             <div class="form-group">
                                 <label>Teléfono</label>
-                                <asp:TextBox ID="txtTelefono" AutoPostBack="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txtTelefono" AutoPostBack="true" CssClass="form-control" runat="server" OnTextChanged="txtTelefono_TextChanged"></asp:TextBox>
                                 <asp:Label ID="lblTelefono" Text="El teléfono ingresado no es válido." Visible="false" runat="server" />
                             </div>
                         </ContentTemplate>
@@ -124,7 +127,7 @@
                             <ContentTemplate>
                                 <div class="col">
                                     <label>Código postal</label>
-                                    <asp:TextBox ID="txtCodigoPostal" AutoPostBack="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtCodigoPostal" AutoPostBack="true" CssClass="form-control" runat="server" OnTextChanged="txtCodigoPostal_TextChanged"></asp:TextBox>
                                 </div>
                                 <asp:Label ID="lblCodigoPostal" Visible="false" Text="El código postal ingresado es inválido" runat="server" />
                             </ContentTemplate>
@@ -139,7 +142,7 @@
                             <ContentTemplate>
                                 <div class="col">
                                     <label>Número</label>
-                                    <asp:TextBox ID="txtNumero" AutoPostBack="true" CssClass="form-control" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtNumero" AutoPostBack="true" CssClass="form-control" runat="server" OnTextChanged="txtNumero_TextChanged"></asp:TextBox>
                                 </div>
                                 <asp:Label ID="lblNumero" Visible="false" Text="El numero es inválido." runat="server" />
                             </ContentTemplate>
@@ -166,7 +169,7 @@
                                 <div class="col" style="margin-right: -170px; padding-left: 150px;">
                                     <asp:CheckBox ID="chkPassword" AutoPostBack="true" runat="server" OnCheckedChanged="chkPassword_CheckedChanged"/>
                                 </div>
-                                <div class="col" style="margin-left: -150px;">
+                                <div class="col" style="margin-left: -150px;margin-bottom:-15px;">
                                     <p>Deseo modificar la contraseña.</p>
                                 </div>
                             </div>
@@ -187,7 +190,7 @@
                     </asp:UpdatePanel>
                     <div class="row">
                         <div class="col" style="text-align: center; margin-top: 10px;">
-                            <asp:Button ID="btnAceptar" Text="Aceptar" runat="server" CssClass="btn btn-success" />
+                            <asp:Button ID="btnAceptar" Text="Aceptar" runat="server" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
                         </div>
                     </div>
                 </div>

@@ -68,29 +68,6 @@ namespace Negocio
                 throw ex;
             }
         }
-        public void UsuarioBaja(int ID_Usuario)
-        {
-            try
-            {
-                Datos datos = new Datos();
-                datos.ConfigurarConexion();
-                datos.StoreProcedure("SP_BajaUsuario");
-                //crear store procedure en BBDD
-                datos.AgregarParametro("@IDUsuario", ID_Usuario);
-                datos.ConectarDB();
-                datos.Ejecutar();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                Datos datos = new Datos();
-                datos.ConfigurarConexion();
-                datos.DesconectarDB();
-            }
-        }
         public void UsuarioModificacion(Usuario usuario)
         {
             try
@@ -98,8 +75,7 @@ namespace Negocio
                 Encriptador encriptador = new Encriptador();
                 Datos datos = new Datos();
                 datos.ConfigurarConexion();
-                datos.StoreProcedure("SP_ModificacionUsuario");
-                //crear store procedure en BBDD
+                datos.StoreProcedure("SP_ActualizarUsuario");
                 datos.AgregarParametro("@IDUsuario", usuario.ID_Usuario);
                 datos.AgregarParametro("@Email", usuario.Email);
                 datos.AgregarParametro("@Password", encriptador.Encriptar(usuario.Password));
@@ -116,7 +92,30 @@ namespace Negocio
                 datos.AgregarParametro("@Referencia", usuario.Domicilio.Referencia);
                 datos.AgregarParametro("@IDTipo", usuario.TipoUsuario.ID_Tipo);
                 datos.AgregarParametro("@Telefono", usuario.Telefono);
-                datos.AgregarParametro("@Activo", 1);
+                datos.AgregarParametro("@Activo", usuario.Activo);
+                datos.ConectarDB();
+                datos.Ejecutar();
+            }
+            catch (Exception ex)
+            {
+                    throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void UsuarioBaja(int ID_Usuario)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_BajaUsuario");
+                //crear store procedure en BBDD
+                datos.AgregarParametro("@IDUsuario", ID_Usuario);
                 datos.ConectarDB();
                 datos.Ejecutar();
             }

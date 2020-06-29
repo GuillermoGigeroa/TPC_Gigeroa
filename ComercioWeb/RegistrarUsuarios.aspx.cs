@@ -22,9 +22,15 @@ namespace ComercioWeb
             {
                 if (tipoUsuario == "admin")
                     Session["TipoUsuario" + Session.SessionID] = 1;
+                if (tipoUsuario == "1")
+                    Session["TipoUsuario" + Session.SessionID] = 1;
                 if (tipoUsuario == "seller")
                     Session["TipoUsuario" + Session.SessionID] = 2;
+                if (tipoUsuario == "2")
+                    Session["TipoUsuario" + Session.SessionID] = 2;
                 if (tipoUsuario == "user")
+                    Session["TipoUsuario" + Session.SessionID] = 3;
+                if (tipoUsuario == "3")
                     Session["TipoUsuario" + Session.SessionID] = 3;
             }
         }
@@ -73,13 +79,6 @@ namespace ComercioWeb
                 return false;
             }    
         }
-        protected void txtEmail_TextChanged(object sender, EventArgs e)
-        {
-            if(txtEmail2.Text.Trim() != "")
-            {
-                VerificarMail();
-            }
-        }
         protected void txtEmail2_TextChanged(object sender, EventArgs e)
         {
             VerificarMail();
@@ -106,8 +105,6 @@ namespace ComercioWeb
                 return;
             if (!VerificarCampo(txtNumero))
                 return;
-            if (!VerificarCampo(txtReferencia))
-                return;
             if (!VerificarPassword())
             {
                 lblPassword.Visible = true;
@@ -121,8 +118,10 @@ namespace ComercioWeb
                 return;
             NegocioABM negocio = new NegocioABM();
             Usuario usuario = UsuarioCargado();
-            Session["Usuario" + Session.SessionID] = usuario;
             negocio.UsuarioAlta(usuario);
+            Encriptador encriptador = new Encriptador();
+            usuario.Password = encriptador.Encriptar(usuario.Password);
+            Session["Usuario" + Session.SessionID] = usuario;
             Response.Redirect("Usuarios.aspx?newuser=1");
         }
         public bool VerificarCheck()
@@ -148,9 +147,9 @@ namespace ComercioWeb
             usuario.DNI = Convert.ToInt32(txtDNI.Text);
             usuario.Domicilio.Provincia = ListaProvincias.SelectedValue;
             if (Session["TipoUsuario" + Session.SessionID] != null)
-                usuario.TipoUsuario.ID_Tipo = Convert.ToInt32(Session["TipoUsuario" + Session.SessionID]);
+                usuario.TipoUsuario = BuscarTipo(Convert.ToInt32(Session["TipoUsuario" + Session.SessionID]));
             else
-                usuario.TipoUsuario.ID_Tipo = 3; //Tipo Cliente
+                usuario.TipoUsuario = BuscarTipo(3);//Tipo Cliente
             usuario.Telefono = Convert.ToInt32(txtTelefono.Text);
             usuario.Activo = true;
             usuario.Domicilio.Ciudad = txtCiudad.Text;
@@ -161,6 +160,22 @@ namespace ComercioWeb
             usuario.Domicilio.Departamento = txtDepartamento.Text;
             usuario.Domicilio.Referencia = txtReferencia.Text;
             return usuario;
+        }
+        public TipoUsuario BuscarTipo(int ID_Tipo)
+        {
+            NegocioDatos negocio = new NegocioDatos();
+            List<TipoUsuario> listaTipos = negocio.ListarTipos();
+            foreach(TipoUsuario tipo in listaTipos)
+            {
+                if(tipo.ID_Tipo == ID_Tipo)
+                {
+                    return tipo;
+                }
+            }
+            TipoUsuario tipoDesconocido = new TipoUsuario();
+            tipoDesconocido.ID_Tipo = 3;
+            tipoDesconocido.Nombre = "Cliente";
+            return tipoDesconocido;
         }
         public bool ContieneSoloNumeros(TextBox txtCaja)
         {

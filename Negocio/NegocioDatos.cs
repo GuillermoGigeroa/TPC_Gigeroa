@@ -339,5 +339,40 @@ namespace Negocio
                 datos.DesconectarDB();
             }
         }
+        public List<TipoUsuario> ListarTipos()
+        {
+            List<TipoUsuario> lista = new List<TipoUsuario>();
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.Query("Select * from VW_Tipos");
+                datos.ConectarDB();
+                datos.PrepararLector();
+                SqlDataReader datosLeidos;
+                TipoUsuario tipo;
+                while (datos.Leer())
+                {
+                    tipo = new TipoUsuario();
+                    datosLeidos = datos.Lectura();
+                    if (!Convert.IsDBNull(datosLeidos["ID_Tipo"]))
+                        tipo.ID_Tipo = Convert.ToInt32(datosLeidos["ID_Tipo"]);
+                    if (!Convert.IsDBNull(datosLeidos["Nombre"]))
+                        tipo.Nombre = Convert.ToString(datosLeidos["Nombre"]);
+                    lista.Add(tipo);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
     }
 }
