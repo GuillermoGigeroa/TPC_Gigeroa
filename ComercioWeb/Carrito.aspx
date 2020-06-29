@@ -27,15 +27,42 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Catalogo.aspx">Catálogo</a>
                         </li>
+                        <%if (!HayUsuarioActivo)
+                            {%>
                         <li class="nav-item dropdown">
                             <div>
-                                <a class="nav-link dropdown-toggle" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdownUsuariosNoUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownUsuariosNoUser">
                                     <a class="dropdown-item" href="IniciarSesion.aspx">Iniciar sesión</a>
                                     <a class="dropdown-item" href="RegistrarUsuarios.aspx">Registrarse</a>
                                 </div>
                             </div>
                         </li>
+                        <%}
+                        else
+                          {%>
+                        <li class="nav-item dropdown">
+                            <div>
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 1)
+                                      {%>
+                                        <a class="dropdown-item" href="Administrador.aspx">Configuraciones de <%=Usuario.TipoUsuario.Nombre%></a>
+                                    <%}%>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2)
+                                      {%>
+                                        <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de <%=Usuario.TipoUsuario.Nombre%></a>
+                                    <%}%>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 3)
+                                      {%>
+                                        <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
+                                    <%}%>
+                                    <a class="dropdown-item" href="ModificarUsuario.aspx">Modificar datos personales</a>
+                                    <a class="dropdown-item" href="Index.aspx?logout=true">Cerrar Sesión</a>
+                                </div>
+                            </div>
+                        </li>
+                        <%}%>
                         <li class="nav-item active Activo" style="width:150px;">
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>
                         </li>

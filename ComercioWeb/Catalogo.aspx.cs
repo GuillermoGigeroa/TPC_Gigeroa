@@ -15,9 +15,13 @@ namespace ComercioWeb
         public List<Marca> ListaMarcas { get; set; }
         public List<Categoria> ListaCategorias { get; set; }
         public NegocioDatos Negocio { get; set; }
+        public Usuario Usuario { get; set; }
+        public bool HayUsuarioActivo { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            HayUsuarioActivo = false;
             Session.Timeout = 30; //Defino un tiempo de Timeout de 30 minutos de la Session
+            Usuario = new Usuario();
             Negocio = new NegocioDatos();
             CargarArticulos(Negocio);
             CargarMarcas(Negocio);
@@ -28,6 +32,11 @@ namespace ComercioWeb
             string filtroMarca = Request.QueryString["fmar"];
             if (filtroMarca != null)
                 FiltrarPorMarca(filtroMarca);
+            if(Session["Usuario"+Session.SessionID] != null)
+            {
+                HayUsuarioActivo = true;
+                Usuario = (Usuario)Session["Usuario" + Session.SessionID];
+            }
         }
         private void CargarArticulos(NegocioDatos Negocio)
         {
