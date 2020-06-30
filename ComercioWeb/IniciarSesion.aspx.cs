@@ -14,8 +14,10 @@ namespace ComercioWeb
     {
         public Encriptador Encriptador { get; set; }
         public List<Usuario> ListaUsuarios { get; set; }
+        public Dominio.Carrito Carrito { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Timeout = 60;
             Encriptador = new Encriptador();
             NegocioDatos negocio = new NegocioDatos();
             ListaUsuarios = negocio.ListarUsuarios();
@@ -30,6 +32,14 @@ namespace ComercioWeb
                     lblLogin.Visible = true;
                 else
                     lblLogin.Visible = false;
+            }
+            if (Session["Carrito" + Session.SessionID] != null)
+            {
+                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
+            }
+            else
+            {
+                Carrito = new Dominio.Carrito();
             }
         }
         protected void btnAceptar_Click(object sender, EventArgs e)

@@ -11,9 +11,19 @@ namespace ComercioWeb
     public partial class Vendedor : System.Web.UI.Page
     {
         public Usuario Usuario { get; set; }
+        public Dominio.Carrito Carrito { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Timeout = 60;
             VerificarVendedor();
+            if (Session["Carrito" + Session.SessionID] != null)
+            {
+                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
+            }
+            else
+            {
+                Carrito = new Dominio.Carrito();
+            }
         }
         public void VerificarVendedor()
         {

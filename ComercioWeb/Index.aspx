@@ -63,8 +63,15 @@
                             </div>
                         </li>
                         <%}%>
-                        <li class="nav-item" style="width: 150px;">
-                            <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>
+                        <li class="nav-item" style="width:200px;">
+                            <%if (Carrito.ListaElementos.Count() != 0)
+                              {%>
+                            <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>) - $<%=Carrito.PrecioTotal()%></a>
+                            <%}
+                              else
+                              {%>
+                            <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>)</a>
+                            <%}%>
                         </li>
                         <li class="nav-item" style="padding-left: 125px;"></li>
                     </ul>

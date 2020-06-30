@@ -13,10 +13,6 @@ namespace Dominio
         }
         public int ID_Elemento { get; set; }
         public Articulo Articulo { get; set; }
-        public double Cantidad { get; set; }
-        public double Precio()
-        {
-            return Articulo.Precio * Cantidad;
-        }
+        public int Cantidad { get; set; }
     }
 }

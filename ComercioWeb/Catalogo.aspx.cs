@@ -17,11 +17,13 @@ namespace ComercioWeb
         public NegocioDatos Negocio { get; set; }
         public Usuario Usuario { get; set; }
         public bool HayUsuarioActivo { get; set; }
+        public Dominio.Carrito Carrito { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Timeout = 60;
             HayUsuarioActivo = false;
-            Session.Timeout = 30; //Defino un tiempo de Timeout de 30 minutos de la Session
             Usuario = new Usuario();
+            Carrito = new Dominio.Carrito();
             Negocio = new NegocioDatos();
             CargarArticulos(Negocio);
             CargarMarcas(Negocio);
@@ -37,6 +39,31 @@ namespace ComercioWeb
                 HayUsuarioActivo = true;
                 Usuario = (Usuario)Session["Usuario" + Session.SessionID];
             }
+            CargarAlCarrito();
+        }
+        public void CargarAlCarrito()
+        {
+            if(Session["Carrito"+Session.SessionID] != null)
+            {
+                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
+            }
+            string ID_Articulo = Request.QueryString["idArt"];
+            string Cantidad = Request.QueryString["cant"];
+            if (ID_Articulo != null)
+            {
+                foreach (Articulo articulo in ListaArticulos)
+                {
+                    if (articulo.ID_Articulo == Convert.ToInt32(ID_Articulo))
+                    {
+                        if (Cantidad != null)
+                            Carrito.AgregarArticulo(articulo, Convert.ToInt32(Cantidad));
+                        else
+                            Carrito.AgregarArticulo(articulo, 1);
+                        break;
+                    }
+                }
+            }
+            Session["Carrito" + Session.SessionID] = Carrito;
         }
         private void CargarArticulos(NegocioDatos Negocio)
         {

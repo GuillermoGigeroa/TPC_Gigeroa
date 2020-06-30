@@ -12,8 +12,10 @@ namespace ComercioWeb
 {
     public partial class RegistrarUsuarios : System.Web.UI.Page
     {
+        public Dominio.Carrito Carrito { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Timeout = 60;
             NegocioDatos negocio = new NegocioDatos();
             ListaProvincias.DataSource = negocio.ListarProvincias();
             ListaProvincias.DataBind();
@@ -32,6 +34,14 @@ namespace ComercioWeb
                     Session["TipoUsuario" + Session.SessionID] = 3;
                 if (tipoUsuario == "3")
                     Session["TipoUsuario" + Session.SessionID] = 3;
+            }
+            if (Session["Carrito" + Session.SessionID] != null)
+            {
+                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
+            }
+            else
+            {
+                Carrito = new Dominio.Carrito();
             }
         }
         public bool VerificarMail()

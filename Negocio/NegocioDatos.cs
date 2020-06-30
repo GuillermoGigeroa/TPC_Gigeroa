@@ -12,13 +12,17 @@ namespace Negocio
     {
         public List<Articulo> ListarArticulos()
         {
-            List<Articulo> listado = ListarArticulosSinCategorias();
-            //Se debe cargar la lista de categorías por cada artículo
-            foreach (var articulo in listado)
+            try
             {
-                articulo.Categorias = BuscarCategorias(articulo.ID_Articulo);
+                List<Articulo> listado = ListarArticulosSinCategorias();
+                foreach (Articulo articulo in listado)
+                    articulo.Categorias = BuscarCategorias(articulo.ID_Articulo);
+                return listado;
             }
-            return listado;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private List<Articulo> ListarArticulosSinCategorias()
         {

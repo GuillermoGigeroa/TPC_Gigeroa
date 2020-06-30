@@ -15,8 +15,10 @@ namespace ComercioWeb
     public partial class ModificarUsuario : System.Web.UI.Page
     {
         public Usuario Usuario { get; set; }
+        public Dominio.Carrito Carrito { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Timeout = 60;
             VerificarUsuario();
             if(!IsPostBack)
             {
@@ -29,6 +31,14 @@ namespace ComercioWeb
             if(Actualizado != null)
             {
                 lblActualizado.Visible = true;
+            }
+            if (Session["Carrito" + Session.SessionID] != null)
+            {
+                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
+            }
+            else
+            {
+                Carrito = new Dominio.Carrito();
             }
         }
         public void VerificarUsuario()
@@ -176,6 +186,7 @@ namespace ComercioWeb
         public void ActualizarUsuario()
         {
             Usuario Actualizacion = new Usuario();
+            Encriptador encriptador = new Encriptador();
             if(txtEmail.Text.Trim() != "")
                 Actualizacion.Email = txtEmail.Text;
             else
@@ -183,7 +194,7 @@ namespace ComercioWeb
             if(txtPassword.Text.Trim() != "")
                 Actualizacion.Password = txtPassword.Text;
             else
-                Actualizacion.Password = Usuario.Password;
+                Actualizacion.Password = encriptador.Desencriptar(Usuario.Password);
             Actualizacion.ID_Usuario = Usuario.ID_Usuario;
             Actualizacion.Nombres = txtNombre.Text;
             Actualizacion.Apellidos = txtApellido.Text;
@@ -203,7 +214,6 @@ namespace ComercioWeb
             Actualizacion.ListaFavoritos = Usuario.ListaFavoritos;
             NegocioABM negocioABM = new NegocioABM();
             negocioABM.UsuarioModificacion(Actualizacion);
-            Encriptador encriptador = new Encriptador();
             Actualizacion.Password = encriptador.Encriptar(Actualizacion.Password);
             Session["Usuario" + Session.SessionID] = Actualizacion;
         }

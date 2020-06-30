@@ -13,8 +13,10 @@ namespace ComercioWeb
     {
         public Usuario Usuario { get; set; }
         public bool HayUsuarioActivo { get; set; }
+        public Dominio.Carrito Carrito { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Timeout = 60;
             HayUsuarioActivo = false;
             Usuario = new Usuario();
             NegocioDatos negocio = new NegocioDatos();
@@ -30,6 +32,14 @@ namespace ComercioWeb
             {
                 HayUsuarioActivo = true;
                 Usuario = (Usuario)Session["Usuario" + Session.SessionID];
+            }
+            if (Session["Carrito" + Session.SessionID] != null)
+            {
+                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
+            }
+            else
+            {
+                Carrito = new Dominio.Carrito();
             }
         }
     }

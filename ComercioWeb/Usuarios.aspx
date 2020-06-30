@@ -48,15 +48,21 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item" style="width:150px;">
-                            <a class="nav-link" href="Carrito.aspx">Mi carrito (0)</a>
+                        <li class="nav-item" style="width:200px;">
+                            <%if (Carrito.ListaElementos.Count() != 0)
+                              {%>
+                            <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>) - $<%=Carrito.PrecioTotal()%></a>
+                            <%}
+                              else
+                              {%>
+                            <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>)</a>
+                            <%}%>
                         </li>
                     </ul>
                 </div>
             </nav>
             <div class="jumbotron">
                 <h1 style="text-align:center;">¡Bienvenido <%=Usuario.Nombres%> <%=Usuario.Apellidos%>!</h1>
-                <h2 style="text-align:center;">Tipo de usuario: <%=Usuario.TipoUsuario.Nombre%></h2>
             </div>
         </div>
     </form>
