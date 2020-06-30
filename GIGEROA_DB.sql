@@ -416,9 +416,5 @@ Begin
 	End catch
 End
 go
-select * from VW_UsuariosCompletos
-Update Usuarios
-set Contra = 's'
-where IDUsuario = 3
 --Crear un Store Procedure que permita agregar un artículo y automáticamente agregarle una categoría a Articulos_x_Categoria
 --Agregar un Store Procedure que permita agregar una categoría más a un artículo
