@@ -19,8 +19,8 @@ namespace ComercioWeb
         {
             Session.Timeout = 60;
             HayUsuarioActivo = ExisteUsuario();
-            CargarImagenes();
             VerificarLogout();
+            CargarImagenes();
             VerificarCarrito();
         }
         public void CargarImagenes()
@@ -38,7 +38,10 @@ namespace ComercioWeb
             if (Logout != null)
             {
                 if (Logout == "true")
+                {
                     Session["Usuario" + Session.SessionID] = null;
+                    Response.Redirect("IniciarSesion.aspx");
+                }
             }
         }
         public bool ExisteUsuario()

@@ -33,11 +33,11 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 1)
                                       {%>
-                                        <a class="dropdown-item" href="Administrador.aspx">Configuraciones de <%=Usuario.TipoUsuario.Nombre%></a>
+                                        <a class="dropdown-item" href="Administrador.aspx">Configuraciones de administrador</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2)
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2 || Usuario.TipoUsuario.ID_Tipo == 1)
                                       {%>
-                                        <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de <%=Usuario.TipoUsuario.Nombre%></a>
+                                        <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
                                     <%}%>
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 3)
                                       {%>

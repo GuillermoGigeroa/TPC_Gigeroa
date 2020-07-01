@@ -69,6 +69,7 @@ Create table Articulos (
 	ImagenURL varchar(1000) not null,
 	Activo bit default 1,
 	Precio decimal(18,2) not null,
+	Stock bigint default 1 not null,
 )
 go
 Create table Articulos_x_Categoria (
@@ -158,7 +159,7 @@ insert into Tipos (Nombre, Identificador)
 values ('Cliente',3)
 go
 insert into Usuarios (Email, Contra, Nombres, Apellidos, DNI, IDTipo, Telefono)
-values ('guillermo.gigeroa@hotmail.com','ssgrggonqpv_','Guillermo Adrián', 'Gigeroa', 39112399, 1, 1169221781)
+values ('guillermo.gigeroa@hotmail.com','s','Guillermo Adrián', 'Gigeroa', 39112399, 1, 1169221781)
 go
 insert into Domicilios (IDProvincia, IDUsuario, Ciudad, CP, Calle, Numero, Piso, Depto, Referencia)
 values (1,1,'Belén de escobar',1625,'Rivadavia',631,'PA','E','Entre un negocio de cosas de bebés y un local de videojuegos')
@@ -454,6 +455,78 @@ Begin
 	Begin catch  
 		Rollback transaction
 		Raiserror('Error al agregar categoria al articulo',16,2)
+	End catch
+End
+go
+create procedure SP_AgregarCategoria(
+	@Nombre varchar(50)
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			insert into Categorias(Nombre, Identificador)
+			values (@Nombre, (select top 1 Identificador from Categorias order by Identificador desc)+1)
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al agregar categoria nueva',16,2)
+	End catch
+End
+go
+create procedure SP_AgregarMarca(
+	@Nombre varchar(50)
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			insert into Marcas(Nombre, Identificador)
+			values (@Nombre, (select top 1 Identificador from Marcas order by Identificador desc)+1)
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al agregar marca nueva',16,2)
+	End catch
+End
+go
+create procedure SP_BajaCategoria(
+	@IDCategoria bigint,
+	@Activo bit
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			Update Categorias
+			Set Activo = @Activo
+			Where IDCategoria = @IDCategoria
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al dar de baja la categoria',16,2)
+	End catch
+End
+go
+create procedure SP_BajaMarca(
+	@IDMarca bigint,
+	@Activo bit
+)
+as
+Begin
+	Begin try	
+		BEGIN transaction
+			Update Marcas
+			Set Activo = @Activo
+			Where IDMarca = @IDMarca
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al dar de baja la marca',16,2)
 	End catch
 End
 go

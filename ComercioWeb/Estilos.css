@@ -45,8 +45,10 @@
 }
 .LineaPunteada {
     border-top: dashed;
-    border-color: black;
-    border-width:2px;
+    border-color: RGB(119,74,119);
+    border-width: 2px;
+    padding-top:5px;
+    padding-bottom:5px;
 }
 .ImagenSlide {
     width: auto;
@@ -62,4 +64,11 @@ h3 {
     text-align:center;
     padding-top:10px;
     color: RGB(179,134,179);
+}
+.ListaDesplegable {
+    width:250px;
+}
+.ColumnaVendedor {
+    padding-top: 10px;
+    width: 500px;
 }
