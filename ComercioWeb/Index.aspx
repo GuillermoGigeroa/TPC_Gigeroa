@@ -73,7 +73,12 @@
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>)</a>
                             <%}%>
                         </li>
-                        <li class="nav-item" style="padding-left: 125px;"></li>
+                        <li>
+                            <%if (HayUsuarioActivo)
+                              {%>
+                              <a class="nav-link" style="padding-left:575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                            <%}%>
+                        </li>
                     </ul>
                 </div>
             </nav>

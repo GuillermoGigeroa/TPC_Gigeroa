@@ -73,9 +73,17 @@
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=MiCarrito.Cantidad()%>)</a>
                             <%}%>
                         </li>
+                        <li>
+                            <%if (HayUsuarioActivo)
+                              {%>
+                              <a class="nav-link" style="padding-left:575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                            <%}%>
+                        </li>
                     </ul>
                 </div>
             </nav>
+        </div>
+        <div class="container" style="padding-bottom: 30px;">
         </div>
         <div class="container">
             <div class="card-columns" style="margin-left: 0px; margin-right: 0px; width: 800px;">
@@ -98,10 +106,10 @@
                             <div class="container" style="text-align: center; padding-bottom: 15px; margin-top: -20px;">
                                 <div class="row">
                                     <div class="col">
-                                        <a href="Carrito.aspx?comprar=<%#Eval("ID_Elemento")%>" class="btn btn-success">Comprar</a>
+                                        <a href="Carrito.aspx?comprar=<%#Eval("ID_Elemento")%>" class="btn btn-success BotonAgregar">Comprar</a>
                                     </div>
                                     <div class="col">
-                                        <a href="Carrito.aspx?eliminar=<%#Eval("ID_Elemento")%>" class="btn btn-danger">Eliminar</a>
+                                        <a href="Carrito.aspx?eliminar=<%#Eval("ID_Elemento")%>" class="btn btn-danger BotonAgregar">Eliminar</a>
                                     </div>
                                 </div>
                             </div>

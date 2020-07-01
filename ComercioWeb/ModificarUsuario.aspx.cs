@@ -16,22 +16,47 @@ namespace ComercioWeb
     {
         public Usuario Usuario { get; set; }
         public Dominio.Carrito Carrito { get; set; }
+        public bool HayUsuarioActivo { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Timeout = 60;
+            HayUsuarioActivo = ExisteUsuario();
             VerificarUsuario();
-            if(!IsPostBack)
+            CargarInformacion();
+            VerificarChanged();
+            VerificarCarrito();
+        }
+        public bool ExisteUsuario()
+        {
+            Usuario = new Usuario();
+            if (Session["Usuario" + Session.SessionID] != null)
+            {
+                Usuario = (Usuario)Session["Usuario" + Session.SessionID];
+                return true;
+            }
+            return false;
+        }
+        public void CargarInformacion()
+        {
+            if (!IsPostBack)
             {
                 NegocioDatos negocio = new NegocioDatos();
                 ListaProvincias.DataSource = negocio.ListarProvincias();
                 ListaProvincias.DataBind();
                 CargarDatos();
             }
+        }
+        public void VerificarChanged()
+        {
             string Actualizado = Request.QueryString["changed"];
-            if(Actualizado != null)
+            if (Actualizado != null)
             {
                 lblActualizado.Visible = true;
             }
+            VerificarCarrito();
+        }
+        public void VerificarCarrito()
+        {
             if (Session["Carrito" + Session.SessionID] != null)
             {
                 Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];

@@ -12,10 +12,26 @@ namespace ComercioWeb
     {
         public Usuario Usuario { get; set; }
         public Dominio.Carrito Carrito { get; set; }
+        public bool HayUsuarioActivo { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Timeout = 60;
+            HayUsuarioActivo = ExisteUsuario();
             VerificarUsuario();
+            VerificarCarrito();
+        }
+        public bool ExisteUsuario()
+        {
+            Usuario = new Usuario();
+            if (Session["Usuario" + Session.SessionID] != null)
+            {
+                Usuario = (Usuario)Session["Usuario" + Session.SessionID];
+                return true;
+            }
+            return false;
+        }
+        public void VerificarCarrito()
+        {
             if (Session["Carrito" + Session.SessionID] != null)
                 Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
             else

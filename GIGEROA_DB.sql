@@ -269,7 +269,6 @@ select A.Identificador as [ID_Articulo], A.Nombre, M.Identificador as [ID_Marca]
 from Articulos as A
 inner join Marcas as M on A.IDMarca = M.IDMarca
 go
--- Busca con un SP, con el Identificador de Articulo, las categorías del mismo
 create procedure SP_BuscarCategoriasDelArticulo (
 	@Identificador bigint
 )
@@ -416,5 +415,45 @@ Begin
 	End catch
 End
 go
---Crear un Store Procedure que permita agregar un artículo y automáticamente agregarle una categoría a Articulos_x_Categoria
---Agregar un Store Procedure que permita agregar una categoría más a un artículo
+create procedure SP_AgregarArticulo(
+	@IDMarca bigint,
+	@IDCategoria bigint,
+	@Nombre varchar(150),
+	@Descripcion varchar(150),
+	@EsMateriaPrima bit,
+	@ImagenURL varchar(1000),
+	@Precio decimal(18,2)
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			insert into Articulos (IDMarca, Identificador, Nombre, Descripcion, EsMateriaPrima, ImagenURL, Precio)
+			values (@IDMarca,(select top 1 Identificador from Articulos order by Identificador desc)+1,@Nombre,@Descripcion,@EsMateriaPrima,@ImagenURL,@Precio)
+			insert into Articulos_x_Categoria (IDArticulo,IDCategoria)
+			values ((select top 1 IDArticulo from Articulos order by IDArticulo desc),@IDCategoria)
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al agregar el articulo',16,2)
+	End catch
+End
+go
+create procedure SP_AgregarCategoriaAlUltimoArticulo(
+	@IDCategoria bigint
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			insert into Articulos_x_Categoria (IDArticulo,IDCategoria)
+			values ((select top 1 IDArticulo from Articulos order by IDArticulo desc),@IDCategoria)
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al agregar categoria al articulo',16,2)
+	End catch
+End
+go

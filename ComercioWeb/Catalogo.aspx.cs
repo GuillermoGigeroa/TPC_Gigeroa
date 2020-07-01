@@ -21,49 +21,64 @@ namespace ComercioWeb
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Timeout = 60;
-            HayUsuarioActivo = false;
-            Usuario = new Usuario();
             Carrito = new Dominio.Carrito();
             Negocio = new NegocioDatos();
+            HayUsuarioActivo = ExisteUsuario();
             CargarArticulos(Negocio);
             CargarMarcas(Negocio);
             CargarCategorias(Negocio);
+            AnalizarFiltros();
+            CargarAlCarrito();
+        }
+        public bool ExisteUsuario()
+        {
+            Usuario = new Usuario();
+            if (Session["Usuario" + Session.SessionID] != null)
+            {
+                Usuario = (Usuario)Session["Usuario" + Session.SessionID];
+                return true;
+            }
+            return false;
+        }
+        public void AnalizarFiltros()
+        {
             string filtroCategoria = Request.QueryString["fcat"];
             if (filtroCategoria != null)
                 FiltrarPorCategoria(filtroCategoria);
             string filtroMarca = Request.QueryString["fmar"];
             if (filtroMarca != null)
                 FiltrarPorMarca(filtroMarca);
-            if(Session["Usuario"+Session.SessionID] != null)
-            {
-                HayUsuarioActivo = true;
-                Usuario = (Usuario)Session["Usuario" + Session.SessionID];
-            }
-            CargarAlCarrito();
         }
         public void CargarAlCarrito()
         {
-            if(Session["Carrito"+Session.SessionID] != null)
+            try
             {
-                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
-            }
-            string ID_Articulo = Request.QueryString["idArt"];
-            string Cantidad = Request.QueryString["cant"];
-            if (ID_Articulo != null)
-            {
-                foreach (Articulo articulo in ListaArticulos)
+                if (Session["Carrito" + Session.SessionID] != null)
                 {
-                    if (articulo.ID_Articulo == Convert.ToInt32(ID_Articulo))
+                    Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
+                }
+                string ID_Articulo = Request.QueryString["idArt"];
+                string Cantidad = Request.QueryString["cant"];
+                if (ID_Articulo != null)
+                {
+                    foreach (Articulo articulo in ListaArticulos)
                     {
-                        if (Cantidad != null)
-                            Carrito.AgregarArticulo(articulo, Convert.ToInt32(Cantidad));
-                        else
-                            Carrito.AgregarArticulo(articulo, 1);
-                        break;
+                        if (articulo.ID_Articulo == Convert.ToInt32(ID_Articulo))
+                        {
+                            if (Cantidad != null)
+                                Carrito.AgregarArticulo(articulo, Convert.ToInt32(Cantidad));
+                            else
+                                Carrito.AgregarArticulo(articulo, 1);
+                            break;
+                        }
                     }
                 }
+                Session["Carrito" + Session.SessionID] = Carrito;
             }
-            Session["Carrito" + Session.SessionID] = Carrito;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private void CargarArticulos(NegocioDatos Negocio)
         {
@@ -72,6 +87,7 @@ namespace ComercioWeb
                 ListaArticulos = Negocio.ListarArticulos();
                 rptListaArticulos.DataSource = ListaArticulos;
                 rptListaArticulos.DataBind();
+
             }
             catch (Exception ex)
             {
@@ -111,9 +127,9 @@ namespace ComercioWeb
                 List<Articulo> ListaFiltrada = new List<Articulo>();
                 foreach (Articulo Articulo in ListaArticulos)
                 {
-                    foreach(Categoria Categoria in Articulo.Categorias)
+                    foreach (Categoria Categoria in Articulo.Categorias)
                     {
-                        if(Categoria.ID_Categoria == Convert.ToInt32(idCategoria))
+                        if (Categoria.ID_Categoria == Convert.ToInt32(idCategoria))
                         {
                             ListaFiltrada.Add(Articulo);
                         }
@@ -143,10 +159,6 @@ namespace ComercioWeb
         }
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            /*
-            Verificar, porque al presionar enter la caja busca,
-            pero al presionar el botón necesita un refresh
-            */
             try
             {
                 List<Articulo> listaFiltrada;
@@ -163,5 +175,4 @@ namespace ComercioWeb
             }
         }
     }
-
 }
