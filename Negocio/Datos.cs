@@ -17,6 +17,7 @@ namespace Negocio
             conexion = new SqlConnection();
             comando = new SqlCommand();
             comando.Connection = conexion;
+            comando.CommandTimeout = 900;
         }
         public void ConfigurarConexion()
         {

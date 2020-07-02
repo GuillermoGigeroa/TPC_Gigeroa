@@ -72,6 +72,7 @@
     <Content Include="Carrito.aspx" />
     <Content Include="Catalogo.aspx" />
     <Content Include="Estilos.css" />
+    <Content Include="GraciasPorSuCompra.aspx" />
     <Content Include="Index.aspx" />
     <Content Include="IniciarSesion.aspx" />
     <Content Include="MiUsuario.aspx" />
@@ -110,6 +111,13 @@
     </Compile>
     <Compile Include="Catalogo.aspx.designer.cs">
       <DependentUpon>Catalogo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GraciasPorSuCompra.aspx.cs">
+      <DependentUpon>GraciasPorSuCompra.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GraciasPorSuCompra.aspx.designer.cs">
+      <DependentUpon>GraciasPorSuCompra.aspx</DependentUpon>
     </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>

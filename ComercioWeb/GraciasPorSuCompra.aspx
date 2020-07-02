@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="IniciarSesion.aspx.cs" Inherits="ComercioWeb.IniciarSesion" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="GraciasPorSuCompra.aspx.cs" Inherits="ComercioWeb.GraciasPorSuCompra" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Iniciar sesión</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Gracias por su compra</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -14,6 +14,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,8 +32,20 @@
                             <div>
                                 <a class="nav-link dropdown-toggle active Activo" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
-                                    <a class="dropdown-item" href="IniciarSesion.aspx">Iniciar sesión</a>
-                                    <a class="dropdown-item" href="RegistrarUsuarios.aspx">Registrarse</a>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 1)
+                                      {%>
+                                    <a class="dropdown-item" href="Administrador.aspx">Configuraciones de administrador</a>
+                                    <%}%>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2  || Usuario.TipoUsuario.ID_Tipo == 1)
+                                      {%>
+                                    <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
+                                    <%}%>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 3)
+                                      {%>
+                                    <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
+                                    <%}%>
+                                    <a class="dropdown-item" href="ModificarUsuario.aspx">Modificar datos personales</a>
+                                    <a class="dropdown-item" href="Index.aspx?logout=true">Cerrar Sesión</a>
                                 </div>
                             </div>
                         </li>
@@ -46,26 +59,20 @@
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>)</a>
                             <%}%>
                         </li>
+                        <li>
+                            <%if (HayUsuarioActivo)
+                              {%>
+                              <a class="nav-link" style="padding-left:575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                            <%}%>
+                        </li>
                     </ul>
                 </div>
             </nav>
-            <h3>Iniciar sesión</h3>
-            <div style="text-align:center;">
-                <asp:Label ID="lblErrorCompra" Text="Antes de comprar, debes iniciar sesión o registrarte." Visible="false" runat="server" />
-            </div>
-            <div class="jumbotron CentrarJumbo">
-                <div class="form-group">
-                    <label>Email</label>
-                    <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server"></asp:TextBox>
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <asp:TextBox ID="txtPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
-                </div>
-                <asp:Label ID="lblLogin" Visible="false" Text="Combinación de usuario y contraseña son incorrectos." runat="server" />
-                <div style="text-align: center;">
-                    <asp:Button ID="btnAceptar" Text="Iniciar sesión" CssClass="btn btn-light" runat="server" OnClick="btnAceptar_Click"/>
-                </div>
+            <div class="jumbotron">
+                <h1 style="text-align:center;">¡Muchas gracias por su compra</h1>
+                <h1 style="text-align:center;"><%=Usuario.Nombres%> <%=Usuario.Apellidos%>!</h1>
+                <h3>En breve se comunicarán con usted para ultimar los detalles.</h3>
+                <h3>Recuerde que su factura es la que tiene numeración: <%=NumeroFactura%></h3>
             </div>
         </div>
     </form>

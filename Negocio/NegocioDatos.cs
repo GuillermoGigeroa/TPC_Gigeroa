@@ -534,5 +534,38 @@ namespace Negocio
                 datos.DesconectarDB();
             }
         }
+        public int CrearFactura()
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_CrearFactura");
+                datos.ConectarDB();
+                datos.Ejecutar();
+                datos.DesconectarDB();
+                datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.Query("Select * from VW_UltimaFactura");
+                datos.ConectarDB();
+                datos.PrepararLector();
+                datos.Leer();
+                SqlDataReader datosLeidos = datos.Lectura();
+                int NumeroFactura = 0;
+                if (!Convert.IsDBNull(datosLeidos["Numero"]))
+                    NumeroFactura = Convert.ToInt32(datosLeidos["Numero"]);
+                return NumeroFactura;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
     }
 }

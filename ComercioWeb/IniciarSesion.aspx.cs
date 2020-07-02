@@ -21,11 +21,30 @@ namespace ComercioWeb
             Encriptador = new Encriptador();
             NegocioDatos negocio = new NegocioDatos();
             ListaUsuarios = negocio.ListarUsuarios();
-            //Pasar todo a metodos
+            VerificarCompra();
+            VerificarLogin();
+            VerificarCarrito();
+        }
+        public void VerificarCompra()
+        {
+            string comprar = Request.QueryString["comprar"];
+            if (comprar != null)
+            {
+                if (comprar == "false")
+                    lblErrorCompra.Visible = true;
+                else
+                    lblErrorCompra.Visible = false;
+            }
+        }
+        public void VerificarUsuario()
+        {
             if (Session["Usuario" + Session.SessionID] != null)
             {
                 Response.Redirect("Usuarios.aspx");
             }
+        }
+        public void VerificarLogin()
+        {
             string login = Request.QueryString["login"];
             if (login != null)
             {
@@ -34,6 +53,9 @@ namespace ComercioWeb
                 else
                     lblLogin.Visible = false;
             }
+        }
+        public void VerificarCarrito()
+        {
             if (Session["Carrito" + Session.SessionID] != null)
             {
                 Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];

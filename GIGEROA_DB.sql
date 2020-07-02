@@ -615,3 +615,28 @@ Begin
 	End catch
 End
 go
+Create table Facturas (
+	Numero bigint identity(1,1) primary key,
+	Pago bit default 1 not null,
+)
+go
+create procedure SP_CrearFactura
+as
+Begin
+	Begin try
+		BEGIN transaction
+			insert into Facturas (Pago)
+			values (1)
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al crear la factura',16,2)
+	End catch
+End
+go
+create view VW_UltimaFactura
+as
+select top 1 Numero from Facturas
+order by Numero desc
+go

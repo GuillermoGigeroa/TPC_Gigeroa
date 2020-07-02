@@ -21,6 +21,7 @@ namespace ComercioWeb
             VerificarEliminaciones();
             rptListaArticulosEnCarrito.DataSource = MiCarrito.ListaElementos;
             rptListaArticulosEnCarrito.DataBind();
+            VerificarCompra();
         }
         public void VerificarCarrito()
         {
@@ -28,6 +29,36 @@ namespace ComercioWeb
                 MiCarrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
             else
                 MiCarrito = new Dominio.Carrito();
+        }
+        public void VerificarCompra()
+        {
+            if (ExisteUsuario())
+            {
+                string comprar = Request.QueryString["comprar"];
+                if (comprar != null)
+                {
+                    //Compra de mentira, se debe hacer todo el resto
+                    List<ElementoCarrito> lista = new List<ElementoCarrito>();
+                    if (comprar != "todos")
+                    {
+                        if (EsNumero(comprar))
+                        {
+                            foreach (ElementoCarrito elemento in MiCarrito.ListaElementos)
+                            {
+                                if (elemento.ID_Elemento != Convert.ToInt32(comprar))
+                                    lista.Add(elemento);
+                            }
+                        }
+                    }
+                    MiCarrito.ListaElementos = lista;
+                    Session["Carrito" + Session.SessionID] = MiCarrito;
+                    Response.Redirect("GraciasPorSuCompra.aspx?compra=true");
+                }
+            }
+            else
+            {
+                Response.Redirect("IniciarSesion.aspx?comprar=false");
+            }
         }
         public bool ExisteUsuario()
         {
@@ -45,13 +76,13 @@ namespace ComercioWeb
             if (eliminar != null)
             {
                 List<ElementoCarrito> lista = new List<ElementoCarrito>();
-                if(eliminar != "todos")
+                if (eliminar != "todos")
                 {
-                    if(EsNumero(eliminar))
+                    if (EsNumero(eliminar))
                     {
-                        foreach(ElementoCarrito elemento in MiCarrito.ListaElementos)
+                        foreach (ElementoCarrito elemento in MiCarrito.ListaElementos)
                         {
-                            if(elemento.ID_Elemento != Convert.ToInt32(eliminar))
+                            if (elemento.ID_Elemento != Convert.ToInt32(eliminar))
                                 lista.Add(elemento);
                         }
                     }
