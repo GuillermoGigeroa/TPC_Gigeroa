@@ -169,7 +169,7 @@ namespace Negocio
                 datos.AgregarParametro("@Nombre", articulo.Nombre);
                 datos.AgregarParametro("@Descripcion", articulo.Descripcion);
                 datos.AgregarParametro("@EsMateriaPrima", articulo.EsMateriaPrima);
-                datos.AgregarParametro("@URL_Imagen", articulo.URL_Imagen);
+                datos.AgregarParametro("@ImagenURL", articulo.URL_Imagen);
                 datos.AgregarParametro("@Precio", articulo.Precio);
                 datos.ConectarDB();
                 datos.Ejecutar();

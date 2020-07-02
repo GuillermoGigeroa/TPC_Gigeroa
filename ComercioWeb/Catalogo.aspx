@@ -121,7 +121,7 @@
         <div class="container" style="padding-bottom: 30px;">
         </div>
         <div class="container">
-            <div class="card-columns" style="margin-left: 0px; margin-right: 0px; width: 800px;">
+            <div class="card-columns" style="margin-left: 0px; margin-right: 0px; width: 805px;border:solid;border-color:black;">
                 <asp:Repeater runat="server" ID="rptListaArticulos">
                     <ItemTemplate>
                         <div class="card MiCard">
@@ -131,14 +131,14 @@
                                 <p class="card-text" style="text-align: center; color: black; margin-top: -10px; margin-bottom: 5px;">
                                     <i><%#Eval("MarcaArticulo.Nombre")%></i>
                                 </p>
-                                <p class="card-text" style="text-align: center; font-size: x-large; color: black; margin-top: -10px;margin-bottom: 10px;">
-                                    <strong>$<%#Convert.ToDouble(Eval("Precio"))%></strong>
-                                </p>
+                                <p class="card-text" style="text-align: center; font-size: x-large; color: black; margin-top: -10px; margin-bottom: 10px;">
+                                    <strong>$<%#Convert.ToDouble(Eval("Precio"))%></strong></p>
                             </div>
                             <div class="container" style="text-align: center; padding-bottom: 15px; margin-top: -30px;">
                                 <div class="row" style="display: inline-block">
                                     <div class="btn-group">
-                                        <a href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>" class="btn btn-dark BotonAgregar">Agregar al carrito
+                                        <a href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>" class="btn btn-dark BotonAgregar">
+                                            Agregar al carrito
                                         </a>
                                     </div>
                                 </div>

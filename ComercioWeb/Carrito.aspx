@@ -75,8 +75,8 @@
                         </li>
                         <li>
                             <%if (HayUsuarioActivo)
-                              {%>
-                              <a class="nav-link" style="padding-left:575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                                {%>
+                            <a class="nav-link" style="padding-left: 575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
                             <%}%>
                         </li>
                     </ul>
@@ -96,10 +96,10 @@
                                 <p class="card-text" style="text-align: center; color: black; margin-top: -10px; margin-bottom: 5px;">
                                     <i><%#Eval("Articulo.MarcaArticulo.Nombre")%></i>
                                 </p>
-                                <p class="card-text" style="text-align: center; font-size: large; color: black; margin-top:5px;margin-bottom: 10px;">
+                                <p class="card-text" style="text-align: center; font-size: large; color: black; margin-top: 5px; margin-bottom: 10px;">
                                     <strong><%#Eval("Cantidad")%> x $<%#Convert.ToDouble(Eval("Articulo.Precio"))%></strong>
                                 </p>
-                                <p class="card-text" style="text-align: center; font-size: x-large; color: black; margin-top: -10px;margin-bottom: 10px;">
+                                <p class="card-text" style="text-align: center; font-size: x-large; color: black; margin-top: -10px; margin-bottom: 10px;">
                                     <strong>Total: $<%#Convert.ToDouble(Eval("Articulo.Precio"))*Convert.ToInt32(Eval("Cantidad"))%></strong>
                                 </p>
                             </div>

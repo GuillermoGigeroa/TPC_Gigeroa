@@ -102,7 +102,7 @@
                             <ContentTemplate>
                                 <h3 style="text-align: left !important; margin-left: 155px;">Nueva marca</h3>
                                 <asp:TextBox ID="txtNuevaMarca" AutoPostBack="true" placeholder="Ingrese la nueva marca." CssClass="form-control" runat="server" OnTextChanged="txtNuevaMarca_TextChanged" />
-                                <asp:Label ID="lblMarca" runat="server" Text="Categoría inválida." Visible="false"></asp:Label>
+                                <asp:Label ID="lblMarca" runat="server" Text="Marca inválida." Visible="false"></asp:Label>
                                 <asp:Label ID="lblMarcaAgregada" runat="server" Text="Marca fue agregada correctamente." Visible="false"></asp:Label>
                                 <div style="margin: 15px 0px 15px 145px;">
                                     <asp:Button ID="btnAgregarMarca" Text="Agregar nueva marca" CssClass="btn btn-dark BotonAgregar" runat="server" OnClick="btnAgregarMarca_Click" />
@@ -126,7 +126,7 @@
                 <div class="row">
                     <div class="col" style="text-align:center;">
                         <h3 style="padding-bottom:10px;">Nuevo artículo</h3>
-                        <a class="btn btn-dark BotonAgregar" href="#">Ir a menú de nuevo artículo</a>
+                        <a class="btn btn-dark BotonAgregar" href="AgregarArticulo.aspx">Ir a menú de nuevo artículo</a>
                     </div>
                 </div>
             </div>

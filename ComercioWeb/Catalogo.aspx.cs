@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio;
@@ -87,7 +88,6 @@ namespace ComercioWeb
                 ListaArticulos = Negocio.ListarArticulos();
                 rptListaArticulos.DataSource = ListaArticulos;
                 rptListaArticulos.DataBind();
-
             }
             catch (Exception ex)
             {
@@ -115,9 +115,9 @@ namespace ComercioWeb
                 rptListaCategorias.DataSource = ListaCategorias;
                 rptListaCategorias.DataBind();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         protected void FiltrarPorCategoria(string idCategoria)
