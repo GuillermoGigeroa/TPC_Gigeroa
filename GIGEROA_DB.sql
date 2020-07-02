@@ -266,7 +266,7 @@ go
 -- Creo un Store Procedure en el cual listo todos los artículos con sus respectivas marcas, luego otro SP para ver las categorías de c/u 
 create procedure SP_ListarArticulosSinCategoria
 as
-select A.Identificador as [ID_Articulo], A.Nombre, M.Identificador as [ID_Marca], M.Nombre as [Marca], A.Descripcion, A.EsMateriaPrima, A.ImagenURL as [URL_Imagen], A.Activo as [Estado], A.Precio
+select A.Identificador as [ID_Articulo], A.Nombre, M.Identificador as [ID_Marca], M.Nombre as [Marca], A.Descripcion, A.EsMateriaPrima, A.Stock , A.ImagenURL as [URL_Imagen], A.Activo as [Estado], A.Precio
 from Articulos as A
 inner join Marcas as M on A.IDMarca = M.IDMarca
 go
@@ -586,6 +586,32 @@ Begin
 	Begin catch  
 		Rollback transaction
 		Raiserror('Error al actualizar categorias del articulo',16,2)
+	End catch
+End
+go
+create view VW_UsuariosCompletosAdmin
+as
+select U.IDUsuario, U.Email, U.Contra, U.Activo, U.Nombres, U.Apellidos, U.DNI, U.Telefono, T.Identificador as ID_Tipo, T.Nombre as Tipo, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia from Usuarios as U
+left join Domicilios as D on U.IDUsuario = D.IDUsuario
+left join Provincias as P on D.IDProvincia = P.IDProvincia
+left join Tipos as T on U.IDTipo = T.IDTipo
+go
+create procedure SP_BajaArticulo(
+	@IDArticulo bigint,
+	@Activo bit
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			Update Articulos
+			Set Activo = @Activo
+			Where Identificador = @IDArticulo
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al dar de baja el articulo',16,2)
 	End catch
 End
 go

@@ -115,7 +115,6 @@ namespace Negocio
                 Datos datos = new Datos();
                 datos.ConfigurarConexion();
                 datos.StoreProcedure("SP_BajaUsuario");
-                //crear store procedure en BBDD
                 datos.AgregarParametro("@IDUsuario", ID_Usuario);
                 datos.AgregarParametro("@Activo", Activo);
                 datos.ConectarDB();
@@ -139,7 +138,6 @@ namespace Negocio
                 Datos datos = new Datos();
                 datos.ConfigurarConexion();
                 datos.StoreProcedure("SP_BajaUsuario");
-                //crear store procedure en BBDD
                 datos.AgregarParametro("@IDUsuario", ID_Usuario);
                 datos.AgregarParametro("@Activo", 0);
                 datos.ConectarDB();
@@ -371,6 +369,52 @@ namespace Negocio
                     datos.ConectarDB();
                     datos.Ejecutar();
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void ArticuloBaja(int ID_Articulo, bool Activo)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_BajaArticulo");
+                datos.AgregarParametro("@IDArticulo", ID_Articulo);
+                datos.AgregarParametro("@Activo", Activo);
+                datos.ConectarDB();
+                datos.Ejecutar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void ArticuloBaja(int ID_Articulo)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_BajaArticulo");
+                datos.AgregarParametro("@IDArticulo", ID_Articulo);
+                datos.AgregarParametro("@Activo", 0);
+                datos.ConectarDB();
+                datos.Ejecutar();
             }
             catch (Exception ex)
             {

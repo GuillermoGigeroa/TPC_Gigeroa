@@ -21,5 +21,6 @@ namespace Dominio
         public string URL_Imagen { get; set; }
         public bool Estado { get; set; }
         public double Precio { get; set; }
+        public int Stock { get; set; }
     }
 }
