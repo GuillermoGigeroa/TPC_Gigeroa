@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio;
+using Negocio;
 
 namespace ComercioWeb
 {
@@ -17,8 +18,18 @@ namespace ComercioWeb
         {
             Session.Timeout = 60;
             HayUsuarioActivo = ExisteUsuario();
-            VerificarAdmin();
+            //VerificarAdmin();
             VerificarCarrito();
+            if(!IsPostBack)
+            {
+                ListarUsuarios();
+            }
+        }
+        public void ListarUsuarios()
+        {
+            NegocioDatos negocio = new NegocioDatos();
+            ListaUsuarios.DataSource = negocio.ListarUsuarios();
+
         }
         public void VerificarCarrito()
         {

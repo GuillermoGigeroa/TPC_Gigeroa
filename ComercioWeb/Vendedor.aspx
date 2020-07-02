@@ -123,10 +123,17 @@
                         </asp:UpdatePanel>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="padding-bottom:20px;">
                     <div class="col" style="text-align:center;">
                         <h3 style="padding-bottom:10px;">Nuevo artículo</h3>
                         <a class="btn btn-dark BotonAgregar" href="AgregarArticulo.aspx">Ir a menú de nuevo artículo</a>
+                    </div>
+                </div>
+                <div class="LineaPunteada"></div>
+                <div class="row">
+                    <div class="col" style="text-align:center;">
+                        <h3 style="padding-bottom:10px;">Modificar artículos</h3>
+                        <a class="btn btn-dark BotonAgregar" href="ModificarArticulo.aspx">Ir a menú de modificar artículo</a>
                     </div>
                 </div>
             </div>

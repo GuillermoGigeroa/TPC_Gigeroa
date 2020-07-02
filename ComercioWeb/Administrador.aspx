@@ -67,9 +67,12 @@
                     </ul>
                 </div>
             </nav>
-            <div class="jumbotron">
-                <h1 style="text-align:center;">¡Bienvenido <%=Usuario.Nombres%> <%=Usuario.Apellidos%>!</h1>
-                <h2 style="text-align:center;">Tipo de usuario: <%=Usuario.TipoUsuario.Nombre%></h2>
+            <div class="jumbotron CentrarJumbo">
+                <div class="row">
+                    <div class="col">
+                        <asp:DropDownList ID="ListaUsuarios" runat="server"></asp:DropDownList>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

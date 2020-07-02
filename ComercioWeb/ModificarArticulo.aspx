@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Modificar artículo</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -68,28 +68,35 @@
                     </ul>
                 </div>
             </nav>
-            <div style="text-align:center;">
-                <asp:Label ID="lblAgregadoCorrectamente" Text="El artículo se ha cargado correctamente." Visible="false" runat="server" />
+            <div style="text-align: center;">
+                <asp:Label ID="lblModificadoCorrectamente" Text="El artículo se ha modificado correctamente." Visible="false" runat="server" />
             </div>
             <h3>Modificar artículo</h3>
             <div class="container" style="margin: auto">
                 <div class="jumbotron CentrarJumbo">
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col">
-                            <h3>Nombre del artículo</h3>
-                            <asp:TextBox ID="txtNombre" CssClass="form-control" MaxLength="150" placeholder="Ingrese el nombre del artículo" runat="server" OnTextChanged="txtNombre_TextChanged" />
-                            <asp:Label ID="lblNombreError" Text="El nombre ingresado es inválido." Visible="false" runat="server" />
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col">
-                            <h3>Descripción</h3>
-                            <asp:TextBox ID="txtDescripcion" CssClass="form-control" MaxLength="150" placeholder="Ingrese la descripción del artículo" runat="server" OnTextChanged="txtDescripcion_TextChanged" />
-                            <asp:Label ID="lblDescripcion" Text="La descripción ingresada es inválida." Visible="false" runat="server" />
-                        </div>
-                    </div>
                     <asp:UpdatePanel runat="server">
                         <ContentTemplate>
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col">
+                                    <h3>Lista de artículos</h3>
+                                    <asp:DropDownList ID="ListaArticulos" AutoPostBack="true" CssClass="form-control" runat="server" OnSelectedIndexChanged="ListaArticulos_SelectedIndexChanged"></asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col">
+                                    <h3>Nombre del artículo</h3>
+                                    <asp:TextBox ID="txtNombre" CssClass="form-control" MaxLength="150" placeholder="Ingrese el nombre del artículo" runat="server" OnTextChanged="txtNombre_TextChanged" />
+                                    <asp:Label ID="lblNombreError" Text="El nombre ingresado es inválido." Visible="false" runat="server" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col">
+                                    <h3>Descripción</h3>
+                                    <asp:TextBox ID="txtDescripcion" CssClass="form-control" MaxLength="150" placeholder="Ingrese la descripción del artículo" runat="server" OnTextChanged="txtDescripcion_TextChanged" />
+                                    <asp:Label ID="lblDescripcion" Text="La descripción ingresada es inválida." Visible="false" runat="server" />
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col">
                                     <h3>Precio</h3>
@@ -97,16 +104,16 @@
                             </div>
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="row">
-                                    <div class="col" style="margin-right:-165px;margin-left:110px;">
-                                        <h3 style="text-align:left !important;">$</h3>
+                                    <div class="col" style="margin-right: -165px; margin-left: 110px;">
+                                        <h3 style="text-align: left !important;">$</h3>
                                     </div>
-                                    <div class="col" style="padding-top:10px;width:400px;margin-left:10px;">
+                                    <div class="col" style="padding-top: 10px; width: 400px; margin-left: 10px;">
                                         <asp:TextBox ID="txtPrecioEntero" AutoPostBack="true" Text="0" MaxLength="15" CssClass="form-control" runat="server" OnTextChanged="txtPrecioEntero_TextChanged" />
                                     </div>
-                                    <div class="col" style="margin-left:-22px;padding-top:8px;">
+                                    <div class="col" style="margin-left: -22px; padding-top: 8px;">
                                         <h3 style="text-align: left !important;">,</h3>
                                     </div>
-                                    <div class="col" style="margin-left:-170px;padding-top:10px;">
+                                    <div class="col" style="margin-left: -170px; padding-top: 10px;">
                                         <asp:TextBox ID="txtPrecioDecimales" AutoPostBack="true" Text="00" MaxLength="3" CssClass="form-control" runat="server" OnTextChanged="txtPrecioDecimales_TextChanged" />
                                     </div>
                                 </div>
@@ -114,17 +121,13 @@
                                     <asp:Label ID="lblPrecio" Text="El precio es inválido." Visible="false" runat="server" />
                                 </div>
                             </div>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col">
-                            <h3>Marca</h3>
-                            <asp:DropDownList ID="ListaMarcas" CssClass="form-control" runat="server"></asp:DropDownList>
-                        </div>
-                    </div>
-                    <div class="LineaPunteada"></div>
-                    <asp:UpdatePanel runat="server">
-                        <ContentTemplate>
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col">
+                                    <h3>Marca</h3>
+                                    <asp:DropDownList ID="ListaMarcas" CssClass="form-control" runat="server"></asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="LineaPunteada"></div>
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col">
                                     <h3>Categorías</h3>
@@ -147,11 +150,7 @@
                             <div style="text-align: center; margin-bottom: 10px;">
                                 <asp:Button ID="btnEliminarCategoria" Text="Eliminar categoría del artículo" CssClass="btn btn-success BotonAgregar" runat="server" OnClick="btnEliminarCategoria_Click" />
                             </div>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-                    <div class="LineaPunteada"></div>
-                    <asp:UpdatePanel runat="server">
-                        <ContentTemplate>
+                            <div class="LineaPunteada"></div>
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col">
                                     <h3>Imagen</h3>
@@ -168,8 +167,8 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>
                     <div class="LineaPunteada"></div>
-                    <div style="text-align:center;">
-                        <asp:Button ID="btnAgregar" Text="Agregar artículo al catálogo" CssClass="btn btn-dark BotonAgregar" runat="server" OnClick="btnAgregar_Click" />
+                    <div style="text-align: center;">
+                        <asp:Button ID="btnModificar" Text="Modificar artículo" CssClass="btn btn-dark BotonAgregar" runat="server" OnClick="btnModificar_Click" />
                     </div>
                 </div>
             </div>

@@ -156,50 +156,6 @@ namespace Negocio
                 datos.DesconectarDB();
             }
         }
-        public void ArticuloAlta(Articulo articulo)
-        {
-            try
-            {
-                Encriptador encriptador = new Encriptador();
-                Datos datos = new Datos();
-                datos.ConfigurarConexion();
-                datos.StoreProcedure("SP_AgregarArticulo");
-                datos.AgregarParametro("@IDMarca", articulo.MarcaArticulo.ID_Marca);
-                datos.AgregarParametro("@IDCategoria", articulo.Categorias[0].ID_Categoria);
-                datos.AgregarParametro("@Nombre", articulo.Nombre);
-                datos.AgregarParametro("@Descripcion", articulo.Descripcion);
-                datos.AgregarParametro("@EsMateriaPrima", articulo.EsMateriaPrima);
-                datos.AgregarParametro("@ImagenURL", articulo.URL_Imagen);
-                datos.AgregarParametro("@Precio", articulo.Precio);
-                datos.ConectarDB();
-                datos.Ejecutar();
-                datos.DesconectarDB();
-                bool primero = true;
-                foreach(Categoria categoria in articulo.Categorias)
-                {
-                    if(!primero)
-                    {
-                        datos = new Datos();
-                        datos.ConfigurarConexion();
-                        datos.StoreProcedure("SP_AgregarCategoriaAlUltimoArticulo");
-                        datos.AgregarParametro("@IDCategoria", categoria.ID_Categoria);
-                        datos.ConectarDB();
-                        datos.Ejecutar();
-                    }
-                    primero = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                Datos datos = new Datos();
-                datos.ConfigurarConexion();
-                datos.DesconectarDB();
-            }
-        }
         public void AgregarCategoria(string Nombre)
         {
             try
@@ -324,6 +280,97 @@ namespace Negocio
                 datos.AgregarParametro("@Activo", 0);
                 datos.ConectarDB();
                 datos.Ejecutar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void ArticuloAlta(Articulo articulo)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_AgregarArticulo");
+                datos.AgregarParametro("@IDMarca", articulo.MarcaArticulo.ID_Marca);
+                datos.AgregarParametro("@IDCategoria", articulo.Categorias[0].ID_Categoria);
+                datos.AgregarParametro("@Nombre", articulo.Nombre);
+                datos.AgregarParametro("@Descripcion", articulo.Descripcion);
+                datos.AgregarParametro("@EsMateriaPrima", articulo.EsMateriaPrima);
+                datos.AgregarParametro("@ImagenURL", articulo.URL_Imagen);
+                datos.AgregarParametro("@Precio", articulo.Precio);
+                datos.ConectarDB();
+                datos.Ejecutar();
+                datos.DesconectarDB();
+                bool primero = true;
+                foreach (Categoria categoria in articulo.Categorias)
+                {
+                    if (!primero)
+                    {
+                        datos = new Datos();
+                        datos.ConfigurarConexion();
+                        datos.StoreProcedure("SP_AgregarCategoriaAlUltimoArticulo");
+                        datos.AgregarParametro("@IDCategoria", categoria.ID_Categoria);
+                        datos.ConectarDB();
+                        datos.Ejecutar();
+                    }
+                    primero = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void ArticuloModificacion(Articulo articulo)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_ModificarArticulo");
+                datos.AgregarParametro("@IDArticulo", articulo.ID_Articulo);
+                datos.AgregarParametro("@IDMarca", articulo.MarcaArticulo.ID_Marca);
+                datos.AgregarParametro("@Nombre", articulo.Nombre);
+                datos.AgregarParametro("@Descripcion", articulo.Descripcion);
+                datos.AgregarParametro("@EsMateriaPrima", articulo.EsMateriaPrima);
+                datos.AgregarParametro("@ImagenURL", articulo.URL_Imagen);
+                datos.AgregarParametro("@Precio", articulo.Precio);
+                datos.ConectarDB();
+                datos.Ejecutar();
+                datos.DesconectarDB();
+
+                datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_LimpiarCategorias");
+                datos.AgregarParametro("@IDArticulo", articulo.ID_Articulo);
+                datos.ConectarDB();
+                datos.Ejecutar();
+                datos.DesconectarDB();
+
+                foreach (Categoria categoria in articulo.Categorias)
+                {
+                    datos = new Datos();
+                    datos.ConfigurarConexion();
+                    datos.StoreProcedure("SP_ActualizarCategorias");
+                    datos.AgregarParametro("@IDArticulo", articulo.ID_Articulo);
+                    datos.AgregarParametro("@IDCategoria", categoria.ID_Categoria);
+                    datos.ConectarDB();
+                    datos.Ejecutar();
+                }
             }
             catch (Exception ex)
             {

@@ -1,6 +1,6 @@
 ﻿body {
-    background: RGB(197,192,207);
-    color: black;
+    background: RGB(197,192,207) !important;
+    color: black !important;
 }
 .Barra {
     background: RGB(179,134,179) !important;

@@ -33,13 +33,22 @@ namespace ComercioWeb
         protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
-        /// Control lblAgregadoCorrectamente.
+        /// Control lblModificadoCorrectamente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAgregadoCorrectamente;
+        protected global::System.Web.UI.WebControls.Label lblModificadoCorrectamente;
+
+        /// <summary>
+        /// Control ListaArticulos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ListaArticulos;
 
         /// <summary>
         /// Control txtNombre.
@@ -213,12 +222,12 @@ namespace ComercioWeb
         protected global::System.Web.UI.WebControls.Button btnVistaPrevia;
 
         /// <summary>
-        /// Control btnAgregar.
+        /// Control btnModificar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAgregar;
+        protected global::System.Web.UI.WebControls.Button btnModificar;
     }
 }

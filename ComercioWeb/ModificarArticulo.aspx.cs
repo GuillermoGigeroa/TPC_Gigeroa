@@ -26,8 +26,29 @@ namespace ComercioWeb
             CargarArticulo();
             if (!IsPostBack)
             {
+                ListarArticulos();
                 ListarMarcas();
                 ListarCategorias();
+                CargarArticuloSeleccionado(ListaArticulos);
+            }
+        }
+        public void ListarArticulos()
+        {
+            if (Session["ListaArticulos" + Session.SessionID] != null)
+            {
+                ListaArticulos.DataSource = (List<Articulo>)Session["ListaArticulos" + Session.SessionID];
+                ListaArticulos.DataTextField = "Nombre";
+                ListaArticulos.DataValueField = "ID_Articulo";
+                ListaArticulos.DataBind();
+            }
+            else
+            {
+                NegocioDatos negocio = new NegocioDatos();
+                Session["ListaArticulos" + Session.SessionID] = negocio.ListarArticulos();
+                ListaArticulos.DataSource = (List<Articulo>)Session["ListaArticulos" + Session.SessionID];
+                ListaArticulos.DataTextField = "Nombre";
+                ListaArticulos.DataValueField = "ID_Articulo";
+                ListaArticulos.DataBind();
             }
         }
         public void CargarArticulo()
@@ -257,6 +278,10 @@ namespace ComercioWeb
         }
         protected void btnVistaPrevia_Click(object sender, EventArgs e)
         {
+            CargarImagen();
+        }
+        public void CargarImagen()
+        {
             if (txtURL.Text.Trim() == "")
             {
                 lblURL.Visible = true;
@@ -310,8 +335,83 @@ namespace ComercioWeb
             }
             return true;
         }
-        protected void btnAgregar_Click(object sender, EventArgs e)
+        protected void ListaArticulos_SelectedIndexChanged(object sender, EventArgs e)
         {
+            CargarArticuloSeleccionado(ListaArticulos);
+        }
+        public void CargarArticuloSeleccionado(DropDownList dropDown)
+        {
+            List<Articulo> lista = new List<Articulo>();
+            Articulo articuloEncontrado = new Articulo();
+            if (Session["ListaArticulos" + Session.SessionID] != null)
+                lista = (List<Articulo>)Session["ListaArticulos" + Session.SessionID];
+            else
+            {
+                NegocioDatos negocio = new NegocioDatos();
+                Session["ListaArticulos" + Session.SessionID] = negocio.ListarArticulos();
+                lista = (List<Articulo>)Session["ListaArticulos" + Session.SessionID];
+            }
+            bool SeEncontro = false;
+            foreach(Articulo articulo in lista)
+            {
+                if(articulo.ID_Articulo == Convert.ToInt32(dropDown.SelectedItem.Value))
+                {
+                    articuloEncontrado = articulo;
+                    SeEncontro = true;
+                    break;
+                }
+            }
+            if(SeEncontro)
+            {
+                Session["Articulo" + Session.SessionID] = articuloEncontrado;
+                txtNombre.Text = articuloEncontrado.Nombre;
+                txtDescripcion.Text = articuloEncontrado.Descripcion;
+                txtPrecioEntero.Text = ObtenerNumeroEntero(articuloEncontrado.Precio);
+                txtPrecioDecimales.Text = ObtenerNumeroDecimal(articuloEncontrado.Precio);
+                ListaMarcas.SelectedIndex = articuloEncontrado.MarcaArticulo.ID_Marca - 1;
+                ListaAgregados.DataSource = articuloEncontrado.Categorias;
+                ListaAgregados.DataTextField = "Nombre";
+                ListaAgregados.DataValueField = "ID_Categoria";
+                ListaAgregados.DataBind();
+                txtURL.Text = articuloEncontrado.URL_Imagen;
+                CargarImagen();
+            }
+        }
+        public string ObtenerNumeroEntero(double numero)
+        {
+            string numeroTexto = Convert.ToString(numero);
+            string numeroFinal = "";
+            for(int i = 0; i < numeroTexto.Length; i++)
+            {
+                if(numeroTexto[i] != ',')
+                    numeroFinal += numeroTexto[i];
+                else
+                    break;
+            }
+            return numeroFinal;
+        }
+        public string ObtenerNumeroDecimal(double numero)
+        {
+            string numeroTexto = Convert.ToString(numero);
+            string numeroFinal = "";
+            bool SeEncuentraComa = false;
+            for (int i = 0; i < numeroTexto.Length; i++)
+            {
+                if(SeEncuentraComa)
+                {
+                    numeroFinal += numeroTexto[i];
+                }
+                if (numeroTexto[i] == ',')
+                    SeEncuentraComa = true;
+            }
+            if (numeroFinal == "")
+                return "00";
+            return numeroFinal;
+        }
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            Articulo = (Articulo)Session["Articulo" + Session.SessionID];
             if (txtNombre.Text == "")
             {
                 lblNombreError.Visible = true;
@@ -343,7 +443,7 @@ namespace ComercioWeb
             {
                 lblErrorCategoria.Visible = false;
             }
-            Articulo.Precio = Convert.ToDouble(txtPrecioEntero.Text) + Convert.ToDouble(txtPrecioDecimales.Text) / 1000;
+            Articulo.Precio = Convert.ToDouble(txtPrecioEntero.Text) + ConvertirDecimales(txtPrecioDecimales.Text);
             Articulo.Nombre = txtNombre.Text;
             Articulo.Descripcion = txtDescripcion.Text;
             Articulo.URL_Imagen = txtURL.Text;
@@ -351,20 +451,27 @@ namespace ComercioWeb
             Articulo.MarcaArticulo.ID_Marca = Convert.ToInt32(ListaMarcas.SelectedItem.Value);
             Articulo.MarcaArticulo.Nombre = ListaMarcas.SelectedItem.Text;
             NegocioABM negocio = new NegocioABM();
-            negocio.ArticuloAlta(Articulo);
+            negocio.ArticuloModificacion(Articulo);
             Articulo = new Articulo();
             Session["Articulo" + Session.SessionID] = Articulo;
-            lblAgregadoCorrectamente.Visible = true;
-            VaciarCampo(txtNombre);
-            VaciarCampo(txtDescripcion);
-            VaciarCampo(txtDescripcion);
-            VaciarCampo(txtURL);
-            txtPrecioEntero.Text = "0";
-            txtPrecioDecimales.Text = "00";
+            lblModificadoCorrectamente.Visible = true;
+            ListarArticulos();
         }
-        public void VaciarCampo(TextBox txtCaja)
+        public double ConvertirDecimales(string numero)
         {
-            txtCaja.Text = "";
+            if(numero.Length == 1)
+            {
+                return (Convert.ToDouble(numero) / 10);
+            }
+            if (numero.Length == 2)
+            {
+                return (Convert.ToDouble(numero) / 100);
+            }
+            if (numero.Length == 3)
+            {
+                return (Convert.ToDouble(numero) / 1000);
+            }
+            return -99999;
         }
     }
 }

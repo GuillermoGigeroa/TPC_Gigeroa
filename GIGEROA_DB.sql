@@ -466,7 +466,7 @@ Begin
 	Begin try
 		BEGIN transaction
 			insert into Categorias(Nombre, Identificador)
-			values (@Nombre, (select top 1 Identificador from Categorias order by Identificador desc)+1)
+			values (@Nombre, (select top 1 IDCategoria from Categorias order by Identificador desc)+1)
 		COMMIT transaction
 	End try
 	Begin catch  
@@ -483,7 +483,7 @@ Begin
 	Begin try
 		BEGIN transaction
 			insert into Marcas(Nombre, Identificador)
-			values (@Nombre, (select top 1 Identificador from Marcas order by Identificador desc)+1)
+			values (@Nombre, (select top 1 IDMarca from Marcas order by Identificador desc)+1)
 		COMMIT transaction
 	End try
 	Begin catch  
@@ -502,7 +502,7 @@ Begin
 		BEGIN transaction
 			Update Categorias
 			Set Activo = @Activo
-			Where IDCategoria = @IDCategoria
+			Where Identificador = @IDCategoria
 		COMMIT transaction
 	End try
 	Begin catch  
@@ -521,12 +521,71 @@ Begin
 		BEGIN transaction
 			Update Marcas
 			Set Activo = @Activo
-			Where IDMarca = @IDMarca
+			Where Identificador = @IDMarca
 		COMMIT transaction
 	End try
 	Begin catch  
 		Rollback transaction
 		Raiserror('Error al dar de baja la marca',16,2)
+	End catch
+End
+go
+create procedure SP_ModificarArticulo(
+	@IDArticulo bigint,
+	@IDMarca bigint,
+	@Nombre varchar(150),
+	@Descripcion varchar(150),
+	@EsMateriaPrima bit,
+	@ImagenURL varchar(1000),
+	@Precio decimal(18,2)
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			Update Articulos
+			Set IDMarca = @IDMarca, Nombre = @Nombre, Descripcion = @Descripcion, EsMateriaPrima = @EsMateriaPrima, ImagenURL = @ImagenURL, Precio = @Precio
+			where Identificador = @IDArticulo
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al modificar el articulo',16,2)
+	End catch
+End
+go
+create procedure SP_LimpiarCategorias(
+	@IDArticulo bigint
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			Delete from Articulos_x_Categoria
+			Where IDArticulo = @IDArticulo
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al limpiar categorías del articulo',16,2)
+	End catch
+End
+go
+create procedure SP_ActualizarCategorias(
+	@IDArticulo bigint,
+	@IDCategoria bigint
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			insert into Articulos_x_Categoria (IDArticulo,IDCategoria)
+			values (@IDArticulo,@IDCategoria)
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al actualizar categorias del articulo',16,2)
 	End catch
 End
 go
