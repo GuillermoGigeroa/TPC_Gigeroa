@@ -109,8 +109,8 @@
                             <div class="flex-column" style="padding-left: 325px;"></div>
                             <div class="flex-column">
                                 <div class="form-inline">
-                                    <asp:TextBox ID="txtBuscar" CssClass="form-control mr-sm-2" runat="server"></asp:TextBox>
-                                    <asp:Button ID="btnBuscar" CssClass="btn btn-outline-light my-2 my-sm-0" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />
+                                    <asp:TextBox ID="txtBuscar" placeholder="Buscar artículo" CssClass="form-control mr-sm-2" runat="server"></asp:TextBox>
+                                    <asp:Button ID="btnBuscar" CssClass="btn btn-outline-light my-2 my-sm-0 Activo" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
         <div class="container" style="padding-bottom: 30px;">
         </div>
         <div class="container">
-            <div class="card-columns" style="margin-left: 0px; margin-right: 0px; width: 805px;border:solid;border-color:black;">
+            <div class="card-columns mx-auto" style="margin-left: 0px; margin-right: 0px; width: 800px;border:solid;">
                 <asp:Repeater runat="server" ID="rptListaArticulos">
                     <ItemTemplate>
                         <div class="card MiCard">
