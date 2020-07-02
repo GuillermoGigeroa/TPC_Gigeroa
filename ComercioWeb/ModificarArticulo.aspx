@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AgregarArticulo.aspx.cs" Inherits="ComercioWeb.AgregarArticulo" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ModificarArticulo.aspx.cs" Inherits="ComercioWeb.ModificarArticulo" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Agregar artículo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Modificar artículo</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -71,7 +71,7 @@
             <div style="text-align:center;">
                 <asp:Label ID="lblAgregadoCorrectamente" Text="El artículo se ha cargado correctamente." Visible="false" runat="server" />
             </div>
-            <h3>Agregar artículo nuevo</h3>
+            <h3>Modificar artículo</h3>
             <div class="container" style="margin: auto">
                 <div class="jumbotron CentrarJumbo">
                     <div class="row" style="margin-bottom: 10px;">

@@ -19,6 +19,7 @@ namespace ComercioWeb
             NegocioDatos negocio = new NegocioDatos();
             ListaProvincias.DataSource = negocio.ListarProvincias();
             ListaProvincias.DataBind();
+            //Hacer métodos para esto, y con un !IsPostBack
             string tipoUsuario = Request.QueryString["tipo"];
             if (tipoUsuario != null)
             {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -11,7 +9,7 @@ using Negocio;
 
 namespace ComercioWeb
 {
-    public partial class AgregarArticulo : System.Web.UI.Page
+    public partial class ModificarArticulo : System.Web.UI.Page
     {
         public Usuario Usuario { get; set; }
         public Dominio.Carrito Carrito { get; set; }
@@ -248,7 +246,7 @@ namespace ComercioWeb
         }
         protected void txtURL_TextChanged(object sender, EventArgs e)
         {
-            if(txtURL.Text.Trim() == "")
+            if (txtURL.Text.Trim() == "")
             {
                 lblURL.Visible = true;
             }
@@ -271,7 +269,7 @@ namespace ComercioWeb
         }
         protected void txtPrecioEntero_TextChanged(object sender, EventArgs e)
         {
-            if(ContieneSoloNumeros(txtPrecioEntero) && ContieneSoloNumeros(txtPrecioDecimales))
+            if (ContieneSoloNumeros(txtPrecioEntero) && ContieneSoloNumeros(txtPrecioDecimales))
                 lblPrecio.Visible = false;
             else
                 lblPrecio.Visible = true;
@@ -284,9 +282,9 @@ namespace ComercioWeb
                 int decimales = Convert.ToInt32(txtPrecioDecimales.Text);
                 if (decimales < 1000)
                 {
-                    if(decimales < 100)
+                    if (decimales < 100)
                     {
-                        if(decimales < 10)
+                        if (decimales < 10)
                         {
                             decimales *= 100;
                         }
@@ -314,7 +312,7 @@ namespace ComercioWeb
         }
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            if(txtNombre.Text == "")
+            if (txtNombre.Text == "")
             {
                 lblNombreError.Visible = true;
                 return;
@@ -345,7 +343,7 @@ namespace ComercioWeb
             {
                 lblErrorCategoria.Visible = false;
             }
-            Articulo.Precio = Convert.ToDouble(txtPrecioEntero.Text) + Convert.ToDouble(txtPrecioDecimales.Text)/1000;
+            Articulo.Precio = Convert.ToDouble(txtPrecioEntero.Text) + Convert.ToDouble(txtPrecioDecimales.Text) / 1000;
             Articulo.Nombre = txtNombre.Text;
             Articulo.Descripcion = txtDescripcion.Text;
             Articulo.URL_Imagen = txtURL.Text;

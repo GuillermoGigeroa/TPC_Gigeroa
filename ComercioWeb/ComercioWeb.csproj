@@ -75,6 +75,7 @@
     <Content Include="Index.aspx" />
     <Content Include="IniciarSesion.aspx" />
     <Content Include="MiUsuario.aspx" />
+    <Content Include="ModificarArticulo.aspx" />
     <Content Include="ModificarUsuario.aspx" />
     <Content Include="RegistrarUsuarios.aspx" />
     <Content Include="Usuarios.aspx" />
@@ -130,6 +131,13 @@
     </Compile>
     <Compile Include="MiUsuario.aspx.designer.cs">
       <DependentUpon>MiUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModificarArticulo.aspx.cs">
+      <DependentUpon>ModificarArticulo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModificarArticulo.aspx.designer.cs">
+      <DependentUpon>ModificarArticulo.aspx</DependentUpon>
     </Compile>
     <Compile Include="ModificarUsuario.aspx.cs">
       <DependentUpon>ModificarUsuario.aspx</DependentUpon>

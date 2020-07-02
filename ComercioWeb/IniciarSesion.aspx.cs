@@ -21,6 +21,7 @@ namespace ComercioWeb
             Encriptador = new Encriptador();
             NegocioDatos negocio = new NegocioDatos();
             ListaUsuarios = negocio.ListarUsuarios();
+            //Pasar todo a metodos
             if (Session["Usuario" + Session.SessionID] != null)
             {
                 Response.Redirect("Usuarios.aspx");

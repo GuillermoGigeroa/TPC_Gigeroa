@@ -84,7 +84,7 @@ namespace ComercioWeb
         private void CargarArticulos(NegocioDatos Negocio)
         {
             try
-            {
+            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
                 ListaArticulos = Negocio.ListarArticulos();
                 rptListaArticulos.DataSource = ListaArticulos;
                 rptListaArticulos.DataBind();
@@ -97,7 +97,7 @@ namespace ComercioWeb
         private void CargarMarcas(NegocioDatos Negocio)
         {
             try
-            {
+            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
                 ListaMarcas = Negocio.ListarMarcas();
                 rptListaMarcas.DataSource = ListaMarcas;
                 rptListaMarcas.DataBind();
@@ -110,7 +110,7 @@ namespace ComercioWeb
         private void CargarCategorias(NegocioDatos Negocio)
         {
             try
-            {
+            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
                 ListaCategorias = Negocio.ListarCategorias();
                 rptListaCategorias.DataSource = ListaCategorias;
                 rptListaCategorias.DataBind();

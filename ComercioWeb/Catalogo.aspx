@@ -12,7 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./Estilos.css" />
 </head>
-<body class="Fondo">
+<body>
     <form id="form1" runat="server">
         <div>
             <%--<script type="text/javascript">document.oncontextmenu = function(){return false}</script>--%>
@@ -121,10 +121,10 @@
         <div class="container" style="padding-bottom: 30px;">
         </div>
         <div class="container">
-            <div class="card-columns mx-auto" style="margin-left: 0px; margin-right: 0px; width: 800px;border:solid;">
+            <div class="card-deck mx-auto" style="margin-left: 0px; margin-right: 0px; width: 1135px; margin-bottom:30px;">
                 <asp:Repeater runat="server" ID="rptListaArticulos">
                     <ItemTemplate>
-                        <div class="card MiCard">
+                        <div class="card MiCard" style="max-width:250px;min-width:253px;margin-top:15px;">
                             <img src="<%#Eval("URL_Imagen")%>" class="card-img-top ImagenCard" alt="<%#Eval("Nombre")%>">
                             <div class="card-body" style="margin-top: -15px;">
                                 <h5 class="card-title" style="text-align: center; color: black;"><%#Eval("Nombre")%></h5>

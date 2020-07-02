@@ -22,7 +22,7 @@ namespace ComercioWeb
             VerificarVendedor();
             VerificarCarrito();
             if(!IsPostBack)
-            {
+            {//Asi ver si funciona a la perfeccion
                 ListarCategorias();
                 ListarMarcas();
             }

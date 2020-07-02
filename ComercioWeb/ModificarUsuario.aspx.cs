@@ -39,7 +39,7 @@ namespace ComercioWeb
         public void CargarInformacion()
         {
             if (!IsPostBack)
-            {
+            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
                 NegocioDatos negocio = new NegocioDatos();
                 ListaProvincias.DataSource = negocio.ListarProvincias();
                 ListaProvincias.DataBind();

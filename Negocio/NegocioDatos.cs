@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dominio;
+using System.Runtime.Remoting.Messaging;
+using System.ComponentModel;
 
 namespace Negocio
 {
@@ -17,6 +19,11 @@ namespace Negocio
                 List<Articulo> listado = ListarArticulosSinCategorias();
                 foreach (Articulo articulo in listado)
                     articulo.Categorias = BuscarCategorias(articulo.ID_Articulo);
+                return listado;
+            }
+            catch (InvalidOperationException)
+            {
+                List<Articulo> listado = new List<Articulo>();
                 return listado;
             }
             catch (Exception ex)
