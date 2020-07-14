@@ -132,7 +132,6 @@ namespace Negocio
                         if (!Convert.IsDBNull(datosLeidos["Categoria"]))
                             categoria.Nombre = (string)datosLeidos["Categoria"];
                         categoria.Activo = true;
-                        //Se agrega a la lista
                         categorias.Add(categoria);
                     }
                 }
@@ -172,7 +171,6 @@ namespace Negocio
                     if (!Convert.IsDBNull(datosLeidos["Marca"]))
                         marca.Nombre = (string)datosLeidos["Marca"];
                     marca.Activo = true;
-                    //Se agrega a la lista
                     marcas.Add(marca);
                 }
                 return marcas;
@@ -211,7 +209,6 @@ namespace Negocio
                     if (!Convert.IsDBNull(datosLeidos["Categoria"]))
                         categoria.Nombre = (string)datosLeidos["Categoria"];
                     categoria.Activo = true;
-                    //Se agrega a la lista
                     categorias.Add(categoria);
                 }
                 return categorias;

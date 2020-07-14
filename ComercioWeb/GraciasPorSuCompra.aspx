@@ -71,8 +71,8 @@
             <div class="jumbotron">
                 <h1 style="text-align:center;">¡Muchas gracias por su compra</h1>
                 <h1 style="text-align:center;"><%=Usuario.Nombres%> <%=Usuario.Apellidos%>!</h1>
-                <h3>En breve se comunicarán con usted para ultimar los detalles.</h3>
-                <h3>Recuerde que su factura es la que tiene numeración: <%=NumeroFactura%></h3>
+                <h3>Nos contactaremos con usted a la brevedad.</h3>
+                <h3>El número de su factura es: <%=NumeroFactura%></h3>
             </div>
         </div>
     </form>
