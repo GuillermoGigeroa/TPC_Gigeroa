@@ -25,10 +25,16 @@ namespace ComercioWeb
         }
         public void CargarImagenes()
         {
-            if (!IsPostBack)
-            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
+            if(Session["ListarArticulosImagen"+Session.SessionID] == null)
+            {
                 NegocioDatos negocio = new NegocioDatos();
-                rptListaImagenes.DataSource = negocio.ListarArticulos();
+                Session["ListarArticulosImagen" + Session.SessionID] = negocio.ListarArticulos();
+                rptListaImagenes.DataSource = (List<Articulo>)Session["ListarArticulosImagen" + Session.SessionID];
+                rptListaImagenes.DataBind();
+            }
+            else
+            {
+                rptListaImagenes.DataSource = (List<Articulo>)Session["ListarArticulosImagen" + Session.SessionID];
                 rptListaImagenes.DataBind();
             }
         }

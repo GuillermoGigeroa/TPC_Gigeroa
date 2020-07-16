@@ -38,10 +38,17 @@ namespace ComercioWeb
         }
         public void CargarInformacion()
         {
-            if (!IsPostBack)
-            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
+            if(Session["ListarProvinciasMOD"+Session.SessionID] == null)
+            {
                 NegocioDatos negocio = new NegocioDatos();
-                ListaProvincias.DataSource = negocio.ListarProvincias();
+                Session["ListarProvinciasMOD" + Session.SessionID] = negocio.ListarProvincias();
+                ListaProvincias.DataSource = (List<string>)Session["ListarProvinciasMOD" + Session.SessionID];
+                ListaProvincias.DataBind();
+                CargarDatos();
+            }
+            else
+            {
+                ListaProvincias.DataSource = (List<string>)Session["ListarProvinciasMOD" + Session.SessionID];
                 ListaProvincias.DataBind();
                 CargarDatos();
             }

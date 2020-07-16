@@ -21,21 +21,48 @@ namespace ComercioWeb
             HayUsuarioActivo = ExisteUsuario();
             VerificarVendedor();
             VerificarCarrito();
-            if(!IsPostBack)
-            {//Asi ver si funciona a la perfeccion
-                ListarCategorias();
-                ListarMarcas();
-            }
+            ListarCategorias();
+            ListarMarcas();
         }
         public void ListarMarcas()
         {
             try
             {
-                NegocioDatos negocio = new NegocioDatos();
-                ListaMarcas.DataSource = negocio.ListarMarcas();
-                ListaMarcas.DataTextField = "Nombre";
-                ListaMarcas.DataValueField = "ID_Marca";
-                ListaMarcas.DataBind();
+                if(Session["VendedorMarcas"+Session.SessionID] == null)
+                {
+                    NegocioDatos negocio = new NegocioDatos();
+                    Session["VendedorMarcas" + Session.SessionID] = negocio.ListarMarcas();
+                    ListaMarcas.DataSource = (List<Marca>)Session["VendedorMarcas" + Session.SessionID];
+                    ListaMarcas.DataTextField = "Nombre";
+                    ListaMarcas.DataValueField = "ID_Marca";
+                    ListaMarcas.DataBind();
+                }
+                else
+                {
+                    ListaMarcas.DataSource = (List<Marca>)Session["VendedorMarcas" + Session.SessionID];
+                    ListaMarcas.DataTextField = "Nombre";
+                    ListaMarcas.DataValueField = "ID_Marca";
+                    ListaMarcas.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void ListarMarcas(bool Forzar)
+        {
+            try
+            {
+                if (Forzar)
+                {
+                    NegocioDatos negocio = new NegocioDatos();
+                    Session["VendedorMarcas" + Session.SessionID] = negocio.ListarMarcas();
+                    ListaMarcas.DataSource = (List<Marca>)Session["VendedorMarcas" + Session.SessionID];
+                    ListaMarcas.DataTextField = "Nombre";
+                    ListaMarcas.DataValueField = "ID_Marca";
+                    ListaMarcas.DataBind();
+                }
             }
             catch (Exception ex)
             {
@@ -46,11 +73,41 @@ namespace ComercioWeb
         {
             try
             {
-                NegocioDatos negocio = new NegocioDatos();
-                ListaCategorias.DataSource = negocio.ListarCategorias();
-                ListaCategorias.DataTextField = "Nombre";
-                ListaCategorias.DataValueField = "ID_Categoria";
-                ListaCategorias.DataBind();
+                if(Session["VendedorCategorias"+Session.SessionID] == null)
+                {
+                    NegocioDatos negocio = new NegocioDatos();
+                    Session["VendedorCategorias" + Session.SessionID] = negocio.ListarCategorias();
+                    ListaCategorias.DataSource = (List<Categoria>)Session["VendedorCategorias" + Session.SessionID];
+                    ListaCategorias.DataTextField = "Nombre";
+                    ListaCategorias.DataValueField = "ID_Categoria";
+                    ListaCategorias.DataBind();
+                }
+                else
+                {
+                    ListaCategorias.DataSource = (List<Categoria>)Session["VendedorCategorias" + Session.SessionID];
+                    ListaCategorias.DataTextField = "Nombre";
+                    ListaCategorias.DataValueField = "ID_Categoria";
+                    ListaCategorias.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void ListarCategorias(bool Forzar)
+        {
+            try
+            {
+                if (Forzar)
+                {
+                    NegocioDatos negocio = new NegocioDatos();
+                    Session["VendedorCategorias" + Session.SessionID] = negocio.ListarCategorias();
+                    ListaCategorias.DataSource = (List<Categoria>)Session["VendedorCategorias" + Session.SessionID];
+                    ListaCategorias.DataTextField = "Nombre";
+                    ListaCategorias.DataValueField = "ID_Categoria";
+                    ListaCategorias.DataBind();
+                }
             }
             catch (Exception ex)
             {
@@ -101,7 +158,7 @@ namespace ComercioWeb
                     NegocioABM negocio = new NegocioABM();
                     negocio.AgregarCategoria(txtNuevaCategoria.Text);
                     txtNuevaCategoria.Text = "";
-                    ListarCategorias();
+                    ListarCategorias(true);
                     lblCategoriaAgregada.Visible = true;
                 }
                 else
@@ -125,7 +182,7 @@ namespace ComercioWeb
                     NegocioABM negocio = new NegocioABM();
                     negocio.AgregarMarca(txtNuevaMarca.Text);
                     txtNuevaMarca.Text = "";
-                    ListarMarcas();
+                    ListarMarcas(true);
                     lblMarcaAgregada.Visible = true;
                 }
                 else

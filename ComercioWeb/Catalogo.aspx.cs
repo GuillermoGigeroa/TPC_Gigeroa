@@ -120,11 +120,37 @@ namespace ComercioWeb
         private void CargarArticulos(NegocioDatos Negocio)
         {
             try
-            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
-                
-                ListaArticulos = Negocio.ListarArticulos();
-                rptListaArticulos.DataSource = ListaArticulos;
-                rptListaArticulos.DataBind();
+            {
+                if(Session["ListaArticulosCatalogo" + Session.SessionID] == null)
+                {
+                    ListaArticulos = Negocio.ListarArticulos();
+                    Session["ListaArticulosCatalogo" + Session.SessionID] = ListaArticulos;
+                    rptListaArticulos.DataSource = ListaArticulos;
+                    rptListaArticulos.DataBind();
+                }
+                else
+                {
+                    ListaArticulos = (List<Articulo>)Session["ListaArticulosCatalogo" + Session.SessionID];
+                    rptListaArticulos.DataSource = ListaArticulos;
+                    rptListaArticulos.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void CargarArticulos(NegocioDatos Negocio, bool Forzar)
+        {
+            try
+            {
+                if (Forzar)
+                {
+                    ListaArticulos = Negocio.ListarArticulos();
+                    Session["ListaArticulosCatalogo" + Session.SessionID] = ListaArticulos;
+                    rptListaArticulos.DataSource = ListaArticulos;
+                    rptListaArticulos.DataBind();
+                }
             }
             catch (Exception ex)
             {
@@ -134,10 +160,37 @@ namespace ComercioWeb
         private void CargarMarcas(NegocioDatos Negocio)
         {
             try
-            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
-                ListaMarcas = Negocio.ListarMarcas();
-                rptListaMarcas.DataSource = ListaMarcas;
-                rptListaMarcas.DataBind();
+            {
+                if (Session["ListaMarcasCatalogo" + Session.SessionID] == null)
+                {
+                    ListaMarcas = Negocio.ListarMarcas();
+                    Session["ListaMarcasCatalogo" + Session.SessionID] = ListaMarcas;
+                    rptListaMarcas.DataSource = ListaMarcas;
+                    rptListaMarcas.DataBind();
+                }
+                else
+                {
+                    ListaMarcas = (List<Marca>)Session["ListaMarcasCatalogo" + Session.SessionID];
+                    rptListaMarcas.DataSource = ListaMarcas;
+                    rptListaMarcas.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void CargarMarcas(NegocioDatos Negocio, bool Forzar)
+        {
+            try
+            {
+                if (Forzar)
+                {
+                    ListaMarcas = Negocio.ListarMarcas();
+                    Session["ListaMarcasCatalogo" + Session.SessionID] = ListaMarcas;
+                    rptListaMarcas.DataSource = ListaArticulos;
+                    rptListaMarcas.DataBind();
+                }
             }
             catch (Exception ex)
             {
@@ -147,10 +200,37 @@ namespace ComercioWeb
         private void CargarCategorias(NegocioDatos Negocio)
         {
             try
-            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
-                ListaCategorias = Negocio.ListarCategorias();
-                rptListaCategorias.DataSource = ListaCategorias;
-                rptListaCategorias.DataBind();
+            {
+                if (Session["ListaCategoriasCatalogo" + Session.SessionID] == null)
+                {
+                    ListaCategorias = Negocio.ListarCategorias();
+                    Session["ListaCategoriasCatalogo" + Session.SessionID] = ListaCategorias;
+                    rptListaCategorias.DataSource = ListaCategorias;
+                    rptListaCategorias.DataBind();
+                }
+                else
+                {
+                    ListaCategorias = (List<Categoria>)Session["ListaCategoriasCatalogo" + Session.SessionID];
+                    rptListaCategorias.DataSource = ListaCategorias;
+                    rptListaCategorias.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void CargarCategorias(NegocioDatos Negocio, bool Forzar)
+        {
+            try
+            {
+                if (Forzar)
+                {
+                    ListaCategorias = Negocio.ListarCategorias();
+                    Session["ListaCategoriasCatalogo" + Session.SessionID] = ListaCategorias;
+                    rptListaCategorias.DataSource = ListaCategorias;
+                    rptListaCategorias.DataBind();
+                }
             }
             catch (Exception ex)
             {

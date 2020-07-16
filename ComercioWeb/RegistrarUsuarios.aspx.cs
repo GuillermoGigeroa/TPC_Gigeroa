@@ -16,10 +16,35 @@ namespace ComercioWeb
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Timeout = 60;
-            NegocioDatos negocio = new NegocioDatos();
-            ListaProvincias.DataSource = negocio.ListarProvincias();
-            ListaProvincias.DataBind();
-            //Hacer métodos para esto, y con un !IsPostBack
+            CargarProvincias();
+            VerificarTipoUsuario();
+            VerificarCarrito();
+        }
+        public void CargarProvincias()
+        {
+            if(Session["ProvinciasRegistro"+Session.SessionID] == null)
+            {
+                NegocioDatos negocio = new NegocioDatos();
+                Session["ProvinciasRegistro" + Session.SessionID] = negocio.ListarProvincias();
+                ListaProvincias.DataSource = (List<string>)Session["ProvinciasRegistro" + Session.SessionID];
+                ListaProvincias.DataBind();
+            }
+            else
+            {
+                ListaProvincias.DataSource = (List<string>)Session["ProvinciasRegistro" + Session.SessionID];
+                ListaProvincias.DataBind();
+            }
+
+        }
+        public void VerificarCarrito()
+        {
+            if (Session["Carrito" + Session.SessionID] != null)
+                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
+            else
+                Carrito = new Dominio.Carrito();
+        }
+        public void VerificarTipoUsuario()
+        {
             string tipoUsuario = Request.QueryString["tipo"];
             if (tipoUsuario != null)
             {
@@ -35,14 +60,6 @@ namespace ComercioWeb
                     Session["TipoUsuario" + Session.SessionID] = 3;
                 if (tipoUsuario == "3")
                     Session["TipoUsuario" + Session.SessionID] = 3;
-            }
-            if (Session["Carrito" + Session.SessionID] != null)
-            {
-                Carrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
-            }
-            else
-            {
-                Carrito = new Dominio.Carrito();
             }
         }
         public bool VerificarMail()

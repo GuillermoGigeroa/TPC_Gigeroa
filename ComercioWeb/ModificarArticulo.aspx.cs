@@ -67,12 +67,42 @@ namespace ComercioWeb
         public void ListarMarcas()
         {
             try
-            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
-                NegocioDatos negocio = new NegocioDatos();
-                ListaMarcas.DataSource = negocio.ListarMarcas();
-                ListaMarcas.DataTextField = "Nombre";
-                ListaMarcas.DataValueField = "ID_Marca";
-                ListaMarcas.DataBind();
+            {
+                if(Session["ListaMarcasModificar"+Session.SessionID] == null)
+                {
+                    NegocioDatos negocio = new NegocioDatos();
+                    Session["ListaMarcasModificar" + Session.SessionID] = negocio.ListarMarcas();
+                    ListaMarcas.DataSource = (List<Marca>)Session["ListaMarcasModificar" + Session.SessionID];
+                    ListaMarcas.DataTextField = "Nombre";
+                    ListaMarcas.DataValueField = "ID_Marca";
+                    ListaMarcas.DataBind();
+                }
+                else
+                {
+                    ListaMarcas.DataSource = (List<Marca>)Session["ListaMarcasModificar" + Session.SessionID];
+                    ListaMarcas.DataTextField = "Nombre";
+                    ListaMarcas.DataValueField = "ID_Marca";
+                    ListaMarcas.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void ListarMarcas(bool Forzar)
+        {
+            try
+            {
+                if (Forzar)
+                {
+                    NegocioDatos negocio = new NegocioDatos();
+                    Session["ListaMarcasModificar" + Session.SessionID] = negocio.ListarMarcas();
+                    ListaMarcas.DataSource = (List<Marca>)Session["ListaMarcasModificar" + Session.SessionID];
+                    ListaMarcas.DataTextField = "Nombre";
+                    ListaMarcas.DataValueField = "ID_Marca";
+                    ListaMarcas.DataBind();
+                }
             }
             catch (Exception ex)
             {
@@ -82,12 +112,42 @@ namespace ComercioWeb
         public void ListarCategorias()
         {
             try
-            { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
-                NegocioDatos negocio = new NegocioDatos();
-                ListaCategorias.DataSource = negocio.ListarCategorias();
-                ListaCategorias.DataTextField = "Nombre";
-                ListaCategorias.DataValueField = "ID_Categoria";
-                ListaCategorias.DataBind();
+            {
+                if(Session["ListarCategoriasModificar"+Session.SessionID] == null)
+                {
+                    NegocioDatos negocio = new NegocioDatos();
+                    Session["ListarCategoriasModificar" + Session.SessionID] = negocio.ListarCategorias();
+                    ListaCategorias.DataSource = (List<Categoria>)Session["ListarCategoriasModificar" + Session.SessionID];
+                    ListaCategorias.DataTextField = "Nombre";
+                    ListaCategorias.DataValueField = "ID_Categoria";
+                    ListaCategorias.DataBind();
+                }
+                else
+                {
+                    ListaCategorias.DataSource = (List<Categoria>)Session["ListarCategoriasModificar" + Session.SessionID];
+                    ListaCategorias.DataTextField = "Nombre";
+                    ListaCategorias.DataValueField = "ID_Categoria";
+                    ListaCategorias.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void ListarCategorias(bool Forzar)
+        {
+            try
+            {
+                if (Forzar)
+                {
+                    NegocioDatos negocio = new NegocioDatos();
+                    Session["ListarCategoriasModificar" + Session.SessionID] = negocio.ListarCategorias();
+                    ListaCategorias.DataSource = (List<Categoria>)Session["ListarCategoriasModificar" + Session.SessionID];
+                    ListaCategorias.DataTextField = "Nombre";
+                    ListaCategorias.DataValueField = "ID_Categoria";
+                    ListaCategorias.DataBind();
+                }
             }
             catch (Exception ex)
             {
