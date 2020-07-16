@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio;
+using Negocio;
 
 namespace ComercioWeb
 {
@@ -16,12 +17,12 @@ namespace ComercioWeb
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Timeout = 60;
+            HayUsuarioActivo = true;
             HayUsuarioActivo = ExisteUsuario();
             VerificarCarrito();
             VerificarEliminaciones();
             rptListaArticulosEnCarrito.DataSource = MiCarrito.ListaElementos;
             rptListaArticulosEnCarrito.DataBind();
-            VerificarCompra();
         }
         public void VerificarCarrito()
         {
@@ -29,36 +30,6 @@ namespace ComercioWeb
                 MiCarrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
             else
                 MiCarrito = new Dominio.Carrito();
-        }
-        public void VerificarCompra()
-        {
-            if (ExisteUsuario())
-            {
-                string comprar = Request.QueryString["comprar"];
-                if (comprar != null)
-                {
-                    //Compra de mentira, se debe hacer todo el resto
-                    List<ElementoCarrito> lista = new List<ElementoCarrito>();
-                    if (comprar != "todos")
-                    {
-                        if (EsNumero(comprar))
-                        {
-                            foreach (ElementoCarrito elemento in MiCarrito.ListaElementos)
-                            {
-                                if (elemento.ID_Elemento != Convert.ToInt32(comprar))
-                                    lista.Add(elemento);
-                            }
-                        }
-                    }
-                    MiCarrito.ListaElementos = lista;
-                    Session["Carrito" + Session.SessionID] = MiCarrito;
-                    Response.Redirect("GraciasPorSuCompra.aspx?compra=true");
-                }
-            }
-            else
-            {
-                Response.Redirect("IniciarSesion.aspx?comprar=false");
-            }
         }
         public bool ExisteUsuario()
         {
@@ -101,6 +72,23 @@ namespace ComercioWeb
                 }
             }
             return true;
+        }
+
+        protected void btnComprar_Click(object sender, EventArgs e)
+        {
+            if(MiCarrito.ListaElementos.Count != 0)
+            {
+                NegocioDatos negocio = new NegocioDatos();
+                Session["NumeroFactura" + Session.SessionID] = negocio.CrearFactura();
+                foreach(ElementoCarrito elemento in MiCarrito.ListaElementos)
+                {
+                    negocio.AgregarVenta(Convert.ToInt32(Session["NumeroFactura" + Session.SessionID]), Convert.ToInt32(((Usuario)Session["Usuario" + Session.SessionID]).ID_Usuario), elemento.Articulo.ID_Articulo, elemento.Cantidad);
+                }
+                List<ElementoCarrito> lista = new List<ElementoCarrito>();
+                MiCarrito.ListaElementos = lista;
+                Session["Carrito" + Session.SessionID] = MiCarrito;
+                Response.Redirect("GraciasPorSuCompra.aspx?compra=true");
+            }
         }
     }
 }

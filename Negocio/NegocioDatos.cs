@@ -564,5 +564,38 @@ namespace Negocio
                 datos.DesconectarDB();
             }
         }
+        public void AgregarVenta(int NumeroFactura, int IDUsuario, int IDArticulo, int Cantidad)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_ComprarArticulo");
+                datos.AgregarParametro("@IDArticulo", IDArticulo);
+                datos.AgregarParametro("@Stock", Cantidad);
+                datos.ConectarDB();
+                datos.Ejecutar();
+                datos.DesconectarDB();
+                datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_AgregarVenta");
+                datos.AgregarParametro("@NumeroFactura", NumeroFactura);
+                datos.AgregarParametro("@IDUsuario", IDUsuario);
+                datos.AgregarParametro("@IDArticulo", IDArticulo);
+                datos.AgregarParametro("@Cantidad", Cantidad);
+                datos.ConectarDB();
+                datos.Ejecutar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
     }
 }

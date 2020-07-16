@@ -78,9 +78,28 @@ Create table Articulos_x_Categoria (
 )
 go
 Create table Favoritos_x_Usuario (
-	IDFavorito bigint identity (1,1) primary key,
 	IDUsuario bigint foreign key references Usuarios(IDUsuario),
 	IDArticulo bigint foreign key references Articulos(IDArticulo)
+)
+go
+Create table Facturas(
+	Numero bigint identity(1,1) primary key,
+	Pago bit default 1 not null,
+	Cancelada bit default 0 not null,
+)
+go
+Create table EstadosDeVenta(
+	IDEstado bigint primary key identity(1,1),
+	Nombre varchar(150) not null,
+)
+go
+Create table Ventas(
+IDVentas bigint not null primary key identity(1,1),
+NumeroFactura bigint not null foreign key references Facturas(Numero),
+IDUsuario bigint not null foreign key references Usuarios(IDUsuario),
+IDArticulo bigint not null foreign key references Articulos(IDArticulo),
+Cantidad bigint not null check (Cantidad >= 0),
+IDEstado bigint foreign key references EstadosDeVenta(IDEstado)
 )
 go
 -- Creo un Store Procedure en el cual listo todos los artículos con sus respectivas marcas, luego otro SP para ver las categorías de c/u 
@@ -122,6 +141,11 @@ left join Domicilios as D on U.IDUsuario = D.IDUsuario
 left join Provincias as P on D.IDProvincia = P.IDProvincia
 left join Tipos as T on U.IDTipo = T.IDTipo
 where U.Activo = 1 
+go
+create table Articulos_x_ventas(
+	IDVenta bigint not null foreign key references Ventas(IDVentas),
+	IDArticulo bigint not null foreign key references Articulos(IDArticulo)
+)
 go
 create procedure SP_AltaUsuario(
 	@Email varchar(150),
@@ -435,10 +459,11 @@ Begin
 	End catch
 End
 go
-Create table Facturas (
-	Numero bigint identity(1,1) primary key,
-	Pago bit default 1 not null,
-)
+
+create view VW_UltimaFactura
+as
+select top 1 Numero from Facturas
+order by Numero desc
 go
 create procedure SP_CrearFactura
 as
@@ -451,14 +476,31 @@ Begin
 	End try
 	Begin catch  
 		Rollback transaction
-		Raiserror('Error al crear la factura',16,2)
+		Raiserror('Error al generar la factura',16,2)
 	End catch
 End
 go
-create view VW_UltimaFactura
+create procedure SP_AgregarVenta(
+	@NumeroFactura bigint,
+	@IDUsuario bigint,
+	@IDArticulo bigint,
+	@Cantidad bigint
+)
 as
-select top 1 Numero from Facturas
-order by Numero desc
+Begin
+	Begin try
+		BEGIN transaction
+			Insert into Ventas (NumeroFactura, IDUsuario, IDArticulo, Cantidad, IDEstado)
+			Values (@NumeroFactura,@IDUsuario,@IDArticulo,@Cantidad,1)
+			Insert into Articulos_x_ventas (IDArticulo,IDVenta)
+			Values (@IDArticulo,(Select top 1 IDVentas from Ventas order by IDVentas desc))
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al generar la venta',16,2)
+	End catch
+End
 go
 create procedure SP_ComprarArticulo(
 	@IDArticulo bigint,
@@ -478,6 +520,9 @@ Begin
 		Raiserror('Error al modificar stock',16,2)
 	End catch
 End
+go
+insert into EstadosDeVenta (Nombre)
+values ('Pendiente'),('En preparación'),('Entregado'),('Error')
 go
 insert into Provincias (Nombre, Identificador)
 values ('Buenos Aires',1),('Catamarca',2),('Chaco',3),('Chubut',4),('Córdoba',5),('Corrientes',6),('Entre Ríos',7),('Formosa',8),('Jujuy',9),('La Pampa',10),('La Rioja',11),('Mendoza',12),('Misiones',13),('Neuquén',14),('Río Negro',15),('Salta',16),('San Juan',17),('Santa Cruz',18),('Santa Fe',19),('Santiago del Estero',20),('Tierra del Fuego',21),('Tucumán',22)
@@ -592,6 +637,10 @@ go
 Exec SP_AgregarCategoriaAlUltimoArticulo 9
 go
 Exec SP_AltaUsuario 'guillermo.gigeroa@hotmail.com','s','Guillermo Adrián','Gigeroa',39112399,1,'Belén de Escobar','Rivadavia',631,'PA',1625,'E','Entre un negocio de cosas de bebés y un local de videojuegos',1,1169221781,1
+go
+Exec SP_AltaUsuario 'vendedor@vendedor','s','NombreVendedor','ApellidoVendedor',10000,2,'A','A',0,'A',0,'A','No hay',1,1163695874,1
+go
+Exec SP_AltaUsuario 'cliente@cliente','s','NombreCliente','ApellidoCliente',10000,2,'A','A',0,'A',0,'A','No hay',1,1163695874,1
 go
 Exec SP_ComprarArticulo 1,-14
 go

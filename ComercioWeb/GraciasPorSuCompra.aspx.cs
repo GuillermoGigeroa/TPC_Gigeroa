@@ -30,8 +30,7 @@ namespace ComercioWeb
             {
                 if (compra == "true")
                 {
-                    NegocioDatos negocio = new NegocioDatos();
-                    NumeroFactura = negocio.CrearFactura();
+                    NumeroFactura = Convert.ToInt32(Session["NumeroFactura" + Session.SessionID]);
                 }
                 else
                 {

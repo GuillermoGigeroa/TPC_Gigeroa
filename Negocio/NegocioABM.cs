@@ -427,5 +427,29 @@ namespace Negocio
                 datos.DesconectarDB();
             }
         }
+        public bool ComprarArticulo(Articulo articulo, int cantidad)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_ComprarArticulo");
+                datos.AgregarParametro("@IDArticulo", articulo.ID_Articulo);
+                datos.AgregarParametro("@IDCategoria", cantidad);
+                datos.ConectarDB();
+                datos.Ejecutar();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
     }
 }

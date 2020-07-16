@@ -33,6 +33,11 @@
     background-color: RGB(179,134,179) !important;
     border-width: 0px;
 }
+.BotonAgregarLight {
+    padding-bottom: 9px;
+    background-color: RGB(174,129,174) !important;
+    border-width: 0px;
+}
 .CentrarJumbo {
     background-color: RGB(220,215,230);
     width: 500px;

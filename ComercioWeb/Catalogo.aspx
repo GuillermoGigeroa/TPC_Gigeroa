@@ -119,6 +119,7 @@
             </nav>
         </div>
         <div class="container" style="padding-bottom: 30px;">
+            <asp:Label ID="lblError" Visible="false" Text="Lo sentimos, actualmente no tenemos más stock del producto seleccionado." CssClass="alert alert-danger" runat="server" />
         </div>
         <div class="container">
             <div class="card-deck mx-auto" style="margin-left: 0px; margin-right: 0px; width: 1135px; margin-bottom:30px;">

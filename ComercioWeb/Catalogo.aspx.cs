@@ -23,8 +23,8 @@ namespace ComercioWeb
         {
             Session.Timeout = 60;
             Carrito = new Dominio.Carrito();
-            Negocio = new NegocioDatos();
             HayUsuarioActivo = ExisteUsuario();
+            Negocio = new NegocioDatos();
             CargarArticulos(Negocio);
             CargarMarcas(Negocio);
             CargarCategorias(Negocio);
@@ -67,9 +67,29 @@ namespace ComercioWeb
                         if (articulo.ID_Articulo == Convert.ToInt32(ID_Articulo))
                         {
                             if (Cantidad != null)
-                                Carrito.AgregarArticulo(articulo, Convert.ToInt32(Cantidad));
+                            {
+                                if(ConteoTotal(articulo,Carrito))
+                                {
+                                    Carrito.AgregarArticulo(articulo, Convert.ToInt32(Cantidad));
+                                    lblError.Visible = false;
+                                }
+                                else
+                                {
+                                    lblError.Visible = true;
+                                }
+                            }
                             else
-                                Carrito.AgregarArticulo(articulo, 1);
+                            {
+                                if (ConteoTotal(articulo, Carrito))
+                                {
+                                    Carrito.AgregarArticulo(articulo, 1);
+                                    lblError.Visible = false;
+                                }
+                                else
+                                {
+                                    lblError.Visible = true;
+                                }
+                            }
                             break;
                         }
                     }
@@ -81,10 +101,27 @@ namespace ComercioWeb
                 throw ex;
             }
         }
+        public bool ConteoTotal(Articulo articulo, Dominio.Carrito MiCarrito)
+        {
+            int conteoStock = articulo.Stock;
+            foreach(ElementoCarrito elemento in MiCarrito.ListaElementos)
+            {
+                if(elemento.Articulo.ID_Articulo == articulo.ID_Articulo)
+                {
+                    conteoStock -= elemento.Cantidad;
+                }
+            }
+            if(conteoStock <= 0)
+            {
+                return false;
+            }
+            return true;
+        }
         private void CargarArticulos(NegocioDatos Negocio)
         {
             try
             { //Hacete el traspaso a Session, porque saturas las conexiones a BBDD
+                
                 ListaArticulos = Negocio.ListarArticulos();
                 rptListaArticulos.DataSource = ListaArticulos;
                 rptListaArticulos.DataBind();

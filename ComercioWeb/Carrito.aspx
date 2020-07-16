@@ -72,11 +72,14 @@
                                 {%>
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=MiCarrito.Cantidad()%>)</a>
                             <%}%>
+                        </li>   
+                        <li class="nav-item">
+                            <asp:Button ID="btnComprar" Text="Comprar" CssClass="btn btn-success BotonAgregarLight" runat="server" OnClick="btnComprar_Click" />
                         </li>
                         <li>
                             <%if (HayUsuarioActivo)
                                 {%>
-                            <a class="nav-link" style="padding-left: 575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                            <a class="nav-link" style="padding-left: 540px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
                             <%}%>
                         </li>
                     </ul>
@@ -105,9 +108,6 @@
                             </div>
                             <div class="container" style="text-align: center; padding-bottom: 15px; margin-top: -20px;">
                                 <div class="row">
-                                    <div class="col">
-                                        <a href="Carrito.aspx?comprar=<%#Eval("ID_Elemento")%>" class="btn btn-success BotonAgregar">Comprar</a>
-                                    </div>
                                     <div class="col">
                                         <a href="Carrito.aspx?eliminar=<%#Eval("ID_Elemento")%>" class="btn btn-danger BotonAgregar">Eliminar</a>
                                     </div>
