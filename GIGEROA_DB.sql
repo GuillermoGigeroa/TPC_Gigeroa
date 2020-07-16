@@ -97,9 +97,14 @@ Create table Ventas(
 IDVentas bigint not null primary key identity(1,1),
 NumeroFactura bigint not null foreign key references Facturas(Numero),
 IDUsuario bigint not null foreign key references Usuarios(IDUsuario),
-IDArticulo bigint not null foreign key references Articulos(IDArticulo),
-Cantidad bigint not null check (Cantidad >= 0),
-IDEstado bigint foreign key references EstadosDeVenta(IDEstado)
+IDEstado bigint foreign key references EstadosDeVenta(IDEstado),
+Fecha datetime default (Getdate())
+)
+go
+create table Articulos_x_ventas(
+	IDVenta bigint not null foreign key references Ventas(IDVentas),
+	IDArticulo bigint not null foreign key references Articulos(IDArticulo),
+	Cantidad bigint not null check (Cantidad >= 0),
 )
 go
 -- Creo un Store Procedure en el cual listo todos los artículos con sus respectivas marcas, luego otro SP para ver las categorías de c/u 
@@ -141,11 +146,6 @@ left join Domicilios as D on U.IDUsuario = D.IDUsuario
 left join Provincias as P on D.IDProvincia = P.IDProvincia
 left join Tipos as T on U.IDTipo = T.IDTipo
 where U.Activo = 1 
-go
-create table Articulos_x_ventas(
-	IDVenta bigint not null foreign key references Ventas(IDVentas),
-	IDArticulo bigint not null foreign key references Articulos(IDArticulo)
-)
 go
 create procedure SP_AltaUsuario(
 	@Email varchar(150),
@@ -482,7 +482,23 @@ End
 go
 create procedure SP_AgregarVenta(
 	@NumeroFactura bigint,
-	@IDUsuario bigint,
+	@IDUsuario bigint
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			Insert into Ventas (NumeroFactura, IDUsuario, IDEstado)
+			Values (@NumeroFactura,@IDUsuario,1)
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al generar la venta',16,2)
+	End catch
+End
+go
+create procedure SP_AgregarVentaAXV (
 	@IDArticulo bigint,
 	@Cantidad bigint
 )
@@ -490,15 +506,13 @@ as
 Begin
 	Begin try
 		BEGIN transaction
-			Insert into Ventas (NumeroFactura, IDUsuario, IDArticulo, Cantidad, IDEstado)
-			Values (@NumeroFactura,@IDUsuario,@IDArticulo,@Cantidad,1)
-			Insert into Articulos_x_ventas (IDArticulo,IDVenta)
-			Values (@IDArticulo,(Select top 1 IDVentas from Ventas order by IDVentas desc))
+			Insert into Articulos_x_ventas (IDArticulo,IDVenta,Cantidad)
+			Values (@IDArticulo,(Select top 1 IDVentas from Ventas order by IDVentas desc), @Cantidad)
 		COMMIT transaction
 	End try
 	Begin catch  
 		Rollback transaction
-		Raiserror('Error al generar la venta',16,2)
+		Raiserror('Error al generar la venta AXV',16,2)
 	End catch
 End
 go
@@ -588,11 +602,15 @@ Exec SP_AgregarCategoriaAlUltimoArticulo 2
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 6
 go
+Exec SP_ComprarArticulo 1,-9
+go
 Exec SP_AgregarArticulo 1,1,'Chaleco de lana','Un chaleco de lana abrigado',0,'https://i.ibb.co/zrmT0Mh/FB-IMG-15930994178334057.jpg','600'
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 6
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 15
+go
+Exec SP_ComprarArticulo 2,-9
 go
 Exec SP_AgregarArticulo 2,13,'Remera bordada','Remera bordada manga larga',0,'https://i.ibb.co/pr01Whz/IMG-20200623-110121-111.jpg','400'
 go
@@ -606,11 +624,15 @@ Exec SP_AgregarCategoriaAlUltimoArticulo 6
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 16
 go
+Exec SP_ComprarArticulo 3,-9
+go
 Exec SP_AgregarArticulo 1,1,'Gorro unisex','Gorro verde y negro',0,'https://i.ibb.co/jGXrRjG/IMG-20200614-153305-390.jpg','350'
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 6
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 9
+go
+Exec SP_ComprarArticulo 4,-9
 go
 Exec SP_AgregarArticulo 1,1,'Gorro de lana blanco','Gorro blanco',0,'https://i.ibb.co/pbr3VLZ/IMG-20200614-153305-393.jpg','350'
 go
@@ -618,9 +640,15 @@ Exec SP_AgregarCategoriaAlUltimoArticulo 6
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 9
 go
+Exec SP_ComprarArticulo 5,-9
+go
 Exec SP_AgregarArticulo 2,13,'Remera rayada','Remera de algodón rayada color blanco y negro',0,'https://i.ibb.co/KXwLy52/IMG-20200616-115842-132.jpg','350'
 go
+Exec SP_ComprarArticulo 6,-9
+go
 Exec SP_AgregarArticulo 2,13,'Remera negra','Remera de algodón negra estampada',0,'https://i.ibb.co/GWx70Cg/IMG-20200619-144917-491.jpg','350'
+go
+Exec SP_ComprarArticulo 7,-9
 go
 Exec SP_AgregarArticulo 1,1,'Medias crochet','Medias abrigadas de lana en crochet',0,'https://i.ibb.co/xm7dtks/26-06-2020-17-19-52-915-1614353750.jpg','300'
 go
@@ -630,11 +658,15 @@ Exec SP_AgregarCategoriaAlUltimoArticulo 6
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 16
 go
+Exec SP_ComprarArticulo 8,-9
+go
 Exec SP_AgregarArticulo 1,1,'Gorro de lana niños','Gorro de lana con trama de colores para niños',0,'https://i.ibb.co/7SVpctv/IMG-20200609-172018-201.jpg','400'
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 6
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 9
+go
+Exec SP_ComprarArticulo 9,-9
 go
 Exec SP_AltaUsuario 'guillermo.gigeroa@hotmail.com','s','Guillermo Adrián','Gigeroa',39112399,1,'Belén de Escobar','Rivadavia',631,'PA',1625,'E','Entre un negocio de cosas de bebés y un local de videojuegos',1,1169221781,1
 go
@@ -642,10 +674,32 @@ Exec SP_AltaUsuario 'vendedor@vendedor','s','NombreVendedor','ApellidoVendedor',
 go
 Exec SP_AltaUsuario 'cliente@cliente','s','NombreCliente','ApellidoCliente',10000,2,'A','A',0,'A',0,'A','No hay',1,1163695874,1
 go
-Exec SP_ComprarArticulo 1,-14
-go
-Exec SP_ComprarArticulo 2,-19
-go
 insert into Favoritos_x_Usuario (IDUsuario, IDArticulo)
 values (1,1)
 go
+create procedure SP_VerTransaccionesDe (
+	@IDUsuario bigint
+)
+as
+select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, V.IDEstado, E.Nombre as Estado from Ventas as V
+join EstadosDeVenta as E on V.IDEstado = E.IDEstado
+join Usuarios as U on V.IDUsuario = U.IDUsuario
+join Articulos_x_ventas as AXV on V.IDVentas = AXV.IDVenta
+join Articulos as A on AXV.IDArticulo = A.IDArticulo
+where U.IDUsuario = @IDusuario
+order by V.Fecha desc
+go
+--Exec SP_VerTransaccionesDe 1
+create procedure SP_VerTransacciones
+as
+select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, U.IDUsuario, U.Email, U.Telefono, U.Nombres, U.Apellidos, U.DNI, P.Nombre as Provincia, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, V.IDEstado, E.Nombre as Estado from Ventas as V
+join EstadosDeVenta as E on V.IDEstado = E.IDEstado
+join Usuarios as U on V.IDUsuario = U.IDUsuario
+join Articulos_x_ventas as AXV on V.IDVentas = AXV.IDVenta
+join Articulos as A on AXV.IDArticulo = A.IDArticulo
+join Domicilios as D on U.IDUsuario = D.IDUsuario
+join Provincias as P on D.IDProvincia = P.IDProvincia
+where E.IDEstado in (1,2)
+order by V.Fecha asc
+go
+--Exec SP_VerTransacciones

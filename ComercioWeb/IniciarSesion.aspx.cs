@@ -52,6 +52,11 @@ namespace ComercioWeb
                     lblLogin.Visible = true;
                 else
                     lblLogin.Visible = false;
+                if (login == "carrito")
+                    lblErrorCompra.Visible = true;
+                else
+                    lblErrorCompra.Visible = false;
+
             }
         }
         public void VerificarCarrito()
@@ -72,6 +77,13 @@ namespace ComercioWeb
                 if (usuario.Email.Trim().ToLower() == txtEmail.Text.Trim().ToLower() && Encriptador.Desencriptar(usuario.Password) == txtPassword.Text)
                 {
                     Session["Usuario" + Session.SessionID] = usuario;
+                    string login = Request.QueryString["login"];
+                    if (login != null)
+                    {
+                        if (login == "carrito")
+                            Response.Redirect("Carrito.aspx");
+                        break;
+                    }
                     Response.Redirect("Usuarios.aspx");
                     break;
                 }

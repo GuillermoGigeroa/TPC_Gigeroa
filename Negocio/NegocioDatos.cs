@@ -564,27 +564,208 @@ namespace Negocio
                 datos.DesconectarDB();
             }
         }
-        public void AgregarVenta(int NumeroFactura, int IDUsuario, int IDArticulo, int Cantidad)
+        public void AgregarVenta(int NumeroFactura, int IDUsuario)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_AgregarVenta");
+                datos.AgregarParametro("@NumeroFactura", NumeroFactura);
+                datos.AgregarParametro("@IDUsuario", IDUsuario);
+                datos.ConectarDB();
+                datos.Ejecutar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void AgregarVentaAXV(ElementoCarrito elemento)
+        {
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_AgregarVentaAXV");
+                datos.AgregarParametro("@IDArticulo", elemento.Articulo.ID_Articulo);
+                datos.AgregarParametro("@Cantidad", elemento.Cantidad);
+                datos.ConectarDB();
+                datos.Ejecutar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void ComprarArticulo(ElementoCarrito elemento)
         {
             try
             {
                 Datos datos = new Datos();
                 datos.ConfigurarConexion();
                 datos.StoreProcedure("SP_ComprarArticulo");
-                datos.AgregarParametro("@IDArticulo", IDArticulo);
-                datos.AgregarParametro("@Stock", Cantidad);
+                datos.AgregarParametro("@IDArticulo", elemento.Articulo.ID_Articulo);
+                datos.AgregarParametro("@Stock", elemento.Cantidad);
                 datos.ConectarDB();
                 datos.Ejecutar();
-                datos.DesconectarDB();
-                datos = new Datos();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
                 datos.ConfigurarConexion();
-                datos.StoreProcedure("SP_AgregarVenta");
-                datos.AgregarParametro("@NumeroFactura", NumeroFactura);
-                datos.AgregarParametro("@IDUsuario", IDUsuario);
-                datos.AgregarParametro("@IDArticulo", IDArticulo);
-                datos.AgregarParametro("@Cantidad", Cantidad);
+                datos.DesconectarDB();
+            }
+        }
+        public List<Transaccion> ListarVentas()
+        {
+            List<Transaccion> listaVentas = new List<Transaccion>();
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_VerTransacciones");
+                //datos.AgregarParametro("@IDUsuario", usuario);
                 datos.ConectarDB();
-                datos.Ejecutar();
+                datos.PrepararLector();
+                SqlDataReader datosLeidos;
+                Transaccion venta;
+                while (datos.Leer())
+                {
+                    venta = new Transaccion();
+                    datosLeidos = datos.Lectura();
+                    venta.NumeroFactura = -1;
+                    if (!Convert.IsDBNull(datosLeidos["NumeroFactura"]))
+                        venta.NumeroFactura = Convert.ToInt32(datosLeidos["NumeroFactura"]);
+                    venta.Articulo.Articulo.ID_Articulo = -1;
+                    if (!Convert.IsDBNull(datosLeidos["IDArticulo"]))
+                        venta.Articulo.Articulo.ID_Articulo = Convert.ToInt32(datosLeidos["IDArticulo"]);
+                    venta.Articulo.Articulo.Nombre = "Nombre";
+                    if (!Convert.IsDBNull(datosLeidos["Nombre"]))
+                        venta.Articulo.Articulo.Nombre = Convert.ToString(datosLeidos["Nombre"]);
+                    venta.Articulo.Cantidad = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Cantidad"]))
+                        venta.Articulo.Cantidad = Convert.ToInt32(datosLeidos["Cantidad"]);
+                    venta.FechaAccion = "Nunca";
+                    if (!Convert.IsDBNull(datosLeidos["Fecha"]) && !Convert.IsDBNull(datosLeidos["Hora"]))
+                        venta.FechaAccion = Convert.ToString(datosLeidos["Fecha"])+", "+ Convert.ToString(datosLeidos["Hora"]);
+                    venta.Email = "Email";
+                    if (!Convert.IsDBNull(datosLeidos["Email"]))
+                        venta.Email = Convert.ToString(datosLeidos["Email"]);
+                    venta.Telefono = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Telefono"]))
+                        venta.Telefono = Convert.ToInt32(datosLeidos["Telefono"]);
+                    venta.Nombres = "Nombres";
+                    if (!Convert.IsDBNull(datosLeidos["Nombres"]))
+                        venta.Nombres = Convert.ToString(datosLeidos["Nombres"]);
+                    venta.Apellidos = "Apellidos";
+                    if (!Convert.IsDBNull(datosLeidos["Apellidos"]))
+                        venta.Apellidos = Convert.ToString(datosLeidos["Apellidos"]);
+                    venta.DNI = -1;
+                    if (!Convert.IsDBNull(datosLeidos["DNI"]))
+                        venta.DNI = Convert.ToInt32(datosLeidos["DNI"]);
+                    venta.Estado.Codigo = -1;
+                    if (!Convert.IsDBNull(datosLeidos["IDEstado"]))
+                        venta.Estado.Codigo = Convert.ToInt32(datosLeidos["IDEstado"]);
+                    venta.Estado.Descripcion = "Estado";
+                    if (!Convert.IsDBNull(datosLeidos["Estado"]))
+                        venta.Estado.Descripcion = Convert.ToString(datosLeidos["Estado"]);
+                    listaVentas.Add(venta);
+                }
+                return listaVentas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public List<Transaccion> ListarCompras(Usuario usuario)
+        {
+            List<Transaccion> listaVentas = new List<Transaccion>();
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_VerTransaccionesDe");
+                datos.AgregarParametro("@IDUsuario", usuario.ID_Usuario);
+                datos.ConectarDB();
+                datos.PrepararLector();
+                SqlDataReader datosLeidos;
+                Transaccion venta;
+                while (datos.Leer())
+                {
+                    venta = new Transaccion();
+                    datosLeidos = datos.Lectura();
+                    venta.ID_Usuario = -1;
+                    if (!Convert.IsDBNull(datosLeidos["IDUsuario"]))
+                        venta.ID_Usuario = Convert.ToInt32(datosLeidos["IDUsuario"]);
+                    venta.NumeroFactura = -1;
+                    if (!Convert.IsDBNull(datosLeidos["NumeroFactura"]))
+                        venta.NumeroFactura = Convert.ToInt32(datosLeidos["NumeroFactura"]);
+                    venta.Articulo.Articulo.ID_Articulo = -1;
+                    if (!Convert.IsDBNull(datosLeidos["IDArticulo"]))
+                        venta.Articulo.Articulo.ID_Articulo = Convert.ToInt32(datosLeidos["IDArticulo"]);
+                    venta.Articulo.Articulo.Nombre = "Nombre";
+                    if (!Convert.IsDBNull(datosLeidos["Nombre"]))
+                        venta.Articulo.Articulo.Nombre = Convert.ToString(datosLeidos["Nombre"]);
+                    venta.Articulo.Cantidad = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Cantidad"]))
+                        venta.Articulo.Cantidad = Convert.ToInt32(datosLeidos["Cantidad"]);
+                    venta.FechaAccion = "Nunca";
+                    if (!Convert.IsDBNull(datosLeidos["Fecha"]) && !Convert.IsDBNull(datosLeidos["Hora"]))
+                        venta.FechaAccion = Convert.ToString(datosLeidos["Fecha"]) + ", " + Convert.ToString(datosLeidos["Hora"]);
+                    venta.Email = "Email";
+                    if (!Convert.IsDBNull(datosLeidos["Email"]))
+                        venta.Email = Convert.ToString(datosLeidos["Email"]);
+                    venta.Telefono = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Telefono"]))
+                        venta.Telefono = Convert.ToInt32(datosLeidos["Telefono"]);
+                    venta.Nombres = "Nombres";
+                    if (!Convert.IsDBNull(datosLeidos["Nombres"]))
+                        venta.Nombres = Convert.ToString(datosLeidos["Nombres"]);
+                    venta.Apellidos = "Apellidos";
+                    if (!Convert.IsDBNull(datosLeidos["Apellidos"]))
+                        venta.Apellidos = Convert.ToString(datosLeidos["Apellidos"]);
+                    venta.DNI = -1;
+                    if (!Convert.IsDBNull(datosLeidos["DNI"]))
+                        venta.DNI = Convert.ToInt32(datosLeidos["DNI"]);
+                    venta.Estado.Codigo = -1;
+                    if (!Convert.IsDBNull(datosLeidos["IDEstado"]))
+                        venta.Estado.Codigo = Convert.ToInt32(datosLeidos["IDEstado"]);
+                    venta.Estado.Descripcion = "Estado";
+                    if (!Convert.IsDBNull(datosLeidos["Estado"]))
+                        venta.Estado.Descripcion = Convert.ToString(datosLeidos["Estado"]);
+                    venta.Direccion = "Dirección";
+                    if (!Convert.IsDBNull(datosLeidos["Calle"]) && !Convert.IsDBNull(datosLeidos["Numero"]) && !Convert.IsDBNull(datosLeidos["Piso"]) && !Convert.IsDBNull(datosLeidos["Depto"]) && !Convert.IsDBNull(datosLeidos["Provincia"]))
+                        venta.Direccion = (Convert.ToString(datosLeidos["Provincia"])+", "+ Convert.ToString(datosLeidos["Calle"]) + " " + Convert.ToString(datosLeidos["Numero"]) + ", " + Convert.ToString(datosLeidos["Piso"]) + " " + Convert.ToString(datosLeidos["Depto"]));
+                    venta.CodigoPostal= -1;
+                    if (!Convert.IsDBNull(datosLeidos["CP"]))
+                        venta.CodigoPostal = Convert.ToInt32(datosLeidos["CP"]);
+                    listaVentas.Add(venta);
+                }
+                return listaVentas;
             }
             catch (Exception ex)
             {

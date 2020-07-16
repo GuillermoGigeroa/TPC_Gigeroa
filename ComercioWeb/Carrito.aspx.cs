@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -17,8 +18,9 @@ namespace ComercioWeb
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Timeout = 60;
-            HayUsuarioActivo = true;
             HayUsuarioActivo = ExisteUsuario();
+            if(!HayUsuarioActivo)
+                Response.Redirect("IniciarSesion.aspx?login=carrito");
             VerificarCarrito();
             VerificarEliminaciones();
             rptListaArticulosEnCarrito.DataSource = MiCarrito.ListaElementos;
@@ -80,9 +82,10 @@ namespace ComercioWeb
             {
                 NegocioDatos negocio = new NegocioDatos();
                 Session["NumeroFactura" + Session.SessionID] = negocio.CrearFactura();
+                negocio.AgregarVenta(Convert.ToInt32(Session["NumeroFactura" + Session.SessionID]), Convert.ToInt32(((Usuario)Session["Usuario" + Session.SessionID]).ID_Usuario));
                 foreach(ElementoCarrito elemento in MiCarrito.ListaElementos)
                 {
-                    negocio.AgregarVenta(Convert.ToInt32(Session["NumeroFactura" + Session.SessionID]), Convert.ToInt32(((Usuario)Session["Usuario" + Session.SessionID]).ID_Usuario), elemento.Articulo.ID_Articulo, elemento.Cantidad);
+                    negocio.AgregarVentaAXV(elemento);
                 }
                 List<ElementoCarrito> lista = new List<ElementoCarrito>();
                 MiCarrito.ListaElementos = lista;

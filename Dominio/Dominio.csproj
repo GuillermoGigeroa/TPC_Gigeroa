@@ -44,6 +44,8 @@
     <Compile Include="Articulo.cs" />
     <Compile Include="Carrito.cs" />
     <Compile Include="Categoria.cs" />
+    <Compile Include="EstadoTransaccion.cs" />
+    <Compile Include="Transaccion.cs" />
     <Compile Include="Encriptador.cs" />
     <Compile Include="Domicilio.cs" />
     <Compile Include="ElementoCarrito.cs" />

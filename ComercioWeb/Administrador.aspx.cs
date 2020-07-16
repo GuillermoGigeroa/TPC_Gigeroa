@@ -32,18 +32,18 @@ namespace ComercioWeb
         }
         public void ListarArticulosAdmin()
         {
-            if (Session["ListaArticulosAdmin" + Session.SessionID] != null)
-            {
-                ListaArticulos.DataSource = (List<Articulo>)Session["ListaUsuariosAdmin" + Session.SessionID];
-                ListaArticulos.DataTextField = "Nombre";
-                ListaArticulos.DataValueField = "ID_Articulo";
-                ListaArticulos.DataBind();
-            }
-            else
+            if (Session["ListaArticulosAdmin" + Session.SessionID] == null)
             {
                 NegocioDatos negocio = new NegocioDatos();
                 Session["ListaArticulosAdmin" + Session.SessionID] = negocio.ListarArticulosAdmin();
                 ListaArticulos.DataSource = (List<Articulo>)Session["ListaArticulosAdmin" + Session.SessionID];
+                ListaArticulos.DataTextField = "Nombre";
+                ListaArticulos.DataValueField = "ID_Articulo";
+                ListaArticulos.DataBind();   
+            }
+            else
+            {
+                ListaArticulos.DataSource = (List<Articulo>)Session["ListaUsuariosAdmin" + Session.SessionID];
                 ListaArticulos.DataTextField = "Nombre";
                 ListaArticulos.DataValueField = "ID_Articulo";
                 ListaArticulos.DataBind();
@@ -51,8 +51,10 @@ namespace ComercioWeb
         }
         public void ListarUsuariosAdmin()
         {
-            if(Session["ListaUsuarios"+Session.SessionID] != null)
+            if(Session["ListaUsuarios"+Session.SessionID] == null)
             {
+                NegocioDatos negocio = new NegocioDatos();
+                Session["ListaUsuarios" + Session.SessionID] = negocio.ListarUsuariosAdmin();
                 ListaUsuarios.DataSource = (List<Usuario>)Session["ListaUsuarios" + Session.SessionID];
                 ListaUsuarios.DataTextField = "Email";
                 ListaUsuarios.DataValueField = "ID_Usuario";
@@ -60,8 +62,6 @@ namespace ComercioWeb
             }
             else
             {
-                NegocioDatos negocio = new NegocioDatos();
-                Session["ListaUsuarios" + Session.SessionID] = negocio.ListarUsuariosAdmin();
                 ListaUsuarios.DataSource = (List<Usuario>)Session["ListaUsuarios" + Session.SessionID];
                 ListaUsuarios.DataTextField = "Email";
                 ListaUsuarios.DataValueField = "ID_Usuario";

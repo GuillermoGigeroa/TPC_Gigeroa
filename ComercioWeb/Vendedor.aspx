@@ -136,6 +136,13 @@
                         <a class="btn btn-dark BotonAgregar" href="ModificarArticulo.aspx">Ir a menú de modificar artículo</a>
                     </div>
                 </div>
+                <div class="LineaPunteada"></div>
+                <div class="row">
+                    <div class="col" style="text-align:center;">
+                        <h3 style="padding-bottom:10px;">Control de ventas y stock</h3>
+                        <a class="btn btn-dark BotonAgregar" href="Controlventasystock.aspx">Ir al control de ventas y stock</a>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
