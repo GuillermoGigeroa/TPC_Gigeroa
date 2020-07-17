@@ -12,6 +12,7 @@ namespace Dominio
         {
             Articulo = new ElementoCarrito();
             Estado = new EstadoTransaccion();
+            Domicilio = new Domicilio();
         }
         public int NumeroFactura { get; set; }
         public int ID_Usuario { get; set; }
@@ -23,7 +24,6 @@ namespace Dominio
         public string Apellidos { get; set; }
         public int DNI { get; set; }
         public EstadoTransaccion Estado { get; set; }
-        public string Direccion { get; set; }
-        public int CodigoPostal { get; set; }
+        public Domicilio Domicilio { get; set; }
     }
 }

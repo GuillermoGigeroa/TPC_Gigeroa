@@ -36,9 +36,10 @@
                                         {%>
                                     <a class="dropdown-item" href="Administrador.aspx">Configuraciones de administrador</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2 || Usuario.TipoUsuario.ID_Tipo == 1)
+                                    <%if (Usuario.TipoUsuario.ID_Tipo < 3)
                                         {%>
                                     <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
+                                    <a class="dropdown-item" href="Controlventasystock.aspx">Control de ventas y stock</a>
                                     <%}%>
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 3)
                                         {%>
@@ -68,17 +69,48 @@
                     </ul>
                 </div>
             </nav>
-            <div class="jumbotron">
-                <div class="row" style="padding-bottom:20px;">
-                    <div class="col" style="text-align:center;">
-                        <h3 style="padding-bottom:10px;">Control de ventas</h3>
-                        <asp:GridView ID="dgvVentas" CssClass="table table-sm table-dark" runat="server"></asp:GridView>
-                    </div>
-                </div>
-                <div class="row" style="padding-bottom:20px;">
-                    <div class="col" style="text-align:center;">
-                        <h3 style="padding-bottom:10px;">Control de stock</h3>
-                        <asp:GridView ID="dgvStock" CssClass="table table-sm table-dark" runat="server"></asp:GridView>
+            <div class="jumbotron" style="padding-top:5px;">
+                <h3 style="padding-bottom: 10px;">Control de ventas</h3>
+                <table class="table table-sm table-secondary">
+                    <thead>
+                        <tr>
+                            <th scope="col"><span style="padding:5px">Numero de factura</span></th>
+                            <th scope="col">Nombre del artículo</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Fecha de compra</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Nombres</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Domicilio</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <asp:Repeater ID="rptVentas" runat="server">
+                    <ItemTemplate>
+                        <tr>
+                            <td><%#Eval("NumeroFactura")%></td>
+                            <td><%#Eval("Articulo.Articulo.Nombre")%></td>
+                            <td><%#Eval("Articulo.Cantidad")%></td>
+                            <td><%#Eval("FechaAccion")%></td>
+                            <td><%#Eval("Email")%></td>
+                            <td><%#Eval("Telefono")%></td>
+                            <td><%#Eval("Nombres")%></td>
+                            <td><%#Eval("Apellidos")%></td>
+                            <td><%#Eval("DNI")%></td>
+                            <td><%#Eval("Domicilio.Provincia")+", "+Eval("Domicilio.Ciudad")+", "+Eval("Domicilio.Calle")+" "+Eval("Domicilio.Numero")+" "+Eval("Domicilio.Piso")+" "+Eval("Domicilio.Departamento")+" (CP "+Eval("Domicilio.CodigoPostal")+")\nReferencia: "+Eval("Domicilio.Referencia")%></td>
+                            <td><%#Eval("Estado.Descripcion")%></td>
+                        </tr>
+                    </ItemTemplate>
+                </asp:Repeater>
+                    </tbody>
+                </table>
+                <div class="row" style="padding-bottom: 20px;">
+                    <div class="col" style="text-align: center;">
+                        <h3 style="padding-bottom: 10px;">Control de stock</h3>
+                        <asp:GridView ID="dgvStock" CssClass="table table-sm table-secondary" runat="server"></asp:GridView>
                     </div>
                 </div>
             </div>

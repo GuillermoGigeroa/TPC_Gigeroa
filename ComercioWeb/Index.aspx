@@ -39,23 +39,24 @@
                             </div>
                         </li>
                         <%}
-                        else
-                          {%>
+                            else
+                            {%>
                         <li class="nav-item dropdown">
                             <div>
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 1)
-                                      {%>
-                                        <a class="dropdown-item" href="Administrador.aspx">Configuraciones de administrador</a>
+                                        {%>
+                                    <a class="dropdown-item" href="Administrador.aspx">Configuraciones de administrador</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2 || Usuario.TipoUsuario.ID_Tipo == 1)
-                                      {%>
-                                        <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo < 3)
+                                        {%>
+                                    <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
+                                    <a class="dropdown-item" href="Controlventasystock.aspx">Control de ventas y stock</a>
                                     <%}%>
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 3)
-                                      {%>
-                                        <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
+                                        {%>
+                                    <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
                                     <%}%>
                                     <a class="dropdown-item" href="ModificarUsuario.aspx">Modificar datos personales</a>
                                     <a class="dropdown-item" href="Index.aspx?logout=true">Cerrar Sesión</a>
@@ -63,42 +64,42 @@
                             </div>
                         </li>
                         <%}%>
-                        <li class="nav-item" style="width:200px;">
+                        <li class="nav-item" style="width: 200px;">
                             <%if (Carrito.ListaElementos.Count() != 0)
-                              {%>
+                                {%>
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>) - $<%=Carrito.PrecioTotal()%></a>
                             <%}
-                              else
-                              {%>
+                                else
+                                {%>
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>)</a>
                             <%}%>
                         </li>
                         <li>
                             <%if (HayUsuarioActivo)
-                              {%>
-                              <a class="nav-link" style="padding-left:575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                                {%>
+                            <a class="nav-link" style="padding-left: 575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
                             <%}%>
                         </li>
                     </ul>
                 </div>
             </nav>
             <h3>Nuestros productos</h3>
-            <div class="container" style="text-align:center;">
-                <div class="carousel slide" data-ride="carousel" style="width:500px;padding-top:10px;display:inline-block;">
+            <div class="container" style="text-align: center;">
+                <div class="carousel slide" data-ride="carousel" style="width: 500px; padding-top: 10px; display: inline-block;">
                     <div class="carousel-inner">
                         <div class="carousel-item active" data-interval="1">
                         </div>
                         <asp:Repeater ID="rptListaImagenes" runat="server">
                             <ItemTemplate>
                                 <div class="carousel-item" data-interval="3000">
-                                    <img src="<%#Eval("URL_Imagen")%>" class="d-block w-100 ImagenSlide"/>
+                                    <img src="<%#Eval("URL_Imagen")%>" class="d-block w-100 ImagenSlide" />
                                 </div>
                             </ItemTemplate>
                         </asp:Repeater>
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     </form>
 </body>
 </html>

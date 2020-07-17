@@ -14,6 +14,7 @@ namespace ComercioWeb
         public Usuario Usuario { get; set; }
         public Dominio.Carrito Carrito { get; set; }
         public bool HayUsuarioActivo { get; set; }
+        public List<Transaccion> ListaTransacciones { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Timeout = 60;
@@ -28,14 +29,15 @@ namespace ComercioWeb
             if(Session["Ventas"+Session.SessionID] == null)
             {
                 NegocioDatos negocio = new NegocioDatos();
-                Session["Ventas" + Session.SessionID] = negocio.ListarVentas();
-                dgvVentas.DataSource = (List<Transaccion>)Session["Ventas" + Session.SessionID];
-                dgvVentas.DataBind();
+                List<Transaccion> lista = negocio.ListarVentas();
+                Session["Ventas" + Session.SessionID] = lista;
+                rptVentas.DataSource = (List<Transaccion>)Session["Ventas" + Session.SessionID];
+                rptVentas.DataBind();
             }
             else
             {
-                dgvVentas.DataSource = (List<Transaccion>)Session["Ventas" + Session.SessionID];
-                dgvVentas.DataBind();
+                rptVentas.DataSource = (List<Transaccion>)Session["Ventas" + Session.SessionID];
+                rptVentas.DataBind();
             }
         }
         public void CargarStock()

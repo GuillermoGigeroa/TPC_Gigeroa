@@ -686,6 +686,30 @@ namespace Negocio
                     venta.Estado.Descripcion = "Estado";
                     if (!Convert.IsDBNull(datosLeidos["Estado"]))
                         venta.Estado.Descripcion = Convert.ToString(datosLeidos["Estado"]);
+                    venta.Domicilio.Provincia = "Provincia";
+                    if (!Convert.IsDBNull(datosLeidos["Provincia"]))
+                        venta.Domicilio.Provincia = Convert.ToString(datosLeidos["Provincia"]);
+                    venta.Domicilio.Ciudad = "Ciudad";
+                    if (!Convert.IsDBNull(datosLeidos["Ciudad"]))
+                        venta.Domicilio.Ciudad = Convert.ToString(datosLeidos["Ciudad"]);
+                    venta.Domicilio.Calle = "Calle";
+                    if (!Convert.IsDBNull(datosLeidos["Calle"]))
+                        venta.Domicilio.Calle = Convert.ToString(datosLeidos["Calle"]);
+                    venta.Domicilio.Numero = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Numero"]))
+                        venta.Domicilio.Numero = Convert.ToInt32(datosLeidos["Numero"]);
+                    venta.Domicilio.Piso = "Piso";
+                    if (!Convert.IsDBNull(datosLeidos["Piso"]))
+                        venta.Domicilio.Piso = Convert.ToString(datosLeidos["Piso"]);
+                    venta.Domicilio.CodigoPostal = -1;
+                    if (!Convert.IsDBNull(datosLeidos["CP"]))
+                        venta.Domicilio.CodigoPostal = Convert.ToInt32(datosLeidos["CP"]);
+                    venta.Domicilio.Departamento = "Depto";
+                    if (!Convert.IsDBNull(datosLeidos["Depto"]))
+                        venta.Domicilio.Departamento = Convert.ToString(datosLeidos["Depto"]);
+                    venta.Domicilio.Referencia = "Referencia";
+                    if (!Convert.IsDBNull(datosLeidos["Referencia"]))
+                        venta.Domicilio.Referencia = Convert.ToString(datosLeidos["Referencia"]);
                     listaVentas.Add(venta);
                 }
                 return listaVentas;
@@ -757,12 +781,30 @@ namespace Negocio
                     venta.Estado.Descripcion = "Estado";
                     if (!Convert.IsDBNull(datosLeidos["Estado"]))
                         venta.Estado.Descripcion = Convert.ToString(datosLeidos["Estado"]);
-                    venta.Direccion = "Dirección";
-                    if (!Convert.IsDBNull(datosLeidos["Calle"]) && !Convert.IsDBNull(datosLeidos["Numero"]) && !Convert.IsDBNull(datosLeidos["Piso"]) && !Convert.IsDBNull(datosLeidos["Depto"]) && !Convert.IsDBNull(datosLeidos["Provincia"]))
-                        venta.Direccion = (Convert.ToString(datosLeidos["Provincia"])+", "+ Convert.ToString(datosLeidos["Calle"]) + " " + Convert.ToString(datosLeidos["Numero"]) + ", " + Convert.ToString(datosLeidos["Piso"]) + " " + Convert.ToString(datosLeidos["Depto"]));
-                    venta.CodigoPostal= -1;
+                    venta.Domicilio.Provincia = "Provincia";
+                    if (!Convert.IsDBNull(datosLeidos["Provincia"]))
+                        venta.Domicilio.Provincia = Convert.ToString(datosLeidos["Provincia"]);
+                    venta.Domicilio.Ciudad = "Ciudad";
+                    if (!Convert.IsDBNull(datosLeidos["Ciudad"]))
+                        venta.Domicilio.Ciudad = Convert.ToString(datosLeidos["Ciudad"]);
+                    venta.Domicilio.Calle = "Calle";
+                    if (!Convert.IsDBNull(datosLeidos["Calle"]))
+                        venta.Domicilio.Calle = Convert.ToString(datosLeidos["Calle"]);
+                    venta.Domicilio.Numero = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Numero"]))
+                        venta.Domicilio.Numero = Convert.ToInt32(datosLeidos["Numero"]);
+                    venta.Domicilio.Piso = "Piso";
+                    if (!Convert.IsDBNull(datosLeidos["Piso"]))
+                        venta.Domicilio.Piso = Convert.ToString(datosLeidos["Piso"]);
+                    venta.Domicilio.CodigoPostal = -1;
                     if (!Convert.IsDBNull(datosLeidos["CP"]))
-                        venta.CodigoPostal = Convert.ToInt32(datosLeidos["CP"]);
+                        venta.Domicilio.CodigoPostal = Convert.ToInt32(datosLeidos["CP"]);
+                    venta.Domicilio.Departamento = "Depto";
+                    if (!Convert.IsDBNull(datosLeidos["Depto"]))
+                        venta.Domicilio.Departamento = Convert.ToString(datosLeidos["Depto"]);
+                    venta.Domicilio.Referencia = "Referencia";
+                    if (!Convert.IsDBNull(datosLeidos["Referencia"]))
+                        venta.Domicilio.Referencia = Convert.ToString(datosLeidos["Referencia"]);
                     listaVentas.Add(venta);
                 }
                 return listaVentas;
