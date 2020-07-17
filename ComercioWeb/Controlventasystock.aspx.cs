@@ -19,7 +19,7 @@ namespace ComercioWeb
         {
             Session.Timeout = 60;
             HayUsuarioActivo = ExisteUsuario();
-            //VerificarVendedor();
+            VerificarVendedor();
             VerificarCarrito();
             CargarVentas();
             CargarStock();
