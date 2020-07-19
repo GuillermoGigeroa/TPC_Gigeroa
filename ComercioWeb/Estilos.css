@@ -35,7 +35,7 @@
 }
 .BotonAgregarLight {
     padding-bottom: 9px;
-    background-color: RGB(174,129,174) !important;
+    background-color: RGB(160,115,160) !important;
     border-width: 0px;
 }
 .CentrarJumbo {
@@ -48,6 +48,10 @@
     padding-right: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+.DetallesDeCompra {
+    background-color: RGB(230,225,240) !important;
+    border-width: 0px;
 }
 .LineaPunteada {
     border-top: dashed;
@@ -69,6 +73,11 @@
 h3 {
     text-align:center;
     padding-top:10px;
+    color: RGB(179,134,179);
+}
+h4 {
+    text-align: center;
+    padding-top: 10px;
     color: RGB(179,134,179);
 }
 .ListaDesplegable {

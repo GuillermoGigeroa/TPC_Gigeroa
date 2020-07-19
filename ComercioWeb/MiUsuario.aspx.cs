@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio;
+using Negocio;
 
 namespace ComercioWeb
 {
@@ -19,6 +20,7 @@ namespace ComercioWeb
             HayUsuarioActivo = ExisteUsuario();
             VerificarUsuario();
             VerificarCarrito();
+            Compras();
         }
         public bool ExisteUsuario()
         {
@@ -43,6 +45,38 @@ namespace ComercioWeb
                 Usuario = (Usuario)Session["Usuario" + Session.SessionID];
             else
                 Response.Redirect("IniciarSesion.aspx");
+        }
+        public void Compras()
+        {
+            if (Session["Compras" + Session.SessionID] == null)
+            {
+                NegocioDatos negocio = new NegocioDatos();
+                List<Transaccion> lista = negocio.ListarCompras((Usuario)Session["Usuario" + Session.SessionID]);
+                Session["Compras" + Session.SessionID] = lista;
+                rptCompras.DataSource = (List<Transaccion>)Session["Compras" + Session.SessionID];
+                rptCompras.DataBind();
+            }
+            else
+            {
+                rptCompras.DataSource = (List<Transaccion>)Session["Compras" + Session.SessionID];
+                rptCompras.DataBind();
+            }
+        }
+        public void Compras(bool Forzar)
+        {
+            if (Forzar)
+            {
+                NegocioDatos negocio = new NegocioDatos();
+                List<Transaccion> lista = negocio.ListarCompras((Usuario)Session["Usuario" + Session.SessionID]);
+                Session["Compras" + Session.SessionID] = lista;
+                rptCompras.DataSource = (List<Transaccion>)Session["Compras" + Session.SessionID];
+                rptCompras.DataBind();
+            }
+        }
+        protected void btnActualizar_Click(object sender, EventArgs e)
+        {
+            Compras(true);
+            btnActualizar.Visible = false;
         }
     }
 }

@@ -60,17 +60,45 @@
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>)</a>
                             <%}%>
                         </li>
+                        <li class="nav-item">
+                            <asp:Button ID="btnActualizar" Text="Actualizar" CssClass="btn btn-success BotonAgregarLight" runat="server" OnClick="btnActualizar_Click"/>
+                        </li>
                         <li>
                             <%if (HayUsuarioActivo)
                               {%>
-                              <a class="nav-link" style="padding-left:575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                              <a class="nav-link" style="padding-left:400px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
                             <%}%>
                         </li>
                     </ul>
                 </div>
             </nav>
-            <div class="jumbotron CentrarJumbo">
+            <div class="jumbotron">
                 <h1 style="text-align:center;">¡Bienvenido <%=Usuario.Nombres%> <%=Usuario.Apellidos%>!</h1>
+                <h3 style="padding-top:15px">Mis compras</h3>
+                <table class="table table-sm table-secondary">
+                    <thead>
+                        <tr>
+                            <th scope="col"><span style="padding:5px">Numero de factura</span></th>
+                            <th scope="col">Fecha de compra</th>
+                            <th scope="col">Nombre del artículo</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <asp:Repeater ID="rptCompras" runat="server">
+                    <ItemTemplate>
+                        <tr>
+                            <td><%#Eval("NumeroFactura")%></td>
+                            <td><%#Eval("FechaAccion")%></td>
+                            <td><%#Eval("Articulo.Articulo.Nombre")%></td>
+                            <td><%#Eval("Articulo.Cantidad")%></td>
+                            <td><%#Eval("Estado.Descripcion")%></td>
+                        </tr>
+                    </ItemTemplate>
+                </asp:Repeater>
+                    </tbody>
+                </table>
             </div>
         </div>
     </form>

@@ -41,7 +41,7 @@
                                     <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
                                     <a class="dropdown-item" href="Controlventasystock.aspx">Control de ventas y stock</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo == 3)
+                                    <%if (Usuario.TipoUsuario.ID_Tipo <= 3)
                                         {%>
                                     <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
                                     <%}%>
@@ -60,10 +60,13 @@
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>)</a>
                             <%}%>
                         </li>
+                        <li class="nav-item">
+                            <asp:Button ID="btnActualizar" Text="Actualizar" CssClass="btn btn-success BotonAgregarLight" runat="server" OnClick="btnActualizar_Click"/>
+                        </li>
                         <li>
                             <%if (HayUsuarioActivo)
                                 {%>
-                            <a class="nav-link" style="padding-left: 575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                            <a class="nav-link" style="padding-left: 400px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
                             <%}%>
                         </li>
                     </ul>

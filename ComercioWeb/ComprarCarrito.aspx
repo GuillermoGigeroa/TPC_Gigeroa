@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Carrito.aspx.cs" Inherits="ComercioWeb.Carrito" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ComprarCarrito.aspx.cs" Inherits="ComercioWeb.ComprarCarrito" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Mi carrito</title>
+    <title>Comprar mi carrito</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -73,50 +73,72 @@
                                 {%>
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=MiCarrito.Cantidad()%>)</a>
                             <%}%>
-                        </li>   
-                        <li class="nav-item">
-                            <asp:Button ID="btnComprar" Text="Comprar" CssClass="btn btn-success BotonAgregarLight" runat="server" OnClick="btnComprar_Click" />
                         </li>
                         <li>
                             <%if (HayUsuarioActivo)
                                 {%>
-                            <a class="nav-link" style="padding-left: 400px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
+                            <a class="nav-link" style="padding-left: 575px;">Usuario: <%=Usuario.Nombres%> <%=Usuario.Apellidos%></a>
                             <%}%>
                         </li>
                     </ul>
                 </div>
             </nav>
-        </div>
-        <div class="container" style="padding-bottom: 30px;">
-        </div>
-        <div class="container">
-            <div class="card-columns" style="margin-left: 0px; margin-right: 0px; width: 800px;">
-                <asp:Repeater runat="server" ID="rptListaArticulosEnCarrito">
-                    <ItemTemplate>
-                        <div class="card MiCard">
-                            <img src="<%#Eval("Articulo.URL_Imagen")%>" class="card-img-top ImagenCard" alt="<%#Eval("Articulo.Nombre")%>">
-                            <div class="card-body" style="margin-top: -15px;">
-                                <h5 class="card-title" style="text-align: center; color: black;"><%#Eval("Articulo.Nombre")%></h5>
-                                <p class="card-text" style="text-align: center; color: black; margin-top: -10px; margin-bottom: 5px;">
-                                    <i><%#Eval("Articulo.MarcaArticulo.Nombre")%></i>
-                                </p>
-                                <p class="card-text" style="text-align: center; font-size: large; color: black; margin-top: 5px; margin-bottom: 10px;">
-                                    <strong><%#Eval("Cantidad")%> x $<%#Convert.ToDouble(Eval("Articulo.Precio"))%></strong>
-                                </p>
-                                <p class="card-text" style="text-align: center; font-size: x-large; color: black; margin-top: -10px; margin-bottom: 10px;">
-                                    <strong>Total: $<%#Convert.ToDouble(Eval("Articulo.Precio"))*Convert.ToInt32(Eval("Cantidad"))%></strong>
-                                </p>
-                            </div>
-                            <div class="container" style="text-align: center; padding-bottom: 15px; margin-top: -20px;">
-                                <div class="row">
-                                    <div class="col">
-                                        <a href="Carrito.aspx?eliminar=<%#Eval("ID_Elemento")%>" class="btn btn-danger BotonAgregar">Eliminar</a>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="jumbotron CentrarJumbo">
+                <h3>Comprar los elementos del carrito</h3>
+                <div class="row" style="padding-top: 10px;">
+                    <div class="col">
+                        <h4>Domicilio a entregar:</h4>
+                        <div class="alert alert-light DetallesDeCompra" style="text-align: center;" role="alert">
+                            <%=Usuario.Domicilio.Provincia%>, 
+                            <%=Usuario.Domicilio.Ciudad%>, 
+                            <%=Usuario.Domicilio.Calle%>
+                            <%=Usuario.Domicilio.Numero%>
+                            <%=Usuario.Domicilio.Piso%>
+                            <%=Usuario.Domicilio.Departamento%>
+                            <br />
+                            <br />
+                            Referencia:
+                            <%=Usuario.Domicilio.Referencia%>
+                            <br />
+                            <br />
+                            <a href="ModificarUsuario.aspx" class="alert-link">Modificar domicilio</a>
                         </div>
-                    </ItemTemplate>
-                </asp:Repeater>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10px;">
+                    <div class="col">
+                        <h4>Detalle de compra:</h4>
+                        <div class="alert alert-light DetallesDeCompra" style="text-align: center;" role="alert">
+                            <%foreach (Dominio.ElementoCarrito elemento in MiCarrito.ListaElementos)
+                                {%>
+                            <%=elemento.Cantidad%> x <%=elemento.Articulo.Nombre%> = $<%=Convert.ToDouble(elemento.Articulo.Precio)*Convert.ToDouble(elemento.Cantidad)%>
+                            <br />
+                            <%}%>
+                            <br />
+                            Total: $<%=MiCarrito.PrecioTotal()%>
+                            <br />
+                            <br />
+                            <a href="Carrito.aspx" class="alert-link">Eliminar artículos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10px;">
+                    <div class="col">
+                        <label for="inputState">Medio de pago</label>
+                        <select id="inputState" class="form-control">
+                            <option>Visa</option>
+                            <option>Mastercard</option>
+                            <option>Cabal</option>
+                            <option>Naranja</option>
+                            <option>Maestro</option>
+                        </select>
+                        <br/>
+                        <input type="text" placeholder="Numero de tarjeta" class="form-control" />
+                    </div>
+                </div>
+                <div style="text-align:center;padding-top:15px;">
+                    <asp:Button ID="btnComprar" Text="Confirmar compra" CssClass="btn btn-light BotonAgregar" runat="server" OnClick="btnComprar_Click" />
+                </div>
             </div>
         </div>
     </form>

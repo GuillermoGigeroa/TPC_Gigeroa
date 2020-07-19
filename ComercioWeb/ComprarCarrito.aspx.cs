@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,7 +9,7 @@ using Negocio;
 
 namespace ComercioWeb
 {
-    public partial class Carrito : System.Web.UI.Page
+    public partial class ComprarCarrito : System.Web.UI.Page
     {
         public Usuario Usuario { get; set; }
         public bool HayUsuarioActivo { get; set; }
@@ -19,12 +18,9 @@ namespace ComercioWeb
         {
             Session.Timeout = 60;
             HayUsuarioActivo = ExisteUsuario();
-            if(!HayUsuarioActivo)
+            if (!HayUsuarioActivo)
                 Response.Redirect("IniciarSesion.aspx?login=carrito");
             VerificarCarrito();
-            VerificarEliminaciones();
-            rptListaArticulosEnCarrito.DataSource = MiCarrito.ListaElementos;
-            rptListaArticulosEnCarrito.DataBind();
         }
         public void VerificarCarrito()
         {
@@ -32,6 +28,8 @@ namespace ComercioWeb
                 MiCarrito = (Dominio.Carrito)Session["Carrito" + Session.SessionID];
             else
                 MiCarrito = new Dominio.Carrito();
+            if (MiCarrito.ListaElementos.Count == 0)
+                Response.Redirect("Carrito.aspx");
         }
         public bool ExisteUsuario()
         {
@@ -43,41 +41,24 @@ namespace ComercioWeb
             }
             return false;
         }
-        public void VerificarEliminaciones()
+        private void ConfirmarCompra()
         {
-            string eliminar = Request.QueryString["eliminar"];
-            if (eliminar != null)
+            if (MiCarrito.ListaElementos.Count != 0)
             {
-                List<ElementoCarrito> lista = new List<ElementoCarrito>();
-                if (eliminar != "todos")
+                NegocioDatos negocio = new NegocioDatos();
+                Session["NumeroFactura" + Session.SessionID] = negocio.CrearFactura();
+                negocio.AgregarVenta(Convert.ToInt32(Session["NumeroFactura" + Session.SessionID]), Convert.ToInt32(((Usuario)Session["Usuario" + Session.SessionID]).ID_Usuario));
+                foreach (ElementoCarrito elemento in MiCarrito.ListaElementos)
                 {
-                    if (EsNumero(eliminar))
-                    {
-                        foreach (ElementoCarrito elemento in MiCarrito.ListaElementos)
-                        {
-                            if (elemento.ID_Elemento != Convert.ToInt32(eliminar))
-                                lista.Add(elemento);
-                        }
-                    }
+                    negocio.AgregarVentaAXV(elemento);
+                    negocio.ComprarArticulo(elemento);
                 }
-                MiCarrito.ListaElementos = lista;
+                Response.Redirect("GraciasPorSuCompra.aspx?compra=true");
             }
-            Session["Carrito" + Session.SessionID] = MiCarrito;
-        }
-        public bool EsNumero(string esto)
-        {
-            foreach (char caracter in esto)
-            {
-                if (caracter < 48 || caracter > 57)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
         protected void btnComprar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("ComprarCarrito.aspx");
+            ConfirmarCompra();
         }
     }
 }

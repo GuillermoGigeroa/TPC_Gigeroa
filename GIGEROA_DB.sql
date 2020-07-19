@@ -670,24 +670,26 @@ Exec SP_ComprarArticulo 9,-9
 go
 Exec SP_AltaUsuario 'guillermo.gigeroa@hotmail.com','s','Guillermo Adrián','Gigeroa',39112399,1,'Belén de Escobar','Rivadavia',631,'PA',1625,'E','Entre un negocio de cosas de bebés y un local de videojuegos',1,1169221781,1
 go
-Exec SP_AltaUsuario 'vendedor@vendedor.com','s','NombreVendedor','ApellidoVendedor',10000,2,'A','A',0,'A',0,'A','No hay',1,1163695874,1
+Exec SP_AltaUsuario 'vendedor@vendedor.com','s','NombreVendedor','ApellidoVendedor',10000,2,'A','A',0,'A',0,'A','No hay',2,1163695874,1
 go
-Exec SP_AltaUsuario 'cliente@cliente.com','s','NombreCliente','ApellidoCliente',10000,2,'A','A',0,'A',0,'A','No hay',1,1163695874,1
+Exec SP_AltaUsuario 'cliente@cliente.com','s','NombreCliente','ApellidoCliente',10000,2,'A','A',0,'A',0,'A','No hay',3,1163695874,1
 go
 insert into Favoritos_x_Usuario (IDUsuario, IDArticulo)
 values (1,1)
 go
-create procedure SP_VerTransaccionesDe (
+create procedure SP_VerTransaccionesDe(
 	@IDUsuario bigint
 )
 as
-select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, V.IDEstado, E.Nombre as Estado from Ventas as V
+select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, U.IDUsuario, U.Email, U.Telefono, U.Nombres, U.Apellidos, U.DNI, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia, V.IDEstado, E.Nombre as Estado from Ventas as V
 join EstadosDeVenta as E on V.IDEstado = E.IDEstado
 join Usuarios as U on V.IDUsuario = U.IDUsuario
 join Articulos_x_ventas as AXV on V.IDVentas = AXV.IDVenta
 join Articulos as A on AXV.IDArticulo = A.IDArticulo
-where U.IDUsuario = @IDusuario
-order by V.Fecha desc
+join Domicilios as D on U.IDUsuario = D.IDUsuario
+join Provincias as P on D.IDProvincia = P.IDProvincia
+where U.IDUsuario = @IDUsuario
+order by V.NumeroFactura desc
 go
 --Exec SP_VerTransaccionesDe 1
 create procedure SP_VerTransacciones
@@ -700,6 +702,6 @@ join Articulos as A on AXV.IDArticulo = A.IDArticulo
 join Domicilios as D on U.IDUsuario = D.IDUsuario
 join Provincias as P on D.IDProvincia = P.IDProvincia
 where E.IDEstado in (1,2)
-order by V.Fecha asc
+order by V.NumeroFactura desc
 go
 --Exec SP_VerTransacciones

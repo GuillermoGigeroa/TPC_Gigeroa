@@ -147,10 +147,8 @@ namespace ComercioWeb
             NegocioABM negocio = new NegocioABM();
             Usuario usuario = UsuarioCargado();
             negocio.UsuarioAlta(usuario);
-            Encriptador encriptador = new Encriptador();
-            usuario.Password = encriptador.Encriptar(usuario.Password);
-            Session["Usuario" + Session.SessionID] = usuario;
-            Response.Redirect("Usuarios.aspx?newuser=1");
+            Session["Usuario" + Session.SessionID] = null;
+            Response.Redirect("IniciarSesion.aspx");
         }
         public bool VerificarCheck()
         {

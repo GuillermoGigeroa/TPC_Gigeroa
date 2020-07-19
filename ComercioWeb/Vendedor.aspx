@@ -41,7 +41,7 @@
                                     <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
                                     <a class="dropdown-item" href="Controlventasystock.aspx">Control de ventas y stock</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo == 3)
+                                    <%if (Usuario.TipoUsuario.ID_Tipo <= 3)
                                         {%>
                                     <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
                                     <%}%>
@@ -137,7 +137,7 @@
                         <a class="btn btn-dark BotonAgregar" href="ModificarArticulo.aspx">Ir a menú de modificar artículo</a>
                     </div>
                 </div>
-                <div class="LineaPunteada"></div>
+                <div class="LineaPunteada" style="margin-top:15px;"></div>
                 <div class="row">
                     <div class="col" style="text-align:center;">
                         <h3 style="padding-bottom:10px;">Control de ventas y stock</h3>

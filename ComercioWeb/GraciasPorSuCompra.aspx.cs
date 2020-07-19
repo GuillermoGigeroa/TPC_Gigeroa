@@ -22,6 +22,22 @@ namespace ComercioWeb
             VerificarUsuario();
             VerificarCarrito();
             VerificarCompra();
+            CargarArticulos(true);
+        }
+        private void CargarArticulos(bool Forzar)
+        {
+            try
+            {
+                if (Forzar)
+                {
+                    NegocioDatos Negocio = new NegocioDatos();
+                    Session["ListaArticulosCatalogo" + Session.SessionID] = Negocio.ListarArticulos();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void VerificarCompra()
         {
@@ -31,6 +47,7 @@ namespace ComercioWeb
                 if (compra == "true")
                 {
                     NumeroFactura = Convert.ToInt32(Session["NumeroFactura" + Session.SessionID]);
+                    Session["Carrito" + Session.SessionID] = null;
                 }
                 else
                 {

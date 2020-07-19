@@ -40,6 +40,17 @@ namespace ComercioWeb
                 rptVentas.DataBind();
             }
         }
+        public void CargarVentas(bool Forzar)
+        {
+            if (Forzar)
+            {
+                NegocioDatos negocio = new NegocioDatos();
+                List<Transaccion> lista = negocio.ListarVentas();
+                Session["Ventas" + Session.SessionID] = lista;
+                rptVentas.DataSource = (List<Transaccion>)Session["Ventas" + Session.SessionID];
+                rptVentas.DataBind();
+            }
+        }
         public void CargarStock()
         {
             if (Session["Stock" + Session.SessionID] == null)
@@ -51,6 +62,16 @@ namespace ComercioWeb
             }
             else
             {
+                dgvStock.DataSource = (List<Articulo>)Session["Stock" + Session.SessionID];
+                dgvStock.DataBind();
+            }
+        }
+        public void CargarStock(bool Forzar)
+        {
+            if (Forzar)
+            {
+                NegocioDatos negocio = new NegocioDatos();
+                Session["Stock" + Session.SessionID] = negocio.ListarArticulosAdmin();
                 dgvStock.DataSource = (List<Articulo>)Session["Stock" + Session.SessionID];
                 dgvStock.DataBind();
             }
@@ -88,6 +109,12 @@ namespace ComercioWeb
             }
             else
                 Response.Redirect("IniciarSesion.aspx");
+        }
+        protected void btnActualizar_Click(object sender, EventArgs e)
+        {
+            CargarVentas(true);
+            CargarStock(true);
+            btnActualizar.Visible = false;
         }
     }
 }

@@ -54,7 +54,7 @@
                                     <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
                                     <a class="dropdown-item" href="Controlventasystock.aspx">Control de ventas y stock</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo == 3)
+                                    <%if (Usuario.TipoUsuario.ID_Tipo <= 3)
                                         {%>
                                     <a class="dropdown-item" href="MiUsuario.aspx">Mi usuario</a>
                                     <%}%>
@@ -87,7 +87,7 @@
             <div class="container" style="text-align: center;">
                 <div class="carousel slide" data-ride="carousel" style="width: 500px; padding-top: 10px; display: inline-block;">
                     <div class="carousel-inner">
-                        <div class="carousel-item active" data-interval="1">
+                        <div class="carousel-item active" data-interval="1000">
                         </div>
                         <asp:Repeater ID="rptListaImagenes" runat="server">
                             <ItemTemplate>

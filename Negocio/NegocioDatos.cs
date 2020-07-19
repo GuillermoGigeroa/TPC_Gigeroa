@@ -641,7 +641,6 @@ namespace Negocio
                 Datos datos = new Datos();
                 datos.ConfigurarConexion();
                 datos.StoreProcedure("SP_VerTransacciones");
-                //datos.AgregarParametro("@IDUsuario", usuario);
                 datos.ConectarDB();
                 datos.PrepararLector();
                 SqlDataReader datosLeidos;
@@ -727,7 +726,7 @@ namespace Negocio
         }
         public List<Transaccion> ListarCompras(Usuario usuario)
         {
-            List<Transaccion> listaVentas = new List<Transaccion>();
+            List<Transaccion> listaCompras = new List<Transaccion>();
             try
             {
                 Datos datos = new Datos();
@@ -805,9 +804,9 @@ namespace Negocio
                     venta.Domicilio.Referencia = "Referencia";
                     if (!Convert.IsDBNull(datosLeidos["Referencia"]))
                         venta.Domicilio.Referencia = Convert.ToString(datosLeidos["Referencia"]);
-                    listaVentas.Add(venta);
+                    listaCompras.Add(venta);
                 }
-                return listaVentas;
+                return listaCompras;
             }
             catch (Exception ex)
             {
