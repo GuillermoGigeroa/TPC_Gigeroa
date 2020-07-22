@@ -14,6 +14,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
@@ -74,6 +75,7 @@
                 <h1 style="text-align:center;"><%=Usuario.Nombres%> <%=Usuario.Apellidos%>!</h1>
                 <h3>Nos contactaremos con usted a la brevedad.</h3>
                 <h3>El número de su factura es: <%=NumeroFactura%></h3>
+                <h3><a href="Factura.aspx?factura=<%=NumeroFactura%>" target="_blank">Ver factura</a></h3>
             </div>
         </div>
     </form>

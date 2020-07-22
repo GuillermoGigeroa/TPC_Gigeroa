@@ -140,23 +140,6 @@ namespace ComercioWeb
                 throw ex;
             }
         }
-        private void CargarArticulos(NegocioDatos Negocio, bool Forzar)
-        {
-            try
-            {
-                if (Forzar)
-                {
-                    ListaArticulos = Negocio.ListarArticulos();
-                    Session["ListaArticulosCatalogo" + Session.SessionID] = ListaArticulos;
-                    rptListaArticulos.DataSource = ListaArticulos;
-                    rptListaArticulos.DataBind();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         private void CargarMarcas(NegocioDatos Negocio)
         {
             try
@@ -172,23 +155,6 @@ namespace ComercioWeb
                 {
                     ListaMarcas = (List<Marca>)Session["ListaMarcasCatalogo" + Session.SessionID];
                     rptListaMarcas.DataSource = ListaMarcas;
-                    rptListaMarcas.DataBind();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        private void CargarMarcas(NegocioDatos Negocio, bool Forzar)
-        {
-            try
-            {
-                if (Forzar)
-                {
-                    ListaMarcas = Negocio.ListarMarcas();
-                    Session["ListaMarcasCatalogo" + Session.SessionID] = ListaMarcas;
-                    rptListaMarcas.DataSource = ListaArticulos;
                     rptListaMarcas.DataBind();
                 }
             }

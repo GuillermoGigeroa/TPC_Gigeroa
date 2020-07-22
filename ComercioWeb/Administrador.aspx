@@ -14,6 +14,7 @@
 </head>
 <body class="Fondo">
     <form id="form1" runat="server">
+        <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">

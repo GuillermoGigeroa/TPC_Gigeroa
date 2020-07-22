@@ -22,17 +22,14 @@ namespace ComercioWeb
             VerificarUsuario();
             VerificarCarrito();
             VerificarCompra();
-            CargarArticulos(true);
+            CargarArticulos();
         }
-        private void CargarArticulos(bool Forzar)
+        private void CargarArticulos()
         {
             try
             {
-                if (Forzar)
-                {
-                    NegocioDatos Negocio = new NegocioDatos();
-                    Session["ListaArticulosCatalogo" + Session.SessionID] = Negocio.ListarArticulos();
-                }
+                NegocioDatos Negocio = new NegocioDatos();
+                Session["ListaArticulosCatalogo" + Session.SessionID] = Negocio.ListarArticulos();
             }
             catch (Exception ex)
             {

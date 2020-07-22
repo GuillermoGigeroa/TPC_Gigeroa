@@ -14,6 +14,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
@@ -83,6 +84,7 @@
                             <th scope="col">Nombre del artículo</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Estado</th>
+                            <th scope="col">Factura</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,6 +96,7 @@
                             <td><%#Eval("Articulo.Articulo.Nombre")%></td>
                             <td><%#Eval("Articulo.Cantidad")%></td>
                             <td><%#Eval("Estado.Descripcion")%></td>
+                            <td><a href="Factura.aspx?factura=<%#Eval("NumeroFactura")%>" target="_blank">Ver</a></td>
                         </tr>
                     </ItemTemplate>
                 </asp:Repeater>

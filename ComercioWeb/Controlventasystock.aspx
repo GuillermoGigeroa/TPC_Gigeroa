@@ -14,6 +14,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
@@ -61,7 +62,7 @@
                             <%}%>
                         </li>
                         <li class="nav-item">
-                            <asp:Button ID="btnActualizar" Text="Actualizar" CssClass="btn btn-success BotonAgregarLight" runat="server" OnClick="btnActualizar_Click"/>
+                            <asp:Button ID="btnActualizar" Text="Actualizar" CssClass="btn btn-success BotonAgregarLight" runat="server" OnClick="btnActualizar_Click" />
                         </li>
                         <li>
                             <%if (HayUsuarioActivo)
@@ -72,12 +73,12 @@
                     </ul>
                 </div>
             </nav>
-            <div class="jumbotron" style="padding-top:5px;">
+            <div class="jumbotron" style="padding-top: 5px;">
                 <h3 style="padding-bottom: 10px;">Control de ventas</h3>
                 <table class="table table-sm table-secondary">
                     <thead>
                         <tr>
-                            <th scope="col"><span style="padding:5px">Numero de factura</span></th>
+                            <th scope="col"><span style="padding: 5px">Numero de factura</span></th>
                             <th scope="col">Nombre del artículo</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Fecha de compra</th>
@@ -88,34 +89,71 @@
                             <th scope="col">DNI</th>
                             <th scope="col">Domicilio</th>
                             <th scope="col">Estado</th>
+                            <th scope="col">Factura</th>
+                            <th scope="col">Modificar</th>
                         </tr>
                     </thead>
                     <tbody>
-                <asp:Repeater ID="rptVentas" runat="server">
-                    <ItemTemplate>
-                        <tr>
-                            <td><%#Eval("NumeroFactura")%></td>
-                            <td><%#Eval("Articulo.Articulo.Nombre")%></td>
-                            <td><%#Eval("Articulo.Cantidad")%></td>
-                            <td><%#Eval("FechaAccion")%></td>
-                            <td><%#Eval("Email")%></td>
-                            <td><%#Eval("Telefono")%></td>
-                            <td><%#Eval("Nombres")%></td>
-                            <td><%#Eval("Apellidos")%></td>
-                            <td><%#Eval("DNI")%></td>
-                            <td><%#Eval("Domicilio.Provincia")+", "+Eval("Domicilio.Ciudad")+", "+Eval("Domicilio.Calle")+" "+Eval("Domicilio.Numero")+" "+Eval("Domicilio.Piso")+" "+Eval("Domicilio.Departamento")+" (CP "+Eval("Domicilio.CodigoPostal")+")\nReferencia: "+Eval("Domicilio.Referencia")%></td>
-                            <td><%#Eval("Estado.Descripcion")%></td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
+                        <asp:Repeater ID="rptVentas" runat="server">
+                            <ItemTemplate>
+                                <tr>
+                                    <td><%#Eval("NumeroFactura")%></td>
+                                    <td><%#Eval("Articulo.Articulo.Nombre")%></td>
+                                    <td><%#Eval("Articulo.Cantidad")%></td>
+                                    <td><%#Eval("FechaAccion")%></td>
+                                    <td><%#Eval("Email")%></td>
+                                    <td><%#Eval("Telefono")%></td>
+                                    <td><%#Eval("Nombres")%></td>
+                                    <td><%#Eval("Apellidos")%></td>
+                                    <td><%#Eval("DNI")%></td>
+                                    <td><%#Eval("Domicilio.Provincia")+", "+Eval("Domicilio.Ciudad")+", "+Eval("Domicilio.Calle")+" "+Eval("Domicilio.Numero")+" "+Eval("Domicilio.Piso")+" "+Eval("Domicilio.Departamento")+" (CP "+Eval("Domicilio.CodigoPostal")+")\nReferencia: "+Eval("Domicilio.Referencia")%></td>
+                                    <td><%#Eval("Estado.Descripcion")%></td>
+                                    <td><a href="Factura.aspx?factura=<%#Eval("NumeroFactura")%>" target="_blank">Ver</a></td>
+                                    <td><%--Hacer el sistema de detección y cambio en session--%>
+                                        <a href="Controlventasystock.aspx?fact=<%#Eval("NumeroFactura")%>&estado=<%#Eval("Estado.Codigo")%></td>" class="btn btn-success">Cambiar estado</a>
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
                     </tbody>
                 </table>
+                <%--Hacer un mini sistema de cambio por factura, con una lista desplegable a la derecha, y un confirmar--%>
+                <h3 style="padding-bottom: 10px;">Control de stock</h3>
                 <div class="row" style="padding-bottom: 20px;">
-                    <div class="col" style="text-align: center;">
-                        <h3 style="padding-bottom: 10px;">Control de stock</h3>
-                        <asp:GridView ID="dgvStock" CssClass="table table-sm table-secondary" runat="server"></asp:GridView>
-                    </div>
+                    <table class="table table-sm table-secondary">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align:center;"><span style="padding: 5px">ID de artículo</span></th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Marca del artículo</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col" style="text-align:center;">Precio</th>
+                                <th scope="col" style="text-align:center;">Estado</th>
+                                <th scope="col" style="text-align:center;">Stock actual</th>
+                                <th scope="col" style="text-align:center;">Modificar stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <asp:Repeater ID="rptStock" runat="server">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td style="text-align:center;"><%#Eval("ID_Articulo")%></td>
+                                        <td><%#Eval("Nombre")%></td>
+                                        <td><%#Eval("MarcaArticulo.Nombre")%></td>
+                                        <td><%#Eval("Descripcion")%></td>
+                                        <td style="text-align:center;">$<%#Eval("Precio")%></td>
+                                        <td style="text-align:center;"><%#Estado(Convert.ToBoolean(Eval("Estado")))%></td>
+                                        <td style="text-align:center;"><%#Eval("Stock")%></td>
+                                        <td style="text-align:center;"><%--Hacer el sistema de detección y cambio en session--%>
+                                            <a href="Controlventasystock.aspx?cant=1&idart=<%#Eval("ID_Articulo")%>" class="btn btn-success">+1</a>
+                                        </td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </tbody>
+                    </table>
                 </div>
+                <%--Hacer un mini sistema de cambio por factura, con una lista desplegable a la derecha, y un confirmar--%>
             </div>
         </div>
     </form>

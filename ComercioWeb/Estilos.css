@@ -87,3 +87,10 @@ h4 {
     padding-top: 10px;
     width: 500px;
 }
+.LineaFactura {
+    border-top: solid;
+    border-color: lightgrey;
+    border-width: 1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

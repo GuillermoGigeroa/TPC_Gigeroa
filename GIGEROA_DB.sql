@@ -465,6 +465,7 @@ as
 select top 1 Numero from Facturas
 order by Numero desc
 go
+--Procedimiento almacenado para generar una factura
 create procedure SP_CrearFactura
 as
 Begin
@@ -480,6 +481,7 @@ Begin
 	End catch
 End
 go
+--Procedimiento almacenado para generar una venta
 create procedure SP_AgregarVenta(
 	@NumeroFactura bigint,
 	@IDUsuario bigint
@@ -498,6 +500,7 @@ Begin
 	End catch
 End
 go
+--Procedimiento almacenado para agregar datos a la tabla Articulos_x_ventas
 create procedure SP_AgregarVentaAXV (
 	@IDArticulo bigint,
 	@Cantidad bigint
@@ -516,6 +519,7 @@ Begin
 	End catch
 End
 go
+--Procedimiento almacenado para modificar el stock
 create procedure SP_ComprarArticulo(
 	@IDArticulo bigint,
 	@Stock bigint
@@ -535,15 +539,47 @@ Begin
 	End catch
 End
 go
+--Veo las transacciones de un usuario en específico
+create procedure SP_VerTransaccionesDe(
+	@IDUsuario bigint
+)
+as
+select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, U.IDUsuario, U.Email, U.Telefono, U.Nombres, U.Apellidos, U.DNI, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia, V.IDEstado, E.Nombre as Estado from Ventas as V
+join EstadosDeVenta as E on V.IDEstado = E.IDEstado
+join Usuarios as U on V.IDUsuario = U.IDUsuario
+join Articulos_x_ventas as AXV on V.IDVentas = AXV.IDVenta
+join Articulos as A on AXV.IDArticulo = A.IDArticulo
+join Domicilios as D on U.IDUsuario = D.IDUsuario
+join Provincias as P on D.IDProvincia = P.IDProvincia
+where U.IDUsuario = @IDUsuario
+order by V.NumeroFactura desc
+go
+--Veo todas las transacciones
+create procedure SP_VerTransacciones
+as
+select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, U.IDUsuario, U.Email, U.Telefono, U.Nombres, U.Apellidos, U.DNI, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia, V.IDEstado, E.Nombre as Estado from Ventas as V
+join EstadosDeVenta as E on V.IDEstado = E.IDEstado
+join Usuarios as U on V.IDUsuario = U.IDUsuario
+join Articulos_x_ventas as AXV on V.IDVentas = AXV.IDVenta
+join Articulos as A on AXV.IDArticulo = A.IDArticulo
+join Domicilios as D on U.IDUsuario = D.IDUsuario
+join Provincias as P on D.IDProvincia = P.IDProvincia
+where E.IDEstado in (1,2)
+order by V.NumeroFactura desc
+go
+--Agrego todos los estados de venta con sus nombres
 insert into EstadosDeVenta (Nombre)
 values ('Pendiente'),('En preparación'),('Entregado'),('Error')
 go
+--Agrego todas las provincias de Argentina
 insert into Provincias (Nombre, Identificador)
 values ('Buenos Aires',1),('Catamarca',2),('Chaco',3),('Chubut',4),('Córdoba',5),('Corrientes',6),('Entre Ríos',7),('Formosa',8),('Jujuy',9),('La Pampa',10),('La Rioja',11),('Mendoza',12),('Misiones',13),('Neuquén',14),('Río Negro',15),('Salta',16),('San Juan',17),('Santa Cruz',18),('Santa Fe',19),('Santiago del Estero',20),('Tierra del Fuego',21),('Tucumán',22)
 go
+--Agrego los tipos de usuarios
 insert into Tipos (Nombre, Identificador)
 values ('Administrador',1),('Vendedor',2),('Cliente',3)
 go
+--Agreego las marcas
 exec SP_AgregarMarca 'Artesanal Catiana'
 go
 exec SP_AgregarMarca 'Reina Ramona'
@@ -564,6 +600,7 @@ Exec SP_AgregarMarca 'Adidas'
 go
 Exec SP_AgregarMarca 'Lacoste'
 go
+--Agrego las categorías
 Exec SP_AgregarCategoria 'Lana'
 go
 Exec SP_AgregarCategoria 'Medias'
@@ -596,12 +633,14 @@ Exec SP_AgregarCategoria 'Chalecos'
 go
 Exec SP_AgregarCategoria 'Calzado'
 go
+--Agrego los artículos
 Exec SP_AgregarArticulo 1,1,'Medias de lana','Medias abrigadas de lana',0,'https://i.ibb.co/cDJ60p7/IMG-20200604-171022-151.jpg','350'
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 2
 go
 Exec SP_AgregarCategoriaAlUltimoArticulo 6
 go
+--Agrego stock al artículo
 Exec SP_ComprarArticulo 1,-9
 go
 Exec SP_AgregarArticulo 1,1,'Chaleco de lana','Un chaleco de lana abrigado',0,'https://i.ibb.co/zrmT0Mh/FB-IMG-15930994178334057.jpg','600'
@@ -668,40 +707,14 @@ Exec SP_AgregarCategoriaAlUltimoArticulo 9
 go
 Exec SP_ComprarArticulo 9,-9
 go
+--Agrego los usuarios iniciales para pruebas
 Exec SP_AltaUsuario 'guillermo.gigeroa@hotmail.com','s','Guillermo Adrián','Gigeroa',39112399,1,'Belén de Escobar','Rivadavia',631,'PA',1625,'E','Entre un negocio de cosas de bebés y un local de videojuegos',1,1169221781,1
 go
 Exec SP_AltaUsuario 'vendedor@vendedor.com','s','NombreVendedor','ApellidoVendedor',10000,2,'A','A',0,'A',0,'A','No hay',2,1163695874,1
 go
 Exec SP_AltaUsuario 'cliente@cliente.com','s','NombreCliente','ApellidoCliente',10000,2,'A','A',0,'A',0,'A','No hay',3,1163695874,1
 go
+--Agrego un favorito (A usar más adelante en el proyecto)
 insert into Favoritos_x_Usuario (IDUsuario, IDArticulo)
 values (1,1)
 go
-create procedure SP_VerTransaccionesDe(
-	@IDUsuario bigint
-)
-as
-select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, U.IDUsuario, U.Email, U.Telefono, U.Nombres, U.Apellidos, U.DNI, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia, V.IDEstado, E.Nombre as Estado from Ventas as V
-join EstadosDeVenta as E on V.IDEstado = E.IDEstado
-join Usuarios as U on V.IDUsuario = U.IDUsuario
-join Articulos_x_ventas as AXV on V.IDVentas = AXV.IDVenta
-join Articulos as A on AXV.IDArticulo = A.IDArticulo
-join Domicilios as D on U.IDUsuario = D.IDUsuario
-join Provincias as P on D.IDProvincia = P.IDProvincia
-where U.IDUsuario = @IDUsuario
-order by V.NumeroFactura desc
-go
---Exec SP_VerTransaccionesDe 1
-create procedure SP_VerTransacciones
-as
-select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, U.IDUsuario, U.Email, U.Telefono, U.Nombres, U.Apellidos, U.DNI, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia, V.IDEstado, E.Nombre as Estado from Ventas as V
-join EstadosDeVenta as E on V.IDEstado = E.IDEstado
-join Usuarios as U on V.IDUsuario = U.IDUsuario
-join Articulos_x_ventas as AXV on V.IDVentas = AXV.IDVenta
-join Articulos as A on AXV.IDArticulo = A.IDArticulo
-join Domicilios as D on U.IDUsuario = D.IDUsuario
-join Provincias as P on D.IDProvincia = P.IDProvincia
-where E.IDEstado in (1,2)
-order by V.NumeroFactura desc
-go
---Exec SP_VerTransacciones

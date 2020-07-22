@@ -15,7 +15,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <%--<script type="text/javascript">document.oncontextmenu = function(){return false}</script>--%>
+            <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -123,10 +123,10 @@
             <asp:Label ID="lblError" Visible="false" Text="Lo sentimos, actualmente no tenemos más stock del producto seleccionado." CssClass="alert alert-danger" runat="server" />
         </div>
         <div class="container">
-            <div class="card-deck mx-auto" style="margin-left: 0px; margin-right: 0px; width: 1135px; margin-bottom:30px;">
+            <div class="card-deck mx-auto" style="margin-left: 0px; margin-right: 0px; width: 1135px; margin-bottom: 30px;">
                 <asp:Repeater runat="server" ID="rptListaArticulos">
                     <ItemTemplate>
-                        <div class="card MiCard" style="max-width:250px;min-width:253px;margin-top:15px;">
+                        <div class="card MiCard" style="max-width: 250px; min-width: 253px; margin-top: 15px;">
                             <img src="<%#Eval("URL_Imagen")%>" class="card-img-top ImagenCard" alt="<%#Eval("Nombre")%>">
                             <div class="card-body" style="margin-top: -15px;">
                                 <h5 class="card-title" style="text-align: center; color: black;"><%#Eval("Nombre")%></h5>
@@ -134,13 +134,13 @@
                                     <i><%#Eval("MarcaArticulo.Nombre")%></i>
                                 </p>
                                 <p class="card-text" style="text-align: center; font-size: x-large; color: black; margin-top: -10px; margin-bottom: 10px;">
-                                    <strong>$<%#Convert.ToDouble(Eval("Precio"))%></strong></p>
+                                    <strong>$<%#Convert.ToDouble(Eval("Precio"))%></strong>
+                                </p>
                             </div>
                             <div class="container" style="text-align: center; padding-bottom: 15px; margin-top: -30px;">
                                 <div class="row" style="display: inline-block">
                                     <div class="btn-group">
-                                        <a href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>" class="btn btn-dark BotonAgregar">
-                                            Agregar al carrito
+                                        <a href="Catalogo.aspx?idArt=<%#Eval("ID_Articulo")%>" class="btn btn-dark BotonAgregar">Agregar al carrito
                                         </a>
                                     </div>
                                 </div>

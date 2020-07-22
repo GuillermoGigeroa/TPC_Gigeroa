@@ -19,7 +19,7 @@ namespace ComercioWeb
         {
             Session.Timeout = 60;
             HayUsuarioActivo = ExisteUsuario();
-            VerificarVendedor();
+            //VerificarVendedor();
             VerificarCarrito();
             CargarVentas();
             CargarStock();
@@ -57,13 +57,13 @@ namespace ComercioWeb
             {
                 NegocioDatos negocio = new NegocioDatos();
                 Session["Stock" + Session.SessionID] = negocio.ListarArticulosAdmin();
-                dgvStock.DataSource = (List<Articulo>)Session["Stock" + Session.SessionID];
-                dgvStock.DataBind();
+                rptStock.DataSource = (List<Articulo>)Session["Stock" + Session.SessionID];
+                rptStock.DataBind();
             }
             else
             {
-                dgvStock.DataSource = (List<Articulo>)Session["Stock" + Session.SessionID];
-                dgvStock.DataBind();
+                rptStock.DataSource = (List<Articulo>)Session["Stock" + Session.SessionID];
+                rptStock.DataBind();
             }
         }
         public void CargarStock(bool Forzar)
@@ -72,8 +72,8 @@ namespace ComercioWeb
             {
                 NegocioDatos negocio = new NegocioDatos();
                 Session["Stock" + Session.SessionID] = negocio.ListarArticulosAdmin();
-                dgvStock.DataSource = (List<Articulo>)Session["Stock" + Session.SessionID];
-                dgvStock.DataBind();
+                rptStock.DataSource = (List<Articulo>)Session["Stock" + Session.SessionID];
+                rptStock.DataBind();
             }
         }
         public bool ExisteUsuario()
@@ -115,6 +115,12 @@ namespace ComercioWeb
             CargarVentas(true);
             CargarStock(true);
             btnActualizar.Visible = false;
+        }
+        public string Estado(bool estado)
+        {
+            if (estado)
+                return "Activo";
+            return "Inactivo";
         }
     }
 }

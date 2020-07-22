@@ -58,6 +58,7 @@ namespace ComercioWeb
                 {
                     NegocioDatos negocio = new NegocioDatos();
                     Session["VendedorMarcas" + Session.SessionID] = negocio.ListarMarcas();
+                    Session["ListaMarcasCatalogo" + Session.SessionID] = negocio.ListarMarcas();
                     ListaMarcas.DataSource = (List<Marca>)Session["VendedorMarcas" + Session.SessionID];
                     ListaMarcas.DataTextField = "Nombre";
                     ListaMarcas.DataValueField = "ID_Marca";
@@ -103,6 +104,7 @@ namespace ComercioWeb
                 {
                     NegocioDatos negocio = new NegocioDatos();
                     Session["VendedorCategorias" + Session.SessionID] = negocio.ListarCategorias();
+                    Session["ListaCategoriasCatalogo" + Session.SessionID] = negocio.ListarCategorias();
                     ListaCategorias.DataSource = (List<Categoria>)Session["VendedorCategorias" + Session.SessionID];
                     ListaCategorias.DataTextField = "Nombre";
                     ListaCategorias.DataValueField = "ID_Categoria";
