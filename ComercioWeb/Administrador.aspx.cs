@@ -29,7 +29,6 @@ namespace ComercioWeb
                 ListarArticulosAdmin();
                 CargarDatosArticulosInicial();
             }
-
         }
         public void ListarArticulosAdmin()
         {
