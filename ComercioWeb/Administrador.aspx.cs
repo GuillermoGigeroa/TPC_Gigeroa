@@ -29,6 +29,7 @@ namespace ComercioWeb
                 ListarArticulosAdmin();
                 CargarDatosArticulosInicial();
             }
+
         }
         public void ListarArticulosAdmin()
         {
@@ -39,25 +40,28 @@ namespace ComercioWeb
                 ListaArticulos.DataSource = (List<Articulo>)Session["ListaArticulosAdmin" + Session.SessionID];
                 ListaArticulos.DataTextField = "Nombre";
                 ListaArticulos.DataValueField = "ID_Articulo";
-                ListaArticulos.DataBind();   
+                ListaArticulos.SelectedIndex = 0;
+                ListaArticulos.DataBind();
             }
             else
             {
-                ListaArticulos.DataSource = (List<Articulo>)Session["ListaUsuariosAdmin" + Session.SessionID];
+                ListaArticulos.DataSource = (List<Articulo>)Session["ListaArticulosAdmin" + Session.SessionID];
                 ListaArticulos.DataTextField = "Nombre";
                 ListaArticulos.DataValueField = "ID_Articulo";
+                ListaArticulos.SelectedIndex = 0;
                 ListaArticulos.DataBind();
             }
         }
         public void ListarUsuariosAdmin()
         {
-            if(Session["ListaUsuarios"+Session.SessionID] == null)
+            if (Session["ListaUsuarios" + Session.SessionID] == null)
             {
                 NegocioDatos negocio = new NegocioDatos();
                 Session["ListaUsuarios" + Session.SessionID] = negocio.ListarUsuariosAdmin();
                 ListaUsuarios.DataSource = (List<Usuario>)Session["ListaUsuarios" + Session.SessionID];
                 ListaUsuarios.DataTextField = "Email";
                 ListaUsuarios.DataValueField = "ID_Usuario";
+                ListaUsuarios.SelectedIndex = 0;
                 ListaUsuarios.DataBind();
             }
             else
@@ -65,6 +69,7 @@ namespace ComercioWeb
                 ListaUsuarios.DataSource = (List<Usuario>)Session["ListaUsuarios" + Session.SessionID];
                 ListaUsuarios.DataTextField = "Email";
                 ListaUsuarios.DataValueField = "ID_Usuario";
+                ListaUsuarios.SelectedIndex = 0;
                 ListaUsuarios.DataBind();
             }
         }
@@ -75,6 +80,7 @@ namespace ComercioWeb
             ListaUsuarios.DataSource = (List<Usuario>)Session["ListaUsuarios" + Session.SessionID];
             ListaUsuarios.DataTextField = "Email";
             ListaUsuarios.DataValueField = "ID_Usuario";
+            ListaUsuarios.SelectedIndex = 0;
             ListaUsuarios.DataBind();
         }
         public void VerificarCarrito()
@@ -103,7 +109,7 @@ namespace ComercioWeb
             if (Session["Usuario" + Session.SessionID] != null)
             {
                 Usuario = (Usuario)Session["Usuario" + Session.SessionID];
-                if(Usuario.TipoUsuario.ID_Tipo != 1)
+                if (Usuario.TipoUsuario.ID_Tipo != 1)
                 {
                     Response.Redirect("Usuarios.aspx");
                 }
@@ -120,22 +126,18 @@ namespace ComercioWeb
         {
             try
             {
-                ListaUsuarios.SelectedIndex = 0;
                 List<Usuario> listaUsuarios = (List<Usuario>)Session["ListaUsuarios" + Session.SessionID];
                 foreach (Usuario usuario in listaUsuarios)
                 {
-                    if (1 == usuario.ID_Usuario)
-                    {
-                        lblNombre.Text = "Nombres: " + usuario.Nombres;
-                        lblApellido.Text = "Apellidos: " + usuario.Apellidos;
-                        lblDNI.Text = "DNI: " + usuario.DNI;
-                        lblTipo.Text = "Tipo: " + usuario.TipoUsuario.Nombre;
-                        if (usuario.Activo)
-                            lblEstado.Text = "Estado: Activo";
-                        else
-                            lblEstado.Text = "Estado: Inactivo";
-                        break;
-                    }
+                    lblNombre.Text = "Nombres: " + usuario.Nombres;
+                    lblApellido.Text = "Apellidos: " + usuario.Apellidos;
+                    lblDNI.Text = "DNI: " + usuario.DNI;
+                    lblTipo.Text = "Tipo: " + usuario.TipoUsuario.Nombre;
+                    if (usuario.Activo)
+                        lblEstado.Text = "Estado: Activo";
+                    else
+                        lblEstado.Text = "Estado: Inactivo";
+                    break;
                 }
             }
             catch (Exception ex)
@@ -206,7 +208,7 @@ namespace ComercioWeb
                 if (Convert.ToInt32(ListaUsuarios.SelectedItem.Value) == usuario.ID_Usuario)
                 {
                     NegocioABM negocio = new NegocioABM();
-                    negocio.UsuarioBaja(usuario.ID_Usuario,!usuario.Activo);
+                    negocio.UsuarioBaja(usuario.ID_Usuario, !usuario.Activo);
                     ActualizarUsuariosAdmin();
                     ListaUsuarios.SelectedIndex = SelectedIndex;
                     CargarDatosUsuario();
@@ -238,6 +240,7 @@ namespace ComercioWeb
             ListaArticulos.DataSource = (List<Articulo>)Session["ListaArticulosAdmin" + Session.SessionID];
             ListaArticulos.DataTextField = "Nombre";
             ListaArticulos.DataValueField = "ID_Articulo";
+            ListaArticulos.SelectedIndex = 0;
             ListaArticulos.DataBind();
         }
         public void CargarDatosArticulos()
@@ -250,13 +253,13 @@ namespace ComercioWeb
                     if (Convert.ToInt32(ListaArticulos.SelectedItem.Value) == articulo.ID_Articulo)
                     {
                         lblID_Articulo.Text = "ID del artículo: " + Convert.ToString(articulo.ID_Articulo);
-                        lblNombreArticulo.Text = "Nombre: "+ articulo.Nombre;
+                        lblNombreArticulo.Text = "Nombre: " + articulo.Nombre;
                         lblMarca.Text = "Marca: " + articulo.MarcaArticulo.Nombre;
                         lblDescripcion.Text = "Descripción: " + articulo.Descripcion;
                         lblPrecio.Text = "Precio: " + Convert.ToString(articulo.Precio);
                         lblStock.Text = "Stock: " + Convert.ToString(articulo.Stock);
                         if (articulo.Estado)
-                            lblEstadoArticulo .Text = "Estado: Activo";
+                            lblEstadoArticulo.Text = "Estado: Activo";
                         else
                             lblEstadoArticulo.Text = "Estado: Inactivo";
                         break;
@@ -272,24 +275,20 @@ namespace ComercioWeb
         {
             try
             {
-                ListaArticulos.SelectedIndex = 0;
                 List<Articulo> listaArticulos = (List<Articulo>)Session["ListaArticulosAdmin" + Session.SessionID];
                 foreach (Articulo articulo in listaArticulos)
                 {
-                    if (1 == articulo.ID_Articulo)
-                    {
-                        lblID_Articulo.Text = "ID del artículo: "+ Convert.ToString(articulo.ID_Articulo);
-                        lblNombreArticulo.Text = "Nombre: " + articulo.Nombre;
-                        lblMarca.Text = "Marca: " + articulo.MarcaArticulo.Nombre;
-                        lblDescripcion.Text = "Descripción: " + articulo.Descripcion;
-                        lblPrecio.Text = "Precio: " + Convert.ToString(articulo.Precio);
-                        lblStock.Text = "Stock: " + Convert.ToString(articulo.Stock);
-                        if (articulo.Estado)
-                            lblEstadoArticulo.Text = "Estado: Activo";
-                        else
-                            lblEstadoArticulo.Text = "Estado: Inactivo";
-                        break;
-                    }
+                    lblID_Articulo.Text = "ID del artículo: " + Convert.ToString(articulo.ID_Articulo);
+                    lblNombreArticulo.Text = "Nombre: " + articulo.Nombre;
+                    lblMarca.Text = "Marca: " + articulo.MarcaArticulo.Nombre;
+                    lblDescripcion.Text = "Descripción: " + articulo.Descripcion;
+                    lblPrecio.Text = "Precio: " + Convert.ToString(articulo.Precio);
+                    lblStock.Text = "Stock: " + Convert.ToString(articulo.Stock);
+                    if (articulo.Estado)
+                        lblEstadoArticulo.Text = "Estado: Activo";
+                    else
+                        lblEstadoArticulo.Text = "Estado: Inactivo";
+                    break;
                 }
             }
             catch (Exception ex)
