@@ -34,11 +34,13 @@
                                 <a class="nav-link dropdown-toggle active Activo" href="#" id="dropdownUsuarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownUsuarios">
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 1)
-                                      {%>
+                                        {%>
                                     <a class="dropdown-item" href="Administrador.aspx">Configuraciones de administrador</a>
+                                    <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
+                                    <a class="dropdown-item" href="Controlventasystock.aspx?admin=true">Control de ventas y stock</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo < 3)
-                                      {%>
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2)
+                                        {%>
                                     <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
                                     <a class="dropdown-item" href="Controlventasystock.aspx">Control de ventas y stock</a>
                                     <%}%>

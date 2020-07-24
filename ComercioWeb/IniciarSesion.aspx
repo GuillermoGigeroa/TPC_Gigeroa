@@ -14,7 +14,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
+        <script type="text/javascript">document.oncontextmenu = function () { return false }</script>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,13 +37,13 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item" style="width:200px;">
+                        <li class="nav-item" style="width: 200px;">
                             <%if (Carrito.ListaElementos.Count() != 0)
-                              {%>
+                                {%>
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>) - $<%=Carrito.PrecioTotal()%></a>
                             <%}
-                              else
-                              {%>
+                                else
+                                {%>
                             <a class="nav-link" href="Carrito.aspx">Mi carrito (<%=Carrito.Cantidad()%>)</a>
                             <%}%>
                         </li>
@@ -51,7 +51,7 @@
                 </div>
             </nav>
             <h3>Iniciar sesión</h3>
-            <div style="text-align:center;">
+            <div style="text-align: center;">
                 <asp:Label ID="lblErrorCompra" Text="Antes de comprar, debes iniciar sesión o registrarte." Visible="false" runat="server" />
             </div>
             <div class="jumbotron CentrarJumbo">
@@ -63,9 +63,11 @@
                     <label>Contraseña</label>
                     <asp:TextBox ID="txtPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
                 </div>
-                <asp:Label ID="lblLogin" Visible="false" Text="Combinación de usuario y contraseña son incorrectos." runat="server" />
                 <div style="text-align: center;">
-                    <asp:Button ID="btnAceptar" Text="Iniciar sesión" CssClass="btn btn-light" runat="server" OnClick="btnAceptar_Click"/>
+                    <asp:Label ID="lblLogin" Visible="false" Text="Combinación de usuario y contraseña son incorrectos." runat="server" />
+                </div>
+                <div style="text-align: center; padding-top: 5px;">
+                    <asp:Button ID="btnAceptar" Text="Iniciar sesión" CssClass="btn btn-light" runat="server" OnClick="btnAceptar_Click" />
                 </div>
             </div>
         </div>

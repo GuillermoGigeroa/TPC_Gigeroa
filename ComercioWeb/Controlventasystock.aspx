@@ -14,7 +14,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <script type="text/javascript">document.oncontextmenu = function(){return false}</script>
+        <script type="text/javascript">document.oncontextmenu = function () { return false }</script>
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark Barra">
@@ -36,8 +36,10 @@
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 1)
                                         {%>
                                     <a class="dropdown-item" href="Administrador.aspx">Configuraciones de administrador</a>
+                                    <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
+                                    <a class="dropdown-item" href="Controlventasystock.aspx?admin=true">Control de ventas y stock</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo < 3)
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2)
                                         {%>
                                     <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
                                     <a class="dropdown-item" href="Controlventasystock.aspx">Control de ventas y stock</a>
@@ -62,7 +64,7 @@
                             <%}%>
                         </li>
                         <li class="nav-item">
-                            <asp:Button ID="btnActualizar" Text="Actualizar" CssClass="btn btn-success BotonAgregarLight" runat="server" OnClick="btnActualizar_Click" />
+                            <asp:Button ID="btnActualizar" Text="Buscar nuevas ventas" CssClass="btn btn-success BotonAgregarLight" runat="server" OnClick="btnActualizar_Click" />
                         </li>
                         <li>
                             <%if (HayUsuarioActivo)
@@ -75,6 +77,9 @@
             </nav>
             <div class="jumbotron" style="padding-top: 5px;">
                 <h3 style="padding-bottom: 10px;">Control de ventas</h3>
+                <div style="text-align: center; padding-bottom: 5px;">
+                    <asp:Button ID="btnGuardarVentas" Text="Guardar cambios de estado" CssClass="btn btn-danger BotonAgregar" runat="server" OnClick="btnGuardarVentas_Click" />
+                </div>
                 <table class="table table-sm table-secondary">
                     <thead>
                         <tr>
@@ -109,42 +114,74 @@
                                     <td><%#Eval("Domicilio.Provincia")+", "+Eval("Domicilio.Ciudad")+", "+Eval("Domicilio.Calle")+" "+Eval("Domicilio.Numero")+" "+Eval("Domicilio.Piso")+" "+Eval("Domicilio.Departamento")+" (CP "+Eval("Domicilio.CodigoPostal")+")\nReferencia: "+Eval("Domicilio.Referencia")%></td>
                                     <td><%#Eval("Estado.Descripcion")%></td>
                                     <td><a href="Factura.aspx?factura=<%#Eval("NumeroFactura")%>" target="_blank">Ver</a></td>
-                                    <td><%--Hacer el sistema de detección y cambio en session--%>
-                                        <a href="Controlventasystock.aspx?fact=<%#Eval("NumeroFactura")%>&estado=<%#Eval("Estado.Codigo")%></td>" class="btn btn-success">Cambiar estado</a>
+                                    <td>
+                                        <a href="Controlventasystock.aspx?fact=<%#Eval("NumeroFactura")%>" class="btn btn-success">Cambiar estado</a>
                                     </td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>
                     </tbody>
                 </table>
-                <%--Hacer un mini sistema de cambio por factura, con una lista desplegable a la derecha, y un confirmar--%>
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <div class="container CajaControl">
+                            <h3><b>Modificación de estado de facturas</b></h3>
+                            <div class="row">
+                                <div class="col">
+                                    <h4>Numero de factura</h4>
+                                    <asp:DropDownList ID="drpFacturas" AutoPostBack="true" CssClass="form-control" runat="server" OnSelectedIndexChanged="drpFacturas_SelectedIndexChanged">
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col">
+                                    <h4>Estado</h4>
+                                    <asp:DropDownList ID="drpEstados" AutoPostBack="false" CssClass="form-control" runat="server">
+                                        <asp:ListItem Text="Pendiente" Value="1" />
+                                        <asp:ListItem Text="En camino" Value="2" />
+                                        <asp:ListItem Text="Entregado" Value="3" />
+                                        <asp:ListItem Text="Error" Value="4" />
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col">
+                                    <h4><small>Por favor, recuerde guardar los cambios</small></h4>
+                                    <div style="text-align: left;">
+                                        <asp:Button ID="btnModificarFactura" AutoPostBack="false" Text="Modificar" CssClass="btn btn-danger BotonAgregar" runat="server" OnClick="btnModificarFactura_Click" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+
                 <h3 style="padding-bottom: 10px;">Control de stock</h3>
+                <div style="text-align: center; padding-bottom: 5px;">
+                    <asp:Button ID="btnGuardarStock" Text="Guardar cambios de stock" CssClass="btn btn-danger BotonAgregar" runat="server" OnClick="btnGuardarStock_Click" />
+                </div>
                 <div class="row" style="padding-bottom: 20px;">
                     <table class="table table-sm table-secondary">
                         <thead>
                             <tr>
-                                <th scope="col" style="text-align:center;"><span style="padding: 5px">ID de artículo</span></th>
+                                <th scope="col" style="text-align: center;"><span style="padding: 5px">ID de artículo</span></th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Marca del artículo</th>
                                 <th scope="col">Descripción</th>
-                                <th scope="col" style="text-align:center;">Precio</th>
-                                <th scope="col" style="text-align:center;">Estado</th>
-                                <th scope="col" style="text-align:center;">Stock actual</th>
-                                <th scope="col" style="text-align:center;">Modificar stock</th>
+                                <th scope="col" style="text-align: center;">Precio</th>
+                                <th scope="col" style="text-align: center;">Estado</th>
+                                <th scope="col" style="text-align: center;">Stock actual</th>
+                                <th scope="col" style="text-align: center;">Modificar stock</th>
                             </tr>
                         </thead>
                         <tbody>
                             <asp:Repeater ID="rptStock" runat="server">
                                 <ItemTemplate>
                                     <tr>
-                                        <td style="text-align:center;"><%#Eval("ID_Articulo")%></td>
+                                        <td style="text-align: center;"><%#Eval("ID_Articulo")%></td>
                                         <td><%#Eval("Nombre")%></td>
                                         <td><%#Eval("MarcaArticulo.Nombre")%></td>
                                         <td><%#Eval("Descripcion")%></td>
-                                        <td style="text-align:center;">$<%#Eval("Precio")%></td>
-                                        <td style="text-align:center;"><%#Estado(Convert.ToBoolean(Eval("Estado")))%></td>
-                                        <td style="text-align:center;"><%#Eval("Stock")%></td>
-                                        <td style="text-align:center;"><%--Hacer el sistema de detección y cambio en session--%>
+                                        <td style="text-align: center;">$<%#Eval("Precio")%></td>
+                                        <td style="text-align: center;"><%#Estado(Convert.ToBoolean(Eval("Estado")))%></td>
+                                        <td style="text-align: center;"><%#Eval("Stock")%></td>
+                                        <td style="text-align: center;">
                                             <a href="Controlventasystock.aspx?cant=1&idart=<%#Eval("ID_Articulo")%>" class="btn btn-success">+1</a>
                                         </td>
                                     </tr>
@@ -153,7 +190,26 @@
                         </tbody>
                     </table>
                 </div>
-                <%--Hacer un mini sistema de cambio por factura, con una lista desplegable a la derecha, y un confirmar--%>
+                <div class="container CajaControl">
+                    <h3><b>Agregar stock de artículos</b></h3>
+                    <div class="row">
+                        <div class="col">
+                            <h4>ID del artículo</h4>
+                            <asp:DropDownList ID="drpArticulos" AutoPostBack="false" CssClass="form-control" runat="server">
+                            </asp:DropDownList>
+                        </div>
+                        <div class="col">
+                            <h4>Cantidad</h4>
+                            <asp:TextBox ID="txtCantidad" Text="1" type="number" min="1" max="100" CssClass="form-control" runat="server" />
+                        </div>
+                        <div class="col">
+                            <h4><small>Por favor, recuerde guardar los cambios</small></h4>
+                            <div style="text-align: left;">
+                                <asp:Button ID="btnModificarStock" AutoPostBack="false" Text="Agregar" CssClass="btn btn-danger BotonAgregar" runat="server" OnClick="btnModificarStock_Click" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

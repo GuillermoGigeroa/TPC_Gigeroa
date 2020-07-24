@@ -567,9 +567,58 @@ join Provincias as P on D.IDProvincia = P.IDProvincia
 where E.IDEstado in (1,2)
 order by V.NumeroFactura desc
 go
+create procedure SP_VerTransaccionesAdmin
+as
+select (select convert(varchar, V.Fecha, 103)) as Fecha, (select convert(varchar, V.Fecha, 24)) as Hora, V.NumeroFactura, AXV.IDArticulo, A.Nombre, AXV.Cantidad, U.IDUsuario, U.Email, U.Telefono, U.Nombres, U.Apellidos, U.DNI, P.Nombre as Provincia, D.Ciudad, D.Calle, D.Numero, D.Piso, D.Depto, D.CP, D.Referencia, V.IDEstado, E.Nombre as Estado from Ventas as V
+join EstadosDeVenta as E on V.IDEstado = E.IDEstado
+join Usuarios as U on V.IDUsuario = U.IDUsuario
+join Articulos_x_ventas as AXV on V.IDVentas = AXV.IDVenta
+join Articulos as A on AXV.IDArticulo = A.IDArticulo
+join Domicilios as D on U.IDUsuario = D.IDUsuario
+join Provincias as P on D.IDProvincia = P.IDProvincia
+order by V.NumeroFactura desc
+go
+create procedure SP_ActualizarEstadoVenta(
+	@NumeroFactura bigint,
+	@IDEstado bigint
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			Update Ventas
+			Set IDEstado = @IDEstado
+			Where NumeroFactura = @NumeroFactura
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al actualizar estado de venta',16,2)
+	End catch
+End
+go
+create procedure SP_ActualizarStockArticulo(
+	@IDArticulo bigint,
+	@Stock bigint
+)
+as
+Begin
+	Begin try
+		BEGIN transaction
+			Update Articulos
+			Set Stock = @Stock
+			Where IDArticulo = @IDArticulo
+		COMMIT transaction
+	End try
+	Begin catch  
+		Rollback transaction
+		Raiserror('Error al actualizar stock del artículo',16,2)
+	End catch
+End
+go
 --Agrego todos los estados de venta con sus nombres
 insert into EstadosDeVenta (Nombre)
-values ('Pendiente'),('En preparación'),('Entregado'),('Error')
+values ('Pendiente'),('En camino'),('Entregado'),('Error')
 go
 --Agrego todas las provincias de Argentina
 insert into Provincias (Nombre, Identificador)

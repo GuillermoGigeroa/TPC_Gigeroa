@@ -80,6 +80,14 @@ h4 {
     padding-top: 10px;
     color: RGB(179,134,179);
 }
+.CajaControl {
+    background: RGB(230,225,240) !important;
+    border-color: RGB(179,134,179) !important;
+    text-align: center;
+    border-style: dashed;
+    border-width: 3px;
+    padding-bottom: 15px;
+}
 .ListaDesplegable {
     width:250px;
 }

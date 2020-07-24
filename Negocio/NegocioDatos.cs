@@ -819,5 +819,96 @@ namespace Negocio
                 datos.DesconectarDB();
             }
         }
+        public List<Transaccion> ListarVentasAdmin()
+        {
+            List<Transaccion> listaVentas = new List<Transaccion>();
+            try
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.StoreProcedure("SP_VerTransaccionesAdmin");
+                datos.ConectarDB();
+                datos.PrepararLector();
+                SqlDataReader datosLeidos;
+                Transaccion venta;
+                while (datos.Leer())
+                {
+                    venta = new Transaccion();
+                    datosLeidos = datos.Lectura();
+                    venta.NumeroFactura = -1;
+                    if (!Convert.IsDBNull(datosLeidos["NumeroFactura"]))
+                        venta.NumeroFactura = Convert.ToInt32(datosLeidos["NumeroFactura"]);
+                    venta.Articulo.Articulo.ID_Articulo = -1;
+                    if (!Convert.IsDBNull(datosLeidos["IDArticulo"]))
+                        venta.Articulo.Articulo.ID_Articulo = Convert.ToInt32(datosLeidos["IDArticulo"]);
+                    venta.Articulo.Articulo.Nombre = "Nombre";
+                    if (!Convert.IsDBNull(datosLeidos["Nombre"]))
+                        venta.Articulo.Articulo.Nombre = Convert.ToString(datosLeidos["Nombre"]);
+                    venta.Articulo.Cantidad = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Cantidad"]))
+                        venta.Articulo.Cantidad = Convert.ToInt32(datosLeidos["Cantidad"]);
+                    venta.FechaAccion = "Nunca";
+                    if (!Convert.IsDBNull(datosLeidos["Fecha"]) && !Convert.IsDBNull(datosLeidos["Hora"]))
+                        venta.FechaAccion = Convert.ToString(datosLeidos["Fecha"]) + ", " + Convert.ToString(datosLeidos["Hora"]);
+                    venta.Email = "Email";
+                    if (!Convert.IsDBNull(datosLeidos["Email"]))
+                        venta.Email = Convert.ToString(datosLeidos["Email"]);
+                    venta.Telefono = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Telefono"]))
+                        venta.Telefono = Convert.ToInt32(datosLeidos["Telefono"]);
+                    venta.Nombres = "Nombres";
+                    if (!Convert.IsDBNull(datosLeidos["Nombres"]))
+                        venta.Nombres = Convert.ToString(datosLeidos["Nombres"]);
+                    venta.Apellidos = "Apellidos";
+                    if (!Convert.IsDBNull(datosLeidos["Apellidos"]))
+                        venta.Apellidos = Convert.ToString(datosLeidos["Apellidos"]);
+                    venta.DNI = -1;
+                    if (!Convert.IsDBNull(datosLeidos["DNI"]))
+                        venta.DNI = Convert.ToInt32(datosLeidos["DNI"]);
+                    venta.Estado.Codigo = -1;
+                    if (!Convert.IsDBNull(datosLeidos["IDEstado"]))
+                        venta.Estado.Codigo = Convert.ToInt32(datosLeidos["IDEstado"]);
+                    venta.Estado.Descripcion = "Estado";
+                    if (!Convert.IsDBNull(datosLeidos["Estado"]))
+                        venta.Estado.Descripcion = Convert.ToString(datosLeidos["Estado"]);
+                    venta.Domicilio.Provincia = "Provincia";
+                    if (!Convert.IsDBNull(datosLeidos["Provincia"]))
+                        venta.Domicilio.Provincia = Convert.ToString(datosLeidos["Provincia"]);
+                    venta.Domicilio.Ciudad = "Ciudad";
+                    if (!Convert.IsDBNull(datosLeidos["Ciudad"]))
+                        venta.Domicilio.Ciudad = Convert.ToString(datosLeidos["Ciudad"]);
+                    venta.Domicilio.Calle = "Calle";
+                    if (!Convert.IsDBNull(datosLeidos["Calle"]))
+                        venta.Domicilio.Calle = Convert.ToString(datosLeidos["Calle"]);
+                    venta.Domicilio.Numero = -1;
+                    if (!Convert.IsDBNull(datosLeidos["Numero"]))
+                        venta.Domicilio.Numero = Convert.ToInt32(datosLeidos["Numero"]);
+                    venta.Domicilio.Piso = "Piso";
+                    if (!Convert.IsDBNull(datosLeidos["Piso"]))
+                        venta.Domicilio.Piso = Convert.ToString(datosLeidos["Piso"]);
+                    venta.Domicilio.CodigoPostal = -1;
+                    if (!Convert.IsDBNull(datosLeidos["CP"]))
+                        venta.Domicilio.CodigoPostal = Convert.ToInt32(datosLeidos["CP"]);
+                    venta.Domicilio.Departamento = "Depto";
+                    if (!Convert.IsDBNull(datosLeidos["Depto"]))
+                        venta.Domicilio.Departamento = Convert.ToString(datosLeidos["Depto"]);
+                    venta.Domicilio.Referencia = "Referencia";
+                    if (!Convert.IsDBNull(datosLeidos["Referencia"]))
+                        venta.Domicilio.Referencia = Convert.ToString(datosLeidos["Referencia"]);
+                    listaVentas.Add(venta);
+                }
+                return listaVentas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
     }
 }

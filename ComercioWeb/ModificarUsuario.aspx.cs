@@ -149,7 +149,7 @@ namespace ComercioWeb
         public bool VerificarPassword()
         {
             Encriptador encriptador = new Encriptador();
-            if (txtPasswordAnterior.Text == encriptador.Desencriptar(Usuario.Password))
+            if (encriptador.Encriptar(txtPasswordAnterior.Text) == Usuario.Password)
             {
                 txtPasswordAnterior.BackColor = Color.White;
                 lblPassword.Text = "Los campos de contraseña no son iguales.";

@@ -18,21 +18,21 @@ namespace Negocio
                 Datos datos = new Datos();
                 datos.ConfigurarConexion();
                 datos.StoreProcedure("SP_AltaUsuario");
-                datos.AgregarParametro("@Email",usuario.Email);
-                datos.AgregarParametro("@Password",encriptador.Encriptar(usuario.Password));
-                datos.AgregarParametro("@Nombres",usuario.Nombres);
-                datos.AgregarParametro("@Apellidos",usuario.Apellidos);
-                datos.AgregarParametro("@DNI",usuario.DNI);
+                datos.AgregarParametro("@Email", usuario.Email);
+                datos.AgregarParametro("@Password", encriptador.Encriptar(usuario.Password));
+                datos.AgregarParametro("@Nombres", usuario.Nombres);
+                datos.AgregarParametro("@Apellidos", usuario.Apellidos);
+                datos.AgregarParametro("@DNI", usuario.DNI);
                 datos.AgregarParametro("@IDProvincia", IDProvincia(usuario.Domicilio.Provincia));
-                datos.AgregarParametro("@Ciudad",usuario.Domicilio.Ciudad);
-                datos.AgregarParametro("@Calle",usuario.Domicilio.Calle);
-                datos.AgregarParametro("@Numero",usuario.Domicilio.Numero);
-                datos.AgregarParametro("@Piso",usuario.Domicilio.Piso);
-                datos.AgregarParametro("@CP",usuario.Domicilio.CodigoPostal);
-                datos.AgregarParametro("@Departamento",usuario.Domicilio.Departamento);
-                datos.AgregarParametro("@Referencia",usuario.Domicilio.Referencia);
-                datos.AgregarParametro("@IDTipo",usuario.TipoUsuario.ID_Tipo);
-                datos.AgregarParametro("@Telefono",usuario.Telefono);
+                datos.AgregarParametro("@Ciudad", usuario.Domicilio.Ciudad);
+                datos.AgregarParametro("@Calle", usuario.Domicilio.Calle);
+                datos.AgregarParametro("@Numero", usuario.Domicilio.Numero);
+                datos.AgregarParametro("@Piso", usuario.Domicilio.Piso);
+                datos.AgregarParametro("@CP", usuario.Domicilio.CodigoPostal);
+                datos.AgregarParametro("@Departamento", usuario.Domicilio.Departamento);
+                datos.AgregarParametro("@Referencia", usuario.Domicilio.Referencia);
+                datos.AgregarParametro("@IDTipo", usuario.TipoUsuario.ID_Tipo);
+                datos.AgregarParametro("@Telefono", usuario.Telefono);
                 datos.AgregarParametro("@Activo", 1);
                 datos.ConectarDB();
                 datos.Ejecutar();
@@ -98,7 +98,7 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-                    throw ex;
+                throw ex;
             }
             finally
             {
@@ -443,6 +443,58 @@ namespace Negocio
             catch (Exception)
             {
                 return false;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void ActualizarEstadosVentas(List<Transaccion> listaTransacciones)
+        {
+            try
+            {
+                foreach (Transaccion transaccion in listaTransacciones)
+                {
+                    Datos datos = new Datos();
+                    datos.ConfigurarConexion();
+                    datos.StoreProcedure("SP_ActualizarEstadoVenta");
+                    datos.AgregarParametro("@NumeroFactura", transaccion.NumeroFactura);
+                    datos.AgregarParametro("@IDEstado", transaccion.Estado.Codigo);
+                    datos.ConectarDB();
+                    datos.Ejecutar();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos datos = new Datos();
+                datos.ConfigurarConexion();
+                datos.DesconectarDB();
+            }
+        }
+        public void ActualizarStockArticulo(List<Articulo> listaArticulos)
+        {
+            try
+            {
+                foreach (Articulo articulo in listaArticulos)
+                {
+                    Datos datos = new Datos();
+                    datos.ConfigurarConexion();
+                    datos.StoreProcedure("SP_ActualizarStockArticulo");
+                    datos.AgregarParametro("@IDArticulo", articulo.ID_Articulo);
+                    datos.AgregarParametro("@Stock", articulo.Stock);
+                    datos.ConectarDB();
+                    datos.Ejecutar();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             finally
             {

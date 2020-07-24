@@ -38,7 +38,7 @@ namespace ComercioWeb
                 List<Articulo> listaArticulos = new List<Articulo>();
                 NegocioDatos negocio = new NegocioDatos();
                 listaArticulos = negocio.ListarArticulosAdmin();
-                lista = negocio.ListarVentas();
+                lista = negocio.ListarVentasAdmin();
                 foreach (Transaccion transaccion in lista)
                 {
                     if (transaccion.NumeroFactura == numero)
@@ -78,7 +78,6 @@ namespace ComercioWeb
             }
             catch (Exception)
             {
-                Response.Redirect("MiUsuario.aspx");
                 throw;
             }
         }

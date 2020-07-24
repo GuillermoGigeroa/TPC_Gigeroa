@@ -14,7 +14,7 @@
 </head>
 <body style="background-color: white !important;">
     <form id="form1" runat="server">
-        <div class="container" style="border-width: 1px; border-color: black; border-style: solid; margin-top: 10px;">
+        <div class="container" style="border-width: 1px; border-color: black; border-style: solid; margin-top: 10px;margin-bottom: 10px;">
             <h2 style="text-align: center; padding-top: 15px; padding-bottom: 15px;">Factura</h2>
             <div class="LineaFactura"></div>
             <div class="row" style="padding-top: 10px; padding-bottom: 10px;">
@@ -83,7 +83,7 @@
                 </ItemTemplate>
             </asp:Repeater>
             <%--Total--%>
-            <div class="row row-cols-4" style="padding-left: 60px; padding-right: 60px; padding-bottom: 50px;">
+            <div class="row row-cols-4" style="padding-left: 60px; padding-right: 60px; padding-bottom: 30px;">
                 <div class="col col-3" style="border-style: solid; border-color: gray; border-width: 1px; border-right-width: 0px; border-top-width: 0px;"></div>
                 <div class="col col-3" style="border-style: solid; border-color: gray; border-width: 1px; border-right-width: 0px; border-top-width: 0px; border-left-width: 0px;"></div>
                 <div class="col col-3" style="border-style: solid; border-color: gray; border-width: 1px; border-right-width: 0px; border-top-width: 0px; border-left-width: 0px; text-align: right;">
@@ -94,6 +94,9 @@
                 </div>
             </div>
             <h4 style="text-align: center; color: black !important;">Gracias por su compra</h4>
+            <div style="text-align: center;padding-top:200px;">
+                <img src="https://i.ibb.co/F0hX6ZP/barcode.gif" alt="Código de barras" />
+            </div>
         </div>
     </form>
 </body>

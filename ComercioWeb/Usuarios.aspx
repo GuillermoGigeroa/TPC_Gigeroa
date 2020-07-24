@@ -35,8 +35,10 @@
                                     <%if (Usuario.TipoUsuario.ID_Tipo == 1)
                                         {%>
                                     <a class="dropdown-item" href="Administrador.aspx">Configuraciones de administrador</a>
+                                    <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
+                                    <a class="dropdown-item" href="Controlventasystock.aspx?admin=true">Control de ventas y stock</a>
                                     <%}%>
-                                    <%if (Usuario.TipoUsuario.ID_Tipo < 3)
+                                    <%if (Usuario.TipoUsuario.ID_Tipo == 2)
                                         {%>
                                     <a class="dropdown-item" href="Vendedor.aspx">Configuraciones de vendedor</a>
                                     <a class="dropdown-item" href="Controlventasystock.aspx">Control de ventas y stock</a>

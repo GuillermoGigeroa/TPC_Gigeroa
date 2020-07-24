@@ -36,13 +36,6 @@ namespace ComercioWeb
                     lblErrorCompra.Visible = false;
             }
         }
-        public void VerificarUsuario()
-        {
-            if (Session["Usuario" + Session.SessionID] != null)
-            {
-                Response.Redirect("Usuarios.aspx");
-            }
-        }
         public void VerificarLogin()
         {
             string login = Request.QueryString["login"];
@@ -56,7 +49,6 @@ namespace ComercioWeb
                     lblErrorCompra.Visible = true;
                 else
                     lblErrorCompra.Visible = false;
-
             }
         }
         public void VerificarCarrito()
@@ -74,7 +66,7 @@ namespace ComercioWeb
         {
             foreach(Usuario usuario in ListaUsuarios)
             {
-                if (usuario.Email.Trim().ToLower() == txtEmail.Text.Trim().ToLower() && Encriptador.Desencriptar(usuario.Password) == txtPassword.Text)
+                if (usuario.Email.Trim().ToLower() == txtEmail.Text.Trim().ToLower() && usuario.Password == Encriptador.Encriptar(txtPassword.Text))
                 {
                     Session["Usuario" + Session.SessionID] = usuario;
                     string login = Request.QueryString["login"];
@@ -82,7 +74,6 @@ namespace ComercioWeb
                     {
                         if (login == "carrito")
                             Response.Redirect("Carrito.aspx");
-                        break;
                     }
                     Response.Redirect("Usuarios.aspx");
                     break;
